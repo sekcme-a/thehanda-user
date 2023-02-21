@@ -5,8 +5,8 @@ const Home = () => {
 
   return(
     <>
-    <p>{user.uid}</p>
-    <p>{userData.displayName}</p>
+    <p>{user?.uid}</p>
+    <p>{userData?.displayName}</p>
     </>
   )
 }
