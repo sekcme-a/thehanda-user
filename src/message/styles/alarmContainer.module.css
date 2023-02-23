@@ -1,0 +1,40 @@
+.main_container{
+  background-color:white;
+  margin: 10px 20px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  box-shadow: rgb(255 255 255 / 12%) 0px 0px 2px 0px inset, rgb(0 0 0 / 5%) 0px 0px 2px 1px, rgb(0 0 0 / 8%) 0px 2px 6px;
+}
+.header{
+  display: flex;
+}
+.logo_container{
+  border-radius: 24%;
+  overflow: hidden;
+  height: 38px;
+  width: 38px;
+}
+
+.text_container{
+  padding: 5px 10px;
+  font-family: 'Nanum Gothic', sans-serif !important;
+}
+.text_container h1{
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.text_container h1 p{
+  margin-left: 3px;
+  font-weight: normal;
+  font-size: 11px;
+  color: #111;
+}
+.text_container h2{
+  margin-top: 3px;
+  white-space: pre-line;
+  font-size: 14px;
+  line-height: 1.2;
+}

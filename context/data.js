@@ -13,6 +13,9 @@ export function DataProvider(props){
     const [teamName, setTeamName] = useState("") //어드민 팀명
     const [teamId, setTeamId] = useState("") //어드민 팀 id
 
+    const [sectionData, setSectionData] = useState([])
+    const [language, setLanguage] = useState("ko")
+
     const value = {
         user,
         userData,
@@ -24,6 +27,10 @@ export function DataProvider(props){
         setError,
         setUser,
         setUserData,
+        sectionData,
+        setSectionData,
+        language,
+        setLanguage
     }
 
     return <dataContext.Provider value={value} {...props} />

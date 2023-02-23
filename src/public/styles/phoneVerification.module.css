@@ -1,0 +1,8 @@
+.main_container{
+  width: 70%;
+}
+.item_container{
+  display: flex;
+  /* width: 70%; */
+  margin: 10px 0 15px 0;
+}

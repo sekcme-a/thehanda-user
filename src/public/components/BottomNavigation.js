@@ -53,7 +53,7 @@ const BottomNavigationComponent = () => {
   return (
     <div className={styles.main_container}>
       <BottomNavigation
-        showLabels
+        showLabels={true}
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
@@ -61,7 +61,7 @@ const BottomNavigationComponent = () => {
         style={{height: "65px"}}
       >
         <BottomNavigationAction onClick={onAlarmClick} label="메세지" icon={<EmailOutlinedIcon className={styles.icon} />}  />
-        <BottomNavigationAction onClick={onMyPageClick} label="마이페이지" sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px"} }} icon={<AccountCircleOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
+        <BottomNavigationAction onClick={onMyPageClick} label="마이페이지" sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px !important"} }} icon={<AccountCircleOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
         <BottomNavigationAction label=" "  />
         <div className={styles.home_container} onClick={onHomeClick}>
           <BottomNavigationAction icon={<HomeOutlinedIcon className={styles.home_icon}/>} className={styles.home} />

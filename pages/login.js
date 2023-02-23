@@ -13,23 +13,23 @@ import PageHeader from "src/public/components/PageHeader"
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false)
-  const {userData} = useData()
+  const {user} = useData()
   const router = useRouter()
 
   useEffect(() => {
-    // if(userData!==null) 
-    //   router.push("/")
-  },[])
+    if(user!==null) 
+      router.push("/")
+  },[user])
 
 
   return (
     <div className={styles.main_container} >
       <PageHeader text="돌아가기" />
       <div className={styles.logo_container}>
-        <Image src="/logo.png" width={300} height={300} alt="한국다문화뉴스 로고" />
+        <Image src="/logo.png" width={250} height={250} alt="한국다문화뉴스 로고" />
       </div>
       <IdAndPassword />
-      <SocialLogin />
+      {/* <SocialLogin /> */}
       <div style={{height:"100px"}} />
     </div>
   )

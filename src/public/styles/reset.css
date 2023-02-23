@@ -27,7 +27,13 @@
     font-weight: normal;
     font-style: normal;
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Sunflower:wght@500&display=swap');
+.safearea {
+  padding-top: env(safe-area-inset-top);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -47,7 +53,7 @@ time, mark, audio, video, button {
 	font-size: 100%;
 	font: inherit;
 	vertical-align: baseline;
-	font-family: 'SUIT-Medium', 'Pretendard-Regular', -apple-system, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+	font-family: "Sunflower",'SUIT-Medium', 'Pretendard-Regular', -apple-system, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
 }
 html, body{
 	height: 100%;

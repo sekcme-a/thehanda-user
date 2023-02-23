@@ -1,0 +1,35 @@
+.main_container{
+  /* background-color: #f6f6f6; */
+}
+.subtitle{
+  padding: 0 0 0 20px;
+}
+.swiper_container{
+  width: 100%;
+  /* height: 350px; */
+  margin: 12px 0px 12px 0px;
+}
+.swiper_container_anouncement{
+  width: 100%;
+  height: 185px;
+  margin: 0px 0px 12px 0px;
+}
+.swiper_slide{
+}
+.title{
+  padding: 30px 30px 10px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.title h3{
+  font-size: 21px;
+  font-weight: bold;
+  color: black;
+  font-family: 'Jua', sans-serif !important;
+}
+.title p{
+  font-size: 13px;
+  color: #814ad8;
+}
