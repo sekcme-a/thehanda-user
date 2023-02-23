@@ -1,5 +1,5 @@
 
-import styles from "src/signin/styles/index.module.css"
+import styles from "src/signIn/styles/index.module.css"
 import { useRouter } from "next/router"
 
 import SignInCompo from "src/signIn/components/SignIn"
