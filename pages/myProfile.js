@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import styles from "src/myProfile/styles/index.module.css"
+import styles from "src/myprofile/styles/index.module.css"
 import { useRouter } from "next/router"
 import Image from "next/image"
 
