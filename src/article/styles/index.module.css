@@ -289,13 +289,17 @@
   padding: 15px 0;
 }
 
-
-@media (min-width: 520px) {
+@media (min-width: 550px) {
+  .thumbnail_overlay{
+    width: 80%;
+  }
+}
+/* @media (max-width: 520px) {
   .thumbnail_container .thumbnail_image_container{
     height:350px;
   }
   .thumbnail_overlay{
-    width: 400px;
+    width: 90%;
     margin-top:70px;
   }
   .thumbnail_overlay h2{
@@ -308,4 +312,4 @@
   .thumbnail_overlay h4{
     font-size: 18px;
   }
-}
+} */

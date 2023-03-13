@@ -162,11 +162,13 @@ const ShowSurvey = ({data, team_id, id, type}) => {
       <div className={styles.content_container}>
           <Form formDatas={data.formData} data={inputData} handleData={handleInputData} addMargin={true} />
       </div>
-      <div className={styles.button_container}>
-        <Button variant="contained" className={styles.button} disabled={isSubmitting} onClick={onApplyClick}>
-          {isSubmitting ? "제출중입니다." : "제출"}
-        </Button>
-      </div>
+      {type!=="test" &&
+        <div className={styles.button_container}>
+          <Button variant="contained" className={styles.button} disabled={isSubmitting} onClick={onApplyClick}>
+            {isSubmitting ? "제출중입니다." : "제출"}
+          </Button>
+        </div>
+      }
       <BackdropLoader openBackdrop={backdropValue.openBackdrop}
         setOpenBackdrop={(value) => setBackdropValue({ ...backdropValue, ["openBackdrop"]: value })}
         submitted={backdropValue.submitted}

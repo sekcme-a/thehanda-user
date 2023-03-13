@@ -134,9 +134,8 @@ const Contents = ({data, teamName, id, type, mode}) => {
     }
   }
 
-  const createMarkup = (text) => {
-    return {__html: text}
-  }
+
+
   return (
     <div className={styles.main_container}>
       
@@ -254,7 +253,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
         </div>
       }
       <div style={{ height: "200px" }}></div>
-      {teamName !== undefined && mode!=="preview" && 
+      {teamName !== undefined && mode!=="preview" && mode!=="test" && 
         <div className={styles.submit_container}>
           { 
           data.publishStartDate.toDate() > new Date() ? 
@@ -281,7 +280,17 @@ const Contents = ({data, teamName, id, type, mode}) => {
               style={{ backgroundColor: "#5316b5" }}>
               신청하기
             </Button>
-          }       
+          }     
+          
+        </div>
+      }
+
+      {mode==="test" &&
+        <div className={styles.submit_container}>
+          <Button onClick={()=>router.push(`/test/programs/${teamName}/${id}`)} variant="contained" fullWidth
+            style={{ backgroundColor: "#5316b5" }}>
+            신청하기
+          </Button>
         </div>
       }
 
