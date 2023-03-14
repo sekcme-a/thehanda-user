@@ -37,8 +37,19 @@ const Home = () => {
       setScrollY(window.scrollY)
     }
     window.addEventListener("scroll", handleScroll)
+
+    if(user!==null){
+      db.collection("user").doc(user.uid).get().then((doc)=>{
+        if(doc.exists){
+          if(doc.data().pushToken===undefined){
+            if(window.ReactNativeWebView){
+              window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
+            }
+          }
+        }
+      })
+    }
     
-    console.log("asdf")
     setSelectedTeam({id:localStorage.getItem("selectedTeamId"), name: localStorage.getItem("selectedTeamName")})
 
     return () => {
