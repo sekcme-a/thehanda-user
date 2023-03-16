@@ -7,10 +7,12 @@ import { Switch } from "@mui/material"
 import useData from "context/data"
 import { CircularProgress } from "@mui/material"
 import { Button } from "@mui/material"
+import { useRouter } from "next/router"
 import BackdropLoader from "src/message/components/BackdropLoader"
 
 const Setting = () => {
   const [sections, setSections] = useState([])
+  const [teams, setTeams] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isAlarmOn, setIsAlarmOn] = useState(true)
   const [checked, setChecked] = useState({})
@@ -18,24 +20,57 @@ const Setting = () => {
   const [submitted, setSubmitted] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const {user} = useData()
+  const router = useRouter()
   useEffect(()=>{
+    // const fetchData = async () => {
+    //   const doc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("section").doc("program").get()
+    //   if(doc.exists){
+    //     setSections([...doc.data().data])
+    //   }else{
+    //     alert("데이터 불러오기 실패")
+    //   }
+    //   const userDoc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).get()
+    //   if(userDoc.exists){
+    //     if(userDoc.data().alarmSetting)
+    //       setChecked({...userDoc.data().alarmSetting})
+    //     if(userDoc.data().isAlarmOn)
+    //       setIsAlarmOn(userDoc.data().isAlarmOn)
+    //     console.log(userDoc.data().alarmSetting)
+    //   }
+    //   setIsLoading(false)
+    // }
+    // fetchData()
     const fetchData = async () => {
-      const doc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("section").doc("program").get()
-      if(doc.exists){
-        setSections([...doc.data().data])
-      }else{
-        alert("데이터 불러오기 실패")
+      try {
+        const querySnapshot = await db.collection("team").get();
+        const teamIds = querySnapshot.docs.map(doc => ({id: doc.id, name: doc.data().teamName}));
+        setTeams(teamIds);
+
+        const userDoc = await db.collection("user").doc(user.uid).get()
+        if(userDoc.exists){
+          if(userDoc.data().alarmSetting)
+            setChecked({...userDoc.data().alarmSetting})
+          else{
+            //알람세팅이 안된 초기상태에서는 모든 알람 활성화
+            let tempChecked = {}
+            teamIds.map((team)=>{
+              tempChecked = {...tempChecked, [team.id]: true}
+            })
+            setChecked(tempChecked)
+          }
+
+          if(userDoc.data().isAlarmOn)
+            setIsAlarmOn(userDoc.data().isAlarmOn)
+        }
+        setIsLoading(false)
+      } catch (error) {
+        console.error(error);
+        alert("오류가 발생했습니다.")
+        router.push("/")
       }
-      const userDoc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).get()
-      if(userDoc.exists){
-        if(userDoc.data().alarmSetting)
-          setChecked({...userDoc.data().alarmSetting})
-        if(userDoc.data().isAlarmOn)
-          setIsAlarmOn(userDoc.data().isAlarmOn)
-        console.log(userDoc.data().alarmSetting)
-      }
-      setIsLoading(false)
-    }
+    };
+    
+
     fetchData()
   },[])
 
@@ -64,18 +99,22 @@ const Setting = () => {
   const onSubmitClick = async() => {
     setSubmitted(false)
     setOpenBackdrop(true)
-    const doc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).get()
-    if(doc.exists){
-      db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).update({
-        isAlarmOn: isAlarmOn,
-        alarmSetting: checked
-      }).then(()=>setSubmitted(true))
-    } else{
-      db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).set({
-        isAlarmOn: isAlarmOn,
-        alarmSetting: checked
-      }).then(()=>setSubmitted(true))
-    }
+    db.collection("user").doc(user.uid).update({
+      isAlarmOn: isAlarmOn,
+      alarmSetting: checked
+    }).then(()=>setSubmitted(true))
+    // const doc = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).get()
+    // if(doc.exists){
+    //   db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).update({
+    //     isAlarmOn: isAlarmOn,
+    //     alarmSetting: checked
+    //   }).then(()=>setSubmitted(true))
+    // } else{
+    //   db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection("users").doc(user.uid).set({
+    //     isAlarmOn: isAlarmOn,
+    //     alarmSetting: checked
+    //   }).then(()=>setSubmitted(true))
+    // }
   }
 
   return(
@@ -101,7 +140,7 @@ const Setting = () => {
       </div>
       {isLoading ? <CircularProgress /> : isAlarmOn &&
         <div className={styles.content_container}>
-          <h2>받을 메세지 설정</h2>
+          {/* <h2>받을 메세지 설정</h2>
           {sections.map((section, index) => {
             return(
               <div className={styles.item_container} key={index}>
@@ -109,7 +148,18 @@ const Setting = () => {
                 <Switch onChange={(e) => { onCheckedChange(section.id, e) }} checked={checked[section.id]} />
               </div>
             )
-          })}
+          })} */}
+          <h2>받을 메세지 설정</h2>
+          {
+            teams.map((team, index) => {
+              return(
+                <div className={styles.item_container} key={index}>
+                  <p>{team.name}</p>
+                  <Switch onChange={(e) => { onCheckedChange(team.id, e) }} checked={checked[team.id]} />
+                </div>
+              )
+            })
+          }
         </div>
       }
       <div style={{width:"100%", display:"flex", justifyContent:"center"}}>

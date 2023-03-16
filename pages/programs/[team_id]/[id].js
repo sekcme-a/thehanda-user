@@ -80,7 +80,7 @@ const Survey = () => {
   
   return (
     <>
-      <ShowSurvey data={data} team_id={team_id} id={id} type="test" />
+      <ShowSurvey data={data} team_id={team_id} id={id} type="programs" />
       <div style={{width:"100%", height:"200px"}}></div>
     </>
   )

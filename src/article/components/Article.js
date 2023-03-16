@@ -254,35 +254,42 @@ const Contents = ({data, teamName, id, type, mode}) => {
       }
       <div style={{ height: "200px" }}></div>
       {teamName !== undefined && mode!=="preview" && mode!=="test" && 
-        <div className={styles.submit_container}>
-          { 
-          data.publishStartDate.toDate() > new Date() ? 
-            <Button variant="contained" disabled={true} fullWidth >
-              <p style={{fontSize:"13px", color:"#333"}}>{`${data.publishStartDate.toDate().toLocaleString()}부터 신청가능합니다.`}</p>
-            </Button>
-          :
-            hasEnd ? 
-              <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
-                신청 마감
+        <>
+          <div className={styles.submit_container}>
+            {type==="programs" && 
+              <div style={{width:"100%", marginBottom:"12px"}}>
+                <Button variant="contained" fullWidth style={{backgroundColor:"#9c6bd8"}} onClick={()=>router.push(`/contact/program/${teamName}/${id}`)}>이 프로그램에 대해 문의하기</Button>
+              </div>
+            }
+            { 
+            data.publishStartDate.toDate() > new Date() ? 
+              <Button variant="contained" disabled={true} fullWidth >
+                <p style={{fontSize:"13px", color:"#333"}}>{`${data.publishStartDate.toDate().toLocaleString()}부터 신청가능합니다.`}</p>
               </Button>
             :
-            hasHistory ?
-            <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
-              신청 취소
-            </Button>
-            :
-            hasLimitEnd ?
-              <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
-                선착순 마감
+              hasEnd ? 
+                <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
+                  신청 마감
+                </Button>
+              :
+              hasHistory ?
+              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
+                신청 취소
               </Button>
-            :
-            <Button onClick={onButtonClick} variant="contained" fullWidth
-              style={{ backgroundColor: "#5316b5" }}>
-              신청하기
-            </Button>
-          }     
-          
-        </div>
+              :
+              hasLimitEnd ?
+                <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
+                  선착순 마감
+                </Button>
+              :
+              <Button onClick={onButtonClick} variant="contained" fullWidth
+                style={{ backgroundColor: "#5316b5" }}>
+                신청하기
+              </Button>
+            }     
+            
+          </div>      
+        </>
       }
 
       {mode==="test" &&

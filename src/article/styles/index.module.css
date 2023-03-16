@@ -191,6 +191,7 @@
   bottom: 65px;
   left: 0;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 10px 20px 22px 20px;
   /* background-color: #5316b5; */

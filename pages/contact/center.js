@@ -24,6 +24,7 @@ const Center = () => {
   const { user } = useData()
   const [selectedCenter, setSelectedCenter] = useState("")
   const [input, setInput] = useState("")
+  const [title, setTitle] = useState("")
   const [error, setError] = useState(false)
   const [helperText, setHelperText] = useState("")
   const [isAble, setIsAble] = useState(false)
@@ -73,7 +74,16 @@ const Center = () => {
     setOpenBackdrop(true)
     setIsSubmitting(true)
     // await db.collection("contents").doc(selectedCenter).collection("contact").doc().set({uid:user.uid, text:input, createdAt: new Date()})
-    await db.collection("team_admin").doc(selectedCenter).collection("contact").doc().set({uid:user.uid, text:input, createdAt: new Date()})
+    await db.collection("team_admin").doc(selectedCenter).collection("contact").doc().set({
+      uid:user.uid, 
+      text:input, 
+      title: title, 
+      read: false, 
+      reply: false, 
+      show: false,
+      mode: "center",
+      createdAt: new Date()
+    })
     setIsSubmitting(false)
   }
 
@@ -115,6 +125,13 @@ const Center = () => {
             </Select>
           </FormControl>
         </Box>  
+        {selectedCenter !== "" && 
+          <>
+            <p>제목</p>
+            <TextField placeholder='' error={error} helperText={helperText}
+              style={{ width: "100%", marginTop: "12px" }} rows={6} value={title} onChange={(e)=>{setTitle(e.target.value)}} />
+          </>
+        }
         {selectedCenter !== "" && 
           <>
             <p>문의내용</p>

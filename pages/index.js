@@ -55,6 +55,7 @@ const Home = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll)
     }
+    
   },[])
 
   const onMenuClick = () => {

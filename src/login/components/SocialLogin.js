@@ -53,9 +53,9 @@ const SocialLogin = (props) => {
 
   return (
     <div className={styles.main_container}>
-      <div className={styles.button_container} >
+      {/* <div className={styles.button_container} >
         <AppleLoginButton onClick={()=>loginWithApple()}><span>애플로 로그인</span></AppleLoginButton>
-      </div>
+      </div> */}
       <div className={styles.button_container2}>
         <GoogleLoginButton onClick={()=>loginWithGoogle()}><span>구글로 로그인</span></GoogleLoginButton>
       </div>

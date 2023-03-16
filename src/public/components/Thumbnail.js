@@ -27,18 +27,36 @@ const Thumbnail = ({data, smallMargin,  path}) => {
   }, [])
 
     //몇 초후 신청가능, 몇분후 신청가능, 몇시간, 몇일 단위 계산
+    // const getTimeLeft = () => {
+    //   const timeLeft = Math.round((data.publishStartDate.toDate().getTime()-date.getTime())/1000)
+    //   if(timeLeft<=60)
+    //     return `${timeLeft}초 후 신청가능`
+    //   else if(timeLeft<=3600)
+    //     return `${Math.round(timeLeft/60)}분 후 신청가능`
+    //   else if(timeLeft <= 3600*12)
+    //     return`${Math.floor(timeLeft/3600)}시간 ${Math.round((timeLeft-Math.floor(timeLeft/3600)*3600)/60)}분 후 신청가능`
+    //   else
+    //   return`
+    //     ${Math.floor(timeLeft/(3600*24))}일 후 신청가능`
+    // }
     const getTimeLeft = () => {
-      const timeLeft = Math.round((data.publishStartDate.toDate().getTime()-date.getTime())/1000)
-      if(timeLeft<=60)
-        return `${timeLeft}초 후 신청가능`
-      else if(timeLeft<=3600)
-        return `${Math.round(timeLeft/60)}분 후 신청가능`
-      else if(timeLeft <= 3600*12)
-        return`${Math.floor(timeLeft/3600)}시간 ${Math.round((timeLeft-Math.floor(timeLeft/3600)*3600)/60)}분 후 신청가능`
-      else
-      return`
-        ${Math.floor(timeLeft/(3600*24))}일 후 신청가능`
-    }
+      const timeLeft = Math.round((data.publishStartDate.toDate().getTime() - date.getTime()) / 1000);
+    
+      if (timeLeft <= 60) {
+        return `${timeLeft}초 후 신청가능`;
+      } else if (timeLeft <= 60 * 60) {
+        const minutesLeft = Math.floor(timeLeft / 60);
+        return `${minutesLeft}분 후 신청가능`;
+      } else if (timeLeft <= 60 * 60 * 24) {
+        const hoursLeft = Math.floor(timeLeft / (60 * 60));
+        const minutesLeft = Math.floor((timeLeft % (60 * 60)) / 60);
+        return `${hoursLeft}시간 ${minutesLeft}분 후 신청가능`;
+      } else {
+        const daysLeft = Math.floor(timeLeft / (60 * 60 * 24));
+        return `${daysLeft}일 후 신청가능`;
+      }
+    };
+    
 
     const onClick = async () => {
       router.push(path)
