@@ -20,20 +20,11 @@ const MainSwiper = ({ data }) => {
   const router = useRouter()
 
     // 공유하기 버튼 클릭 시 실행되는 함수
-    const handleShareButtonClick = async () => {
-      try {
-        // navigator.share() 실행
-        await navigator.share({
-          title: '공유 제목',
-          text: '공유할 텍스트',
-          url: 'https://thehanda.netlify.app/article/suwon/pxMoiOQaua5JskQsdyMx',
-        });
-      } catch (error) {
-        console.error('공유하기 실패:', error);
+    const onShareClick = () => {
+      if(window.ReactNativeWebView){
+        window.ReactNativeWebView.postMessage(`SHARE_URL: https://dahanda.netlify.app/preview/${localStorage.getItem("selectedTeamId")}/${data.id}`)
       }
-    };
-
-    
+    }
 
   return (
     // <div className={styles.main_container}>
@@ -68,9 +59,9 @@ const MainSwiper = ({ data }) => {
               style={{ margin: "10px 15px", padding: "8px 0px", width: '150px' }} onClick={()=>router.push(`article/${localStorage.getItem("selectedTeamId")}/${data.id}`)}>
               자세히 보기
             </Button>
-            <Button startIcon={<AssignmentTurnedInIcon />} className={styles.button}
-              style={{ margin: "10px 15px", padding: "5px 0px", width: '150px', color: "#333" }} onClick={()=>router.push(`programs/${localStorage.getItem("selectedTeamId")}/${data.id}`)}>
-              신청하기
+            <Button startIcon={<ShareIcon />} className={styles.button}
+              style={{ margin: "10px 15px", padding: "5px 0px", width: '150px', color: "#333" }} onClick={onShareClick}>
+              공유하기
             </Button>
           </div>
         {/* </div> */}

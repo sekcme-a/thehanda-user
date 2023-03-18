@@ -41,11 +41,11 @@ const Home = () => {
     if(user!==null){
       db.collection("user").doc(user.uid).get().then((doc)=>{
         if(doc.exists){
-          if(doc.data().pushToken===undefined){
+          // if(doc.data().pushToken===undefined){
             if(window.ReactNativeWebView){
               window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
             }
-          }
+          // }
         }
       })
     }

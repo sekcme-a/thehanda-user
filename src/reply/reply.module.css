@@ -1,0 +1,30 @@
+.main_container{
+  font-size: 16px;
+  padding: 10px 20px;
+  line-height: 1.2;
+  /* margin-bottom: 120px; */
+}
+.main_container h1{
+  margin-top: 10px;
+}
+.main_container p{
+  margin-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(233,233,233);
+}
+.main_container h2{
+  margin-top: 15px;
+}
+.main_container h2 h4{
+  margin-top: 0;
+  font-size: 12px;
+  padding-bottom: 0;
+}
+.main_container strong{
+  font-weight: bold;
+}
+.main_container h3{
+  margin-top:5px;
+  white-space: pre-line;
+  
+}

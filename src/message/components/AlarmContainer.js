@@ -7,7 +7,7 @@ import { firebaseHooks } from "firebase/hooks"
 
 import Button from '@mui/material/Button';
 
-const AlarmContainer = ({image, name, date, text, button, onClick}) => {
+const AlarmContainer = ({image, name, date, text, button, onClick, read}) => {
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +19,8 @@ const AlarmContainer = ({image, name, date, text, button, onClick}) => {
     <div className={styles.main_container}>
       <div className={styles.header}>
         <div className={styles.logo_container}>
-          <Image src={image} width={38} height={38} alt="로고" />
+          {read===false && <div className={styles.unread}></div>}
+          <Image src={image} width={38} height={38} alt="로고" style={{borderRadius:"24%"}} />
         </div>
         <div className={styles.text_container}>
           <h1>{name}<p>{date}</p></h1>

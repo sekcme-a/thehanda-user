@@ -10,9 +10,19 @@
 }
 .logo_container{
   border-radius: 24%;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 38px;
   width: 38px;
+  position: relative;
+}
+.logo_container .unread{
+  position:absolute;
+  top:-2px;
+  left:-2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: red;
 }
 
 .text_container{

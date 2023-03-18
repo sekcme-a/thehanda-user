@@ -80,7 +80,7 @@ export default function App({ Component, pageProps }) {
         <ThemeProvider theme={theme}>
           <div className="safearea">
             <Component {...pageProps} />
-            <BottomNavigation />
+            {!router.pathname.includes("preview") && <BottomNavigation />}
           </div>
         </ThemeProvider>
       </AuthStateChanged>

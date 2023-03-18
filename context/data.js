@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
-
+import { firestore as db } from "firebase/firebase";
 const dataContext = createContext()
 
 export default function useData(){
@@ -15,6 +15,21 @@ export function DataProvider(props){
 
     const [sectionData, setSectionData] = useState([])
     const [language, setLanguage] = useState("ko")
+    const [unread, setUnread] = useState(0)
+
+    useEffect(() => {
+        const fetchData = async() => {
+          const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
+
+          dbRef.onSnapshot((doc) => {
+            if (doc.exists) {
+              setUnread(doc.data().unread);
+            }
+          });
+        }
+        if(user)
+          fetchData()
+      },[user])
 
     const value = {
         user,
@@ -22,6 +37,8 @@ export function DataProvider(props){
         error,
         teamName,
         teamId,
+        unread,
+        setUnread,
         setTeamId,
         setTeamName,
         setError,

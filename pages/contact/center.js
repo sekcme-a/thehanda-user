@@ -78,7 +78,6 @@ const Center = () => {
       uid:user.uid, 
       text:input, 
       title: title, 
-      read: false, 
       reply: false, 
       show: false,
       mode: "center",

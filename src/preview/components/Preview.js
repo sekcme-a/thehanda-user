@@ -141,14 +141,24 @@ const Contents = ({data, teamName, id, type, mode}) => {
     }
   }
 
+  const onDownClick = () => {
+    const userAgent = window.navigator.userAgent;
+    const isAndroid = /android/i.test(userAgent);
+    const isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
 
+    if (isAndroid) {
+      router.push('https://play.google.com/store/apps/details?id=com.zzsoft.thehanda');
+    } else if (isIOS) {
+      router.push('https://itunes.apple.com/app/%EB%8D%94%ED%95%9C%EB%8B%A4/id1665555435');
+  }
+}
 
   return (
     <div className={styles.main_container}>
-      
+{/*       
       <ArrowBackRoundedIcon className={color === "white" ? `${styles.back_button}` : `${styles.back_button} ${styles.black}`} 
         onClick={()=>router.back()}
-      />
+      /> */}
       <div className={styles.thumbnail_container}>
         <div className={styles.thumbnail_image_container}>
           <Image src={data.thumbnailBg==="/custom" ? data.customBgURL : data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
@@ -260,75 +270,19 @@ const Contents = ({data, teamName, id, type, mode}) => {
         </div>
       }
       <div style={{ height: "200px" }}></div>
-      {teamName !== undefined && mode!=="preview" && mode!=="test" && 
-        <>
           <div className={styles.submit_container}>
-            {type==="programs" && 
-              <div style={{width:"100%", marginBottom:"12px"}}>
-                <Button variant="contained" fullWidth style={{backgroundColor:"#9c6bd8"}} onClick={()=>router.push(`/contact/program/${teamName}/${id}`)}>이 프로그램에 대해 문의하기</Button>
-              </div>
-            }
-            { 
-            data.publishStartDate.toDate() > new Date() ? 
-              <Button variant="contained" disabled={true} fullWidth >
-                <p style={{fontSize:"13px", color:"#333"}}>{`${data.publishStartDate.toDate().toLocaleString()}부터 신청가능합니다.`}</p>
-              </Button>
-            :
-              hasEnd ? 
-                <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
-                  신청 마감
-                </Button>
-              :
-              hasHistory ?
-              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
-                신청 취소
-              </Button>
-              :
-              hasLimitEnd ?
-                <Button onClick={onButtonClick} variant="contained" disabled={true} fullWidth >
-                  선착순 마감
-                </Button>
-              :
-              <Button onClick={onButtonClick} variant="contained" fullWidth
-                style={{ backgroundColor: "#5316b5" }}>
-                신청하기
-              </Button>
-            }     
+            <p>해당 프로그램을 신청하거나 다른 프로그램들을 확인하려면 어플을 다운받으세요!</p>
+            <Button variant="contained" onClick={onDownClick}>더한다 어플 다운받기</Button>
+            {/* <a href="https://apps.apple.com/kr/app/%EB%8D%94%ED%95%9C%EB%8B%A4/id1665555435">
+              <Button variant="contained">더한다 어플 다운받기</Button>
+            </a> */}
             
           </div>      
-        </>
-      }
-
-      {mode==="test" &&
-        <div className={styles.submit_container}>
-          <Button onClick={()=>router.push(`/test/programs/${teamName}/${id}`)} variant="contained" fullWidth
-            style={{ backgroundColor: "#5316b5" }}>
-            신청하기
-          </Button>
-        </div>
-      }
 
 
 
 
-    <Backdrop
-      sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1, display:"flex", justifyContent:"center" }}
-      open={isShow}
-      onClick={()=>setIsShow(false)}
-    >
-      <div className={styles.backdrop_container}>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1.0 } }}
-            style={{ width: "100%", textAlign: "center" }}>
-            <div className={styles.alarm_container}>
-              <h1>프로그램 설문조사 참여</h1>
-              <h2>{`전에 참여했던 "${programSurveyTitle}" 프로그램에 대한 설문조사를 작성해주세요!`}
-                <div style={{fontSize:"13px"}}>{`(해당 설문조사를 작성해야 다른 프로그램을 신청하실 수 있습니다.)`}</div>
-              </h2>
-              <h3 onClick={()=>router.push(`/programSurvey/${programSurveyDoc}`)}>{`설문조사 하러가기 >`}</h3>
-            </div>
-          </motion.div>
-        </div>
-      </Backdrop>
+
     </div>
   )
 }

@@ -14,14 +14,14 @@ import KeyboardBackspaceOutlinedIcon from '@mui/icons-material/KeyboardBackspace
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
 import { useRouter } from 'next/router';
 import useData from 'context/data';
+import { firestore as db } from 'firebase/firebase';
+import { Badge } from '@mui/material';
 
 const BottomNavigationComponent = () => {
-  const { user } = useData()
+  const { user, unread } = useData()
   const [value, setValue] = useState(0)
   const router = useRouter()
 
-  useEffect(() => {
-  },[])
 
   const onBackClick = () => {
     router.back()
@@ -40,8 +40,9 @@ const BottomNavigationComponent = () => {
   const onHomeClick = () => { router.push("/") }
   
   useEffect(() => {
-    if(router.pathname==="/message")
+    if(router.pathname==="/message"){
       setValue(0)
+    }
     else if (router.pathname==="/myPage")
       setValue(1)
     else if (router.pathname==="/menu")
@@ -60,7 +61,13 @@ const BottomNavigationComponent = () => {
         }}
         style={{height: "65px"}}
       >
+        {unread>0 ?
+        <BottomNavigationAction onClick={onAlarmClick} label="메세지" icon={<Badge badgeContent={unread} color="primary" ><EmailOutlinedIcon className={styles.icon} /></Badge>}  />
+        :
         <BottomNavigationAction onClick={onAlarmClick} label="메세지" icon={<EmailOutlinedIcon className={styles.icon} />}  />
+        
+        }
+        
         <BottomNavigationAction onClick={onMyPageClick} label="마이페이지" sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px !important"} }} icon={<AccountCircleOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
         <BottomNavigationAction label=" "  />
         <div className={styles.home_container} onClick={onHomeClick}>

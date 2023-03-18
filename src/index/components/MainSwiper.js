@@ -17,6 +17,7 @@ import styles from "../styles/mainSwiper.module.css"
 
 import SwiperContainer from "./SwiperContainer"
 import OpenWebview from "src/public/components/OpenWebview"
+import { CircularProgress } from "@mui/material";
 
 const MainSwiper = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -28,35 +29,89 @@ const MainSwiper = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      let selectedTeamId = localStorage.getItem("selectedTeamId")
-      if(selectedTeamId===null)
-        selectedTeamId="suwon"
-      let tempList = []
-      const query = await db.collection("team").doc(selectedTeamId).collection("programs").where("isMain","==",true).where("condition","==","confirm").get()
+      setIsLoading(true)
+      let selectedTeamId = localStorage.getItem("selectedTeamId");
+      if (selectedTeamId === null) selectedTeamId = "suwon";
+      let tempList = [];
+  
+      const query = await db
+        .collection("team")
+        .doc(selectedTeamId)
+        .collection("programs")
+        .where("isMain", "==", true)
+        .where("condition", "==", "confirm")
+        .get();
+  
       query.docs.forEach((doc) => {
-        let color = "white"
-        if (doc.data().thumbnailBg === "/thumbnail/003.png" ||
+        let color = "white";
+        if (
+          doc.data().thumbnailBg === "/thumbnail/003.png" ||
           doc.data().thumbnailBg === "/thumbnail/004.png" ||
           doc.data().thumbnailBg === "/thumbnail/006.png" ||
           doc.data().thumbnailBg === "/thumbnail/008.png" ||
           doc.data().thumbnailBg === "/thumbnail/009.png" ||
           doc.data().thumbnailBg === "/thumbnail/010.png" ||
-          doc.data().thumbnailBg === "/thumbnail/011.png"||
+          doc.data().thumbnailBg === "/thumbnail/011.png" ||
           doc.data().thumbnailBg === "/thumbnail/012.png"
         )
-        color = "black"
-        tempList.push({...doc.data(), id: doc.id, color: color})
-      })
-      setList(tempList)
-      setIsLoading(false)
+          color = "black";
+        tempList.push({ ...doc.data(), id: doc.id, color: color });
+      });
+  
+      localStorage.setItem("list", JSON.stringify(tempList)); // Save the list to local storage
+      setList(tempList);
+      setIsLoading(false);
+    };
+  
+    const storedList = JSON.parse(localStorage.getItem("list")); // Retrieve the list from local storage
+    if (storedList) setList(storedList);
+  
+    fetchData();
+  }, []);
+  
+
+  if(isLoading && list.length===0)
+    return(
+      <div className={styles.main_container}>
+      <div className={styles.swiper_container}>
+        
+        <div className={styles.image_container}>
+          <div className={styles.blur} />
+          
+        </div>
+        <div className={styles.overlay}>
+        {/* <div className={styles.overlay_container}> */}
+          <div className={styles.content}>
+          <h2></h2>
+            <h3></h3>
+            <h4></h4>
+            
+          </div>
+          <div className={styles.thumbnail_container}>
+            <div className={styles.thumbnail_image_container} >
+              {/* { data.thumbnailBg!=="/custom" && */}
+              <Skeleton variant="rectangular" width="100%" height="100%" animation="wave"/>
+                <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
+                
+                  <h2></h2>   
+                  <h3></h3>
+                  <h4></h4>
+                </div>
+              {/* } */}
+            </div>
+          </div>
+          <div className={styles.button_container}>
+
+          </div>
+        </div>
+      </div>
+    {openWebview &&
+      <OpenWebview src="https://kmcn.kr/"open={openWebview} setOpen={setOpenWebview} />
     }
-    
-    fetchData()
+    </div>
+    )
 
-  }, [])
-
-
-  if (isLoading || list.length===0)
+  if (!isLoading && list.length===0)
     return (
       
       <div className={styles.main_container}>
