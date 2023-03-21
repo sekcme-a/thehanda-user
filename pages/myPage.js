@@ -22,6 +22,7 @@ import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 
 //내 정보 관리, 내게 온 알림, 신청한 프로그램, 설문조사 기록, 공지사항, 센터 문의
 //소식(한다뉴), 서비스 이용약관, 개인정보 처리방침, FAQ, 로그아웃
@@ -44,6 +45,12 @@ const MyPage = () => {
       subtitle: "어플에 입력할 정보를 관리할 수 있습니다.",
       icon: <AccountBoxOutlinedIcon style={iconStyle} />,
       onClick: ()=>{router.push("/myProfile")}
+    },
+    {
+      title: "가족 구성원 관리", 
+      subtitle: "가족 구성원을 편집할 수 있습니다.",
+      icon: <FamilyRestroomIcon style={iconStyle} />,
+      onClick: ()=>{router.push("/family")}
     },
     {
       title: "내게 온 메세지", 

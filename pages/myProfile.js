@@ -97,6 +97,7 @@ const MyProfile = () => {
   const onImgChange = async (e) => {
     try {
       setIsImageURLLoading(true)
+      alert("asdf")
       const photoURL = await handleProfileImage(e.target.files[0], `profile/${user.uid}`,1)
       setValues({...values, photoUrl:photoURL})
       // setUserData({...userData, photoUrl: photoURL})
@@ -114,10 +115,10 @@ const MyProfile = () => {
       <div className={styles.title_container}>
           <Skeleton animation="wave" variant="text" width="100%" height={50} />
       </div>
-      <div className={styles.img_container}>
+      {/* <div className={styles.img_container}>
        <Skeleton animation="wave" variant="circular" width="100%" height="100%"/>
       </div>
-      <Skeleton animation="wave" variant="text" width="80%" height={50} />
+      <Skeleton animation="wave" variant="text" width="80%" height={50} /> */}
       <div className={styles.input_container}>
         <Skeleton animation="wave" variant="text" width="100%" height={50} />
         <p style={{marginBottom:"10px"}}><Skeleton animation="wave" variant="text" width="100%" height={50} /></p>
@@ -153,7 +154,7 @@ const MyProfile = () => {
       <PageHeader text="프로필 편집" />
 
 
-      <div className={styles.img_container}>
+      {/* <div className={styles.img_container}>
         {!isImageURLLoading ?
           <Image src={values.photoUrl==="default_avatar.png"? `/${values.photoUrl}` : values.photoUrl} quality={75} alt={"유저 프로필 사진"} 
             layout="fill" objectFit="cover" objectPosition="center" priority={true} />
@@ -161,9 +162,10 @@ const MyProfile = () => {
           <CircularProgress />
         }
       </div>
-      <label htmlFor="input_file" className={styles.img_button} >사진 편집</label><input onChange={onImgChange} type="file" id="input_file" accept="image/*" className={styles.hide_input} />
+      <label htmlFor="input_file" className={styles.img_button} >사진 편집</label>
+      <input onChange={onImgChange} type="file" id="input_file"  className={styles.hide_input} />
 
-      <div className={styles.border} />
+      <div className={styles.border} /> */}
       <div className={styles.form_container}>
 
 

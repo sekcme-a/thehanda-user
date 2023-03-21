@@ -37,21 +37,7 @@ export default function App({ Component, pageProps }) {
     }
     fetchData()
   },[])
-
-  useEffect(()=>{
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-      if(window.scrollY<=-80){
-        router.reload()
-      }
-    }
-    window.addEventListener("scroll", handleScroll)
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-  },[])
-
+  
   useEffect(() => {
     const handleRouteChange = () => {
       // Reset scroll position on page change

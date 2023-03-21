@@ -21,6 +21,8 @@ export default function PhoneVerification({phoneNumber, handlePhoneNumber, handl
       console.log(e)
       if(e.message==="reCAPTCHA has already been rendered in this element")
         alert("새로고침 후 다시시도해주세요.")
+      else if(e.message==="Invalid format.")
+        alert("형식에 맞지 않는 전화번호입니다.")
     }
   };
 
@@ -35,14 +37,19 @@ export default function PhoneVerification({phoneNumber, handlePhoneNumber, handl
 
     const phoneRegex = /^\+[1-9]\d{1,14}$/; //+8201058120630
     const phoneRegex2 = /^\d{3}-\d{4}-\d{4}$/ //010-5812-0630
+    const phoneRegex3 = /^01([0|1|6|7|8|9])(\d{3}|\d{4})\d{4}$/;
 
     let resultNumber = phoneNumber
-    if(!phoneRegex.test(phoneNumber) && !phoneRegex2.test(phoneNumber)){
-      alert("전화번호 형식이 틀렸습니다. 예) 010-1234-1234 or +8201058120630")
+    if(!phoneRegex.test(phoneNumber) && !phoneRegex2.test(phoneNumber) && !phoneRegex3.test(phoneNumber)){
+      alert("전화번호 형식이 틀렸습니다. 예) 01012341234 or 010-1234-1234 or +8201058120630")
       return
     }
     else if(phoneRegex2.test(phoneNumber))
       resultNumber = `+82${resultNumber}`
+    else if (phoneRegex3.test(phoneNumber)){
+      resultNumber = `+82${phoneNumber}`
+      console.log(resultNumber)
+    }
 
     try{
       setIsVerficationClick(true)
@@ -75,7 +82,7 @@ export default function PhoneVerification({phoneNumber, handlePhoneNumber, handl
   return (
     <div className={styles.main_container}>
       <div className={styles.item_container}>
-        <TextField value={phoneNumber} onChange={(e)=>handlePhoneNumber(e.target.value)} label="전화번호" placeholder='010-1234-5678'/>
+        <TextField value={phoneNumber} onChange={(e)=>handlePhoneNumber(e.target.value)} label="전화번호" placeholder='01012345678'/>
         <Button onClick={onClick} style={{width:"120px"}} disabled={isVerificationClick&&verificationId!==undefined}>인증번호 받기</Button>
       </div>
 

@@ -52,6 +52,9 @@ const Contents = ({data, teamName, id, type, mode}) => {
     console.log(newValue)
     // fetchProgramData(groups[newValue].id)
   };
+  const createMarkup = (text) => {
+    return {__html: text}
+  }
 //4689101112
   useEffect(() => {
     if (data.thumbnailBg === "/thumbnail/003.png" ||
@@ -205,10 +208,9 @@ const Contents = ({data, teamName, id, type, mode}) => {
         return (
           <div className={styles.content_container} key={index}>
             <h1>{item.title}</h1>
-            {/* <div className="quill_custom_editor">
+            <div className="quill_custom_editor">
               <div dangerouslySetInnerHTML={createMarkup(item.html)} />
-            </div> */}
-            <p>{item.text}</p>
+            </div>
           </div>
         )
       })}

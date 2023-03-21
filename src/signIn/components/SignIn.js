@@ -132,18 +132,20 @@ const SignIn = () => {
       setError("재확인 비밀번호가 다릅니다.")
       return;
     }
-    if(!values.isPhoneVerificated){
-      alert("핸드폰번호를 인증해주세요.")
-      return;
-    }
+    //here
+    // if(!values.isPhoneVerificated){
+    //   alert("핸드폰번호를 인증해주세요.")
+    //   return;
+    // }
     if (!values.checked) {
       setError("개인정보처리방침 동의는 필수입니다.")
       return;
     }
-    setTimeout(()=>{
-      sessionStorage.setItem("phoneNumber", values.phoneNumber)
-      sessionStorage.setItem("isPhoneVerificated", "true")
-    },100) 
+    //here
+    // setTimeout(()=>{
+    //   sessionStorage.setItem("phoneNumber", values.phoneNumber)
+    //   sessionStorage.setItem("isPhoneVerificated", "true")
+    // },100) 
     createUserWithEmailAndPassword(values.email, values.password)
   }
 
@@ -266,7 +268,8 @@ const SignIn = () => {
         {error ==="재확인 비밀번호가 다릅니다." && <FormHelperText id="component-error-text" error={true}>{error}</FormHelperText>}
       </FormControl>
 
-      <PhoneVerification phoneNumber={values.phoneNumber} handlePhoneNumber={handlePhoneNumber} handleIsPhoneVerificated={handleIsPhoneVerificated}/>
+{/* here */}
+      {/* <PhoneVerification phoneNumber={values.phoneNumber} handlePhoneNumber={handlePhoneNumber} handleIsPhoneVerificated={handleIsPhoneVerificated}/> */}
 
       <div className={styles.checkbox_container}>
         <Checkbox

@@ -19,6 +19,7 @@
   word-break: keep-all;
   width: 80%;
   margin-bottom: 1px;
+  height: 20px;
 }
 .close_button{
   position: absolute;

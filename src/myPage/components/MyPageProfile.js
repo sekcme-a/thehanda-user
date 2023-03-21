@@ -30,7 +30,7 @@ const MyPageProfile = () => {
   if(userData)
   return (
     <div className={styles.main_container}>
-      <div className={styles.avatar_container}>
+      {/* <div className={styles.avatar_container}>
       <Badge
         overlap="circular"
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -40,8 +40,8 @@ const MyPageProfile = () => {
       >
         <Avatar alt={userData.displayName} src={userData.photoUrl} style={{width: "70px", height: "70px"}} />
       </Badge>
-      </div>
-      <div className={styles.text_container}>
+      </div> */}
+      <div className={styles.text_container} style={{marginLeft:"20px"}}>
         <h2>Welcome</h2>
         <h3>{userData.displayName}님</h3>
         <h4>회원정보를 등록하면 맞춤 서비스를 받을 수 있습니다.</h4>
