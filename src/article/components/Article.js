@@ -114,10 +114,20 @@ const Contents = ({data, teamName, id, type, mode}) => {
           })
         }
       })
-    } else
-      router.push(`/surveys/${teamName}/${id}`);
-    // else
-    //   router.push(`result/${teamName}/${id}`)
+      //자녀 프로그램일 경우 만약 등록된 자녀가 없다면 구성원 등록으로 이동
+      if(data.type==="children"){
+        const userDoc = await db.collection("user").doc(user.uid).get()
+        if(userDoc.data().family && userDoc.data().family.some(member => member.relation ==="children"))
+          router.push(`/programs/${teamName}/${id}`);
+        else{
+          alert("등록된 자녀가 없습니다. 가족 구성원 등록 후 신청해주세요.")
+          router.push("/family")
+        }
+    } else{
+        router.push(`/surveys/${teamName}/${id}`);
+      }
+    }
+
   }
 
   const onCancelClick = async() => {

@@ -44,7 +44,7 @@ export default function SelectMultipleChip({title, items, selectedItems, setSele
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 600 }} size="small">
+      <FormControl fullWidth size="small">
         <InputLabel id="demo-multiple-chip-label" size="small">{title}</InputLabel>
         <Select
           labelId="demo-multiple-chip-label"

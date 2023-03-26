@@ -36,6 +36,8 @@ const ShowSurvey = ({data, team_id, id, type}) => {
     buttonText:"확인"
   })
 
+  const [selectedMembers, setSelectedMembers] = useState([])
+
   const handleInputData = (data) => {
     setInputData([...data])
   }
@@ -66,6 +68,19 @@ const ShowSurvey = ({data, team_id, id, type}) => {
         }
       }
     }
+    if(data.type!=="common"){
+      if(selectedMembers.length===0){
+        setBackdropValue({
+          openBackdrop: true,
+          submitted: true,
+          title: "알림",
+          text: `가족 구성원 선택은(는) 필수항목입니다.`,
+          buttonText:"확인"
+        })
+        setIsSubmitting(false)
+        return
+      }
+    }
     setOpenBackdrop(true)
       // await firebaseHooks.submit_form_input(user.uid, id, type, teamName, inputData, data.submitCount)
       const batch = db.batch()
@@ -82,6 +97,7 @@ const ShowSurvey = ({data, team_id, id, type}) => {
       //데이터 저장
       batch.set(db.collection("team_admin").doc(team_id).collection("result").doc(id).collection("users").doc(user.uid),{
         data: [...inputData],
+        selectedMembers: selectedMembers,
         createdAt: new Date()
       })
     } else if (type==="programSurvey"){
@@ -160,7 +176,7 @@ const ShowSurvey = ({data, team_id, id, type}) => {
     <div className={styles.main_container}>
       <HeaderLeftClose title={type==="programSurvey" ? `"${data.title}" 설문조사`: data.title} />
       <div className={styles.content_container}>
-          <Form formDatas={data.formData} data={inputData} handleData={handleInputData} addMargin={true} />
+          <Form formDatas={data.formData} data={inputData} handleData={handleInputData} addMargin={true} type={data.type} setSelectedMembers={setSelectedMembers}/>
       </div>
       {type!=="test" &&
         <div className={styles.button_container}>
