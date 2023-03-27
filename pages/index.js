@@ -33,18 +33,15 @@ const Home = () => {
   const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
 
   useEffect(()=>{
-    const handleScroll = () => {
-      setScrollY(window.scrollY)
-    }
-    window.addEventListener("scroll", handleScroll)
 
     if(user!==null){
       db.collection("user").doc(user.uid).get().then((doc)=>{
         if(doc.exists){
           // if(doc.data().pushToken===undefined){
-            if(window.ReactNativeWebView){
-              window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
-            }
+            window.parent.postMessage(`UID_DATA: ${user.uid}`)
+            // if(window.ReactNativeWebView){
+            //   window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
+            // }
           // }
         }
       })
@@ -52,11 +49,7 @@ const Home = () => {
     
     setSelectedTeam({id:localStorage.getItem("selectedTeamId"), name: localStorage.getItem("selectedTeamName")})
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-    }
-    
-  },[])
+  },[user])
 
   const onMenuClick = () => {
     setIsMenuOpen(true)
