@@ -81,7 +81,7 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
   },[selectedItems])
   return (
     <div className={styles.form_container}>
-      {type!=="common" && 
+      {(type==="children"||type==="family") && 
       <>
         <div className={styles.single_checkbox_container} >
           <h1 style={{marginBottom:"10px"}}>가족 구성원 선택<p>*필수항목</p></h1>

@@ -17,6 +17,7 @@ import InputLabel from '@mui/material/InputLabel';
 import ChildCareIcon from '@mui/icons-material/ChildCare';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 const Family = () => {
   const {user} = useData()
@@ -158,8 +159,14 @@ const Family = () => {
     실명: ${list[selectedIndex].realName}\n
     전화번호: ${list[selectedIndex].phoneNumber}\n
     가족관계: ${selectedRelationText}`)){
+      let family  = []
+      if(familyData.length===0){
+        family = [{relation:"me", uid: user.uid}, {relation: selectedRelation, uid: list[selectedIndex].uid}]
+      }else{
+        family = [...simpleFamilyData, {relation: selectedRelation, uid: list[selectedIndex].uid}]
+      }
       db.collection("user").doc(user.uid).update({
-        family: [...simpleFamilyData, {relation: selectedRelation, uid: list[selectedIndex].uid}]
+        family: [...family]
       }).then(()=>{
         alert("가족 구성원이 추가되었습니다!")
         setSimpleFamilyData( [...simpleFamilyData, {relation: selectedRelation, uid: list[selectedIndex].uid}])
@@ -205,6 +212,7 @@ const Family = () => {
           {familyData.map((item, index) => {
             return(
               <div className={styles.member_container} key={index}>
+                {item.relation==="me" && <h1><PermIdentityIcon sx={{pr:"5px"}} />본인</h1>}
                 {item.relation==="children" && <h1><ChildCareIcon sx={{pr:"5px"}} />자녀</h1>}
                 {item.relation==="spouse" && <h1><FavoriteBorderIcon sx={{pr:'5px'}}/>배우자</h1>}
                 {item.relation==="parents" && <h1><SupervisedUserCircleIcon sx={{pr:'5px'}}/>부모</h1>}

@@ -68,7 +68,7 @@ const ShowSurvey = ({data, team_id, id, type}) => {
         }
       }
     }
-    if(data.type!=="common"){
+    if(data.type==="children"||data.type==="family"){
       if(selectedMembers.length===0){
         setBackdropValue({
           openBackdrop: true,

@@ -24,7 +24,7 @@ const Thumbnail = ({data, smallMargin,  path}) => {
       setColor("black")
     }
     setInterval(()=>setDate( new Date()), 1000)
-  }, [])
+  }, [data])
 
     //몇 초후 신청가능, 몇분후 신청가능, 몇시간, 몇일 단위 계산
     // const getTimeLeft = () => {

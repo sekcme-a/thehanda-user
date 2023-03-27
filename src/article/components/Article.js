@@ -123,9 +123,9 @@ const Contents = ({data, teamName, id, type, mode}) => {
           alert("등록된 자녀가 없습니다. 가족 구성원 등록 후 신청해주세요.")
           router.push("/family")
         }
-    } else{
-        router.push(`/surveys/${teamName}/${id}`);
       }
+    }else{
+      router.push(`/surveys/${teamName}/${id}`);
     }
 
   }
@@ -293,7 +293,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
               :
               hasHistory ?
               <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
-                신청 취소
+                {type==="programs" ? "신청 취소" : "설문 취소"}
               </Button>
               :
               hasLimitEnd ?
@@ -303,7 +303,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
               :
               <Button onClick={onButtonClick} variant="contained" fullWidth
                 style={{ backgroundColor: "#5316b5" }}>
-                신청하기
+                {type==="programs" ? "신청 하기" : "설문 시작"}
               </Button>
             }     
             
@@ -336,7 +336,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
               <h2>{`전에 참여했던 "${programSurveyTitle}" 프로그램에 대한 설문조사를 작성해주세요!`}
                 <div style={{fontSize:"13px"}}>{`(해당 설문조사를 작성해야 다른 프로그램을 신청하실 수 있습니다.)`}</div>
               </h2>
-              <h3 onClick={()=>router.push(`/programSurvey/${programSurveyDoc}`)}>{`설문조사 하러가기 >`}</h3>
+              <h3 onClick={()=>router.push(`/programsurvey/${teamName}/${programSurveyDoc}`)}>{`설문조사 하러가기 >`}</h3>
             </div>
           </motion.div>
         </div>
