@@ -37,7 +37,7 @@ const Home = () => {
     if(user!==null){
       db.collection("user").doc(user.uid).get().then((doc)=>{
         if(doc.exists){
-          console.log("send")
+          alert(`send ${user.uid}`)
           // if(doc.data().pushToken===undefined){
             // window.parent.postMessage(`UID_DATA: ${user.uid}`,"*")
             if(window.ReactNativeWebView){
