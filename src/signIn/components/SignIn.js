@@ -269,7 +269,7 @@ const SignIn = () => {
       </FormControl>
 
 {/* here */}
-      {/* <PhoneVerification phoneNumber={values.phoneNumber} handlePhoneNumber={handlePhoneNumber} handleIsPhoneVerificated={handleIsPhoneVerificated}/> */}
+      <PhoneVerification phoneNumber={values.phoneNumber} handlePhoneNumber={handlePhoneNumber} handleIsPhoneVerificated={handleIsPhoneVerificated}/>
 
       <div className={styles.checkbox_container}>
         <Checkbox
