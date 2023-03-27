@@ -21,6 +21,17 @@ export default function App({ Component, pageProps }) {
       }
     }
   });
+  useEffect(() => {
+    function handleMessage(event) {
+      alert(event.data);
+    }
+    
+    window.addEventListener('message', handleMessage);
+    
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
 
   useEffect(()=>{
     const fetchData = async () => {
