@@ -38,7 +38,7 @@ const Home = () => {
       db.collection("user").doc(user.uid).get().then((doc)=>{
         if(doc.exists){
           // if(doc.data().pushToken===undefined){
-            window.parent.postMessage(`UID_DATA: ${user.uid}`)
+            window.parent.postMessage(`UID_DATA: ${user.uid}`,"*")
             // if(window.ReactNativeWebView){
             //   window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}`)
             // }
