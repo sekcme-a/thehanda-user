@@ -91,7 +91,7 @@ const Thumbnail = ({data, smallMargin,  path}) => {
         {data.keyword && <h2>{`[${data.keyword}]`}</h2>}
         <h3>{data.title}</h3>
         <h4>{data.subtitle}</h4>
-        <p>{data.participation_deadline} :{true ? 
+        <p>신청마감일 - {true ? 
           data.deadline?.toDate().toLocaleString('ko-KR').replace(/\s/g, '')
           : 
           data.deadline?.toDate().toLocaleString('en-US').replace(/\s/g, '')}

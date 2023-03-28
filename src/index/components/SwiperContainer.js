@@ -45,13 +45,13 @@ const MainSwiper = ({ data }) => {
           <div className={styles.thumbnail_container}>
             <div className={styles.thumbnail_image_container}>
               <Image src={data.thumbnailBg==="/custom" ? data.customBgURL:data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
-              {/* { data.thumbnailBg!=="/custom" && */}
+              { data.thumbnailBg!=="/custom" &&
                 <div className={data.color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
                   <h2>{data.title}</h2>
                   <h3>{data.subtitle}</h3>
                   <h4>{data.date}</h4>
                 </div>
-              {/* } */}
+              }
             </div>
           </div>
           <div className={styles.button_container}>

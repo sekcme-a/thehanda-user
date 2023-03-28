@@ -113,7 +113,7 @@ const Anouncement = () => {
 
           {!isAnouncementLoading && anouncementList.length === 0 && 
             <div style={{ width: "100%", height: "250px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-              <p>아직 등록된 프로그램이 없습니다.</p>
+              <p>아직 등록된 공지사항이 없습니다.</p>
             </div>
           }
 

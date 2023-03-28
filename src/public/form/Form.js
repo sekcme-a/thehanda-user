@@ -35,6 +35,7 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
     if(type!=="common" && user){
       setIsLoading(true)
       db.collection("user").doc(user.uid).get().then((doc) => {
+        if(doc.data().family){
         const promises = doc.data().family.map((item) => {
           return db.collection("user").doc(item.uid).get()
             .then((itemDoc) => {
@@ -52,11 +53,13 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
         return Promise.all(promises.filter(Boolean))
           .then((family) => {
             setFamilyData([...family]);
-            const temp = family.map(member=>`${member.realName}(${member.displayName})|${member.phoneNumber}`)
+            const temp = family?.map(member=>`${member.realName}(${member.displayName})|${member.phoneNumber}`)
             console.log(temp)
             setMembers([...temp])
             setIsLoading(false);
           });
+        }
+        setIsLoading(false)
       })
     }
   },[])

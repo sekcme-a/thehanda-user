@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
   });
   useEffect(() => {
     function handleMessage(event) {
-      alert(event.data);
+      alert("message",event.data);
     }
     
     window.addEventListener('message', handleMessage);
