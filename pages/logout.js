@@ -11,10 +11,10 @@ const Logout = () => {
     } else {
       alert("not logined")
     }
-  })
+  },[])
   return(
     <>
-
+      <h1>logout</h1>
     </>
   )
 }

@@ -21,21 +21,22 @@ export default function App({ Component, pageProps }) {
       }
     }
   });
-  useEffect(() => {
-    function handleMessage(event) {
-      alert("message",event.data);
-    }
+  // useEffect(() => {
+  //   function handleMessage(event) {
+  //     alert("message",event.data);
+  //   }
     
-    window.addEventListener('message', handleMessage);
+  //   window.addEventListener('message', handleMessage);
     
-    return () => {
-      window.removeEventListener('message', handleMessage);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('message', handleMessage);
+  //   };
+  // }, []);
 
   useEffect(()=>{
     const fetchData = async () => {
       let teamId = localStorage.getItem("selectedTeamId")
+      console.log(teamId)
       if(teamId===null){
         teamId="suwon"
       }
@@ -45,6 +46,7 @@ export default function App({ Component, pageProps }) {
         localStorage.setItem("selectedTeamName", doc.data().teamName)
       }
       setIsSelectedTeamLoading(false)
+      setIsLoading(false)
     }
     fetchData()
   },[])

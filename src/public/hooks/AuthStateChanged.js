@@ -14,6 +14,7 @@ export default function AuthStateChanged({ children }) {
     auth.onAuthStateChanged((user) => {
         // console.log(user)
         //로그인시
+        console.log(user)
         if (user !== null ) {
           if(user.providerData[0].providerId!=="phone"){
             setUser(user)
@@ -39,6 +40,8 @@ export default function AuthStateChanged({ children }) {
               }
               setIsLoading(false)
             })
+          } else{
+            setIsLoading(false)
           }
         } else{
           //로그아웃시
@@ -55,7 +58,7 @@ export default function AuthStateChanged({ children }) {
     //eslint-disable-next-line
   }, []);
 
-  if(isLoading)return <></>
+  if(isLoading)return <>authstate</>
 
   return children;
 }
