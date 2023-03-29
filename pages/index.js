@@ -29,8 +29,55 @@ const Home = () => {
   const [openCityDialog, setOpenCityDialog] = useState(false)
   const [teams, setTeams] = useState([])
   const [isTeamsLoading, setIsTeamsLoading] = useState(true)
+  const [scrollYIsZero, setScrollYIsZero] = useState(true)
 
   const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
+
+  useEffect(() => {
+    function handleScroll() {
+      console.log(window.scrollY)
+      setScrollY(window.scrollY)
+      if(window.scrollY===0){
+        setScrollYIsZero(true)
+      } else if(scrollYIsZero){
+        setScrollYIsZero(false)
+      }
+      // if(window.scrollY===0){
+      //   console.log(window.ReactNativeWebView)
+      //   setScrollYIsZero(true)
+      //   console.log("send 0")
+      //   if(window.ReactNativeWebView){
+      //     window.ReactNativeWebView.postMessage(`SCROLLYISZERO: true`)
+      //   }
+      // }else if(window.scrollY>0){
+      //   if(window.ReactNativeWebView){
+      //     setScrollYIsZero(false)
+      //     console.log("send not 0")
+      //     if(scrollYIsZero){
+      //       window.ReactNativeWebView.postMessage(`SCROLLYISZERO: false`)
+      //     }
+      //   }
+      // }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+
+    // Clean up the event listener
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(()=>{
+    if(scrollYIsZero){
+      if(window.ReactNativeWebView){
+        window.ReactNativeWebView.postMessage(`SCROLLYISZERO: true`)
+      }
+    } else {
+      if(window.ReactNativeWebView){
+        window.ReactNativeWebView.postMessage(`SCROLLYISZERO: false`)
+      }
+    }
+  },[scrollYIsZero])
+
 
   useEffect(()=>{
     console.log(user)
@@ -40,7 +87,9 @@ const Home = () => {
           // alert(`send ${user.uid}`)
           // if(doc.data().pushToken===undefined){
             // window.parent.postMessage(`UID_DATA: ${user.uid}`,"*")
+            console.log(window.ReactNativeWebView)
             if(window.ReactNativeWebView){
+              console.log("asdf")
               window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}|||${doc.data().pushToken}`)
             }
           // }

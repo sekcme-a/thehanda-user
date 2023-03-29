@@ -29,7 +29,7 @@ const Login = () => {
         <Image src="/logo.png" width={250} height={250} alt="한국다문화뉴스 로고" />
       </div>
       <IdAndPassword />
-      <SocialLogin />
+      {/* <SocialLogin /> */}
       <div style={{height:"100px"}} />
     </div>
   )

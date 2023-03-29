@@ -12,7 +12,7 @@ import Head from "next/head";
 export default function App({ Component, pageProps }) {
   const [isSelectedTeamLoading, setIsSelectedTeamLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
-  const [scrollY, setScrollY] = useState()
+  const [scrollYIsZero, setScrollYIsZero] = useState(true)
   const router = useRouter()
   const theme = createTheme({
     palette: {
@@ -21,17 +21,6 @@ export default function App({ Component, pageProps }) {
       }
     }
   });
-  // useEffect(() => {
-  //   function handleMessage(event) {
-  //     alert("message",event.data);
-  //   }
-    
-  //   window.addEventListener('message', handleMessage);
-    
-  //   return () => {
-  //     window.removeEventListener('message', handleMessage);
-  //   };
-  // }, []);
 
   useEffect(()=>{
     const fetchData = async () => {

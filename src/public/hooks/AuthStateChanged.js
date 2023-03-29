@@ -57,8 +57,7 @@ export default function AuthStateChanged({ children }) {
     })
     //eslint-disable-next-line
   }, []);
-
-  if(isLoading)return <>authstate</>
+  if(isLoading)return <></>
 
   return children;
 }
