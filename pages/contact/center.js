@@ -141,6 +141,7 @@ const Center = () => {
         <div className={styles.button_container}>
           <Button fullWidth variant="outlined" disabled={!isAble} onClick={onSubmitClick}>보내기</Button>
         </div>
+        <div style={{marginBottom:"70px"}}/>
       </div>
       <Backdrop
         sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1, display:"flex", justifyContent:"center" }}
