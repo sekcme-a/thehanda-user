@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 
 
 export default function AuthStateChanged({ children }) {
-    const {setUser, setUserData} = useData()
+    const {setUser, setUserData, setUnread} = useData()
     const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
   
@@ -47,6 +47,7 @@ export default function AuthStateChanged({ children }) {
           //로그아웃시
           setUser(null)
           setUserData(null)
+          setUnread(0)
           setIsLoading(false)
           sessionStorage.setItem("phoneNumber", "")
           sessionStorage.setItem("isPhoneVerificated","false")

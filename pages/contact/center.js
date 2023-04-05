@@ -94,7 +94,14 @@ const Center = () => {
       setOpenBackdrop(false)
     }
   }
+  if(isLoading){
+    return(
+      <div style={{display:'flex', justifyContent:"center", alignItems:"center", marginTop:"100px"}}>
+        <CircularProgress />
 
+      </div>
+    )
+  }
   if(!isLoading)
   return (
     <div className={styles.main_container}>

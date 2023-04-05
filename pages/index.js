@@ -42,6 +42,7 @@ const Home = () => {
       } else if(scrollYIsZero){
         setScrollYIsZero(false)
       }
+      
       // if(window.scrollY===0){
       //   console.log(window.ReactNativeWebView)
       //   setScrollYIsZero(true)

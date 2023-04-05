@@ -18,17 +18,22 @@ export function DataProvider(props){
     const [unread, setUnread] = useState(0)
 
     useEffect(() => {
-        const fetchData = async() => {
-          const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
+      if(user){
+        const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
 
-          dbRef.onSnapshot((doc) => {
-            if (doc.exists) {
-              setUnread(doc.data().unread);
-            }
-          });
+        const unsubscribe = dbRef.onSnapshot((doc) => {
+          if (doc.exists) {
+            setUnread(doc.data().unread);
+          }
+        });
+
+        return() => {
+          unsubscribe()
         }
-        if(user)
-          fetchData()
+        
+      }
+          
+
       },[user])
 
     const value = {

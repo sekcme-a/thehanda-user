@@ -17,18 +17,32 @@ const Message = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      db.collection("user").doc(user.uid).collection("message").orderBy("repliedAt", "desc").get().then((query)=>{
+      // db.collection("user").doc(user.uid).collection("message").orderBy("repliedAt", "desc").get().then((query)=>{
+      //   const temp = query.docs.map((doc)=>{
+      //     if(doc.id!=="status")
+      //       return {...doc.data(), id:doc.id}
+      //   }).filter(Boolean)
+      //   setMessageList(temp)
+      // })
+      const dbRef = db.collection("user").doc(user.uid).collection("message").orderBy("repliedAt", "desc")
+      const unsubscribe = dbRef.onSnapshot((query)=>{
         const temp = query.docs.map((doc)=>{
           if(doc.id!=="status")
             return {...doc.data(), id:doc.id}
         }).filter(Boolean)
         setMessageList(temp)
       })
+
+
+      return () => {
+        unsubscribe()
+      }
     }
     if(user)
       fetchData()
     else
       router.push("/login")
+
   }, [])
 
   // const onClick = () => {
@@ -60,7 +74,7 @@ const Message = () => {
         if(item.mode==="center")
           return(
             <div key={index}>
-              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" date=""
+              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
                 text={`문의하신 "${item.title}" 에 대한 답장이 도착했습니다.`}
                 button={["답장 확인하기"]} onClick={[()=>onClick(`/reply/${item.id}`)]}
                 read={item.read}
@@ -70,15 +84,25 @@ const Message = () => {
         if(item.mode==="program")
           return(
             <div key={index}>
-              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" date=""
+              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
                 text={`문의하신 [${item.title}] 프로그램에 대한 답장이 도착했습니다.`}
                 button={["답장 확인하기"]} onClick={[()=>onClick(`/reply/${item.id}`)]}
                 read={item.read}
               />  
             </div>
           )
+        if(item.mode==="talk")
+          return(
+            <div key={index}>
+              <AlarmContainer image={item.teamProfile} name={item.title} date={item.repliedAt}
+                text={item.content}
+                button={["메세지 확인하기"]} onClick={[()=>onClick(`/talk/${item.id}`)]}
+                unread={item.unread}
+              />  
+            </div>
+          )
       })}
-      <AlarmContainer image="/logo_simple.png" name="더한다 도우미" date=""
+      <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
         text={"안녕하세요\n더한다를 이용해주셔서 감사합니다!\n어플에 대해 궁금하시다면 도움말 보기,\n문의할 사항이 있으시다면 문의하기를 눌러주세요."}
         button={["도움말 보기", "센터 문의하기", "어플 문의하기"]} onClick={[()=>onClick("/info/faq"), ()=>onClick("/contact/center"), ()=>onClick("/contact/app")]}
       />
