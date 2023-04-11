@@ -35,6 +35,7 @@ const SocialLogin = (props) => {
     const provider = googleAuthProvider
     try{
       const userCred = await auth.signInWithRedirect(provider)
+
       setUser(userCred.user ?? null)
     } catch(e){
       setError(e.message)
