@@ -8,7 +8,7 @@ export default function useData(){
 
 export function DataProvider(props){
     const [user, setUser] = useState(null) //I'm
-    const [userData, setUserData] = useState(null) //user data from db
+    const [userData, setUserData] = useState(null) //user data from db, uid 를 제외한 모든 user data는 이걸 활용
     const [error, setError] = useState("")
     const [teamName, setTeamName] = useState("") //어드민 팀명
     const [teamId, setTeamId] = useState("") //어드민 팀 id

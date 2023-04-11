@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "src/index/styles/index.module.css"
 import useData from "context/data"
 import { firestore as db } from "firebase/firebase";
+import { useRouter } from "next/router";
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -30,64 +31,36 @@ const Home = () => {
   const [teams, setTeams] = useState([])
   const [isTeamsLoading, setIsTeamsLoading] = useState(true)
   const [scrollYIsZero, setScrollYIsZero] = useState(true)
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
 
+  //handle scroll y
   useEffect(() => {
-    function handleScroll() {
-      console.log(window.scrollY)
-      setScrollY(window.scrollY)
-      if(window.scrollY===0){
-        setScrollYIsZero(true)
-      } else if(scrollYIsZero){
-        setScrollYIsZero(false)
-      }
-      
-      // if(window.scrollY===0){
-      //   console.log(window.ReactNativeWebView)
-      //   setScrollYIsZero(true)
-      //   console.log("send 0")
-      //   if(window.ReactNativeWebView){
-      //     window.ReactNativeWebView.postMessage(`SCROLLYISZERO: true`)
-      //   }
-      // }else if(window.scrollY>0){
-      //   if(window.ReactNativeWebView){
-      //     setScrollYIsZero(false)
-      //     console.log("send not 0")
-      //     if(scrollYIsZero){
-      //       window.ReactNativeWebView.postMessage(`SCROLLYISZERO: false`)
-      //     }
-      //   }
-      // }
-    }
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
 
-    window.addEventListener('scroll', handleScroll)
+    };
 
-    // Clean up the event listener
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
 
-  useEffect(()=>{
-    if(scrollYIsZero){
-      if(window.ReactNativeWebView){
-        window.ReactNativeWebView.postMessage(`SCROLLYISZERO: true`)
-      }
-    } else {
-      if(window.ReactNativeWebView){
-        window.ReactNativeWebView.postMessage(`SCROLLYISZERO: false`)
-      }
-    }
-  },[scrollYIsZero])
-
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   useEffect(()=>{
     console.log(user)
+    if(user===null)
+      router.push("/walkthrough")
+    else if(userData===null || userData.realName==="" || userData.displayName===""||userData.gender===""||userData.phoneNumber===""||userData.phoneVerified===false){
+      router.push("/walkthrough")
+    }
     if(user!==null){
+      setIsLoading(false)
       db.collection("user").doc(user.uid).get().then((doc)=>{
         if(doc.exists){
-          // alert(`send ${user.uid}`)
-          // if(doc.data().pushToken===undefined){
-            // window.parent.postMessage(`UID_DATA: ${user.uid}`,"*")
             console.log(window.ReactNativeWebView)
             if(window.ReactNativeWebView){
               console.log("asdf")
@@ -131,6 +104,7 @@ const Home = () => {
     setOpenCityDialog(false)
   }
 
+  if(!isLoading)
   return(
     <>
     {!isMenuOpen &&

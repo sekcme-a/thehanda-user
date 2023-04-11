@@ -24,9 +24,9 @@ export default function AuthStateChanged({ children }) {
               else{
                 const newUserData = {
                   photoUrl : user.photoURL ? user.photoURL : "/default_avatar.png",
-                  displayName : user.displayName ? user.displayName : `User${user.uid.substr(1,5)}`,
+                  displayName : "",
                   roles: ["user"],
-                  realName: user.displayName ? user.displayName : `User${user.uid.substr(1,5)}`,
+                  realName:"",
                   phoneNumber: sessionStorage.getItem("phoneNumber"),
                   phoneVerified: sessionStorage.getItem("isPhoneVerificated"),
                   email: user.email,

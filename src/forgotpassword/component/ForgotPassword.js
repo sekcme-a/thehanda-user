@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 
 import ChevronLeft from 'mdi-material-ui/ChevronLeft'
 
-const ForgotPassword = (props) => {
+const ForgotPassword = ({setMode}) => {
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [error, setError] = useState(" ")
@@ -89,12 +89,12 @@ const ForgotPassword = (props) => {
           Send reset link
         </Button>
         <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Link passHref href='/login'>
+          <Button onClick={()=>setMode("login")}>
             <LinkStyled>
               <ChevronLeft />
-              <span>Back to login</span>
+              <span>로그인으로 돌아가기</span>
             </LinkStyled>
-          </Link>
+          </Button>
         </Typography>
       </form>
     </div>

@@ -10,8 +10,9 @@ import Image from "next/image";
 import { CircularProgress } from "@mui/material";
 import HeaderLeftClose from "src/public/components/HeaderLeftClose"
 
+
 function scrollToBottom() {
-  window.scrollTo(0, document.body.scrollHeight);
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 }
 
 const Talk = () => {
@@ -25,6 +26,19 @@ const Talk = () => {
   const [isSending, setIsSending] = useState(false)
   const [teamName, setTeamName] = useState("")
   const [profile, setProfile] = useState("")
+	const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrollY(window.scrollY);
+    }
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   useEffect(()=>{
     const fetchData = async () => { 
@@ -37,11 +51,10 @@ const Talk = () => {
               timeline: doc.id
             })
           })
-          setDates([...data.reverse(),])
-
-          setTimeout(()=>{
-            scrollToBottom()
-          },100)
+          setDates([...data.reverse()])
+						setTimeout(()=>{
+							scrollToBottom()
+						},300)
         }
       })
 
@@ -80,7 +93,6 @@ const Talk = () => {
 
   },[])
 
-
   useEffect(()=>{
     const fetchData = async () => {
       const doc = await db.collection("user").doc(user.uid).collection("message").doc(id).get()
@@ -102,6 +114,12 @@ const Talk = () => {
     fetchData()
   },[dates])
 
+	// useEffect(()=>{
+	// 	setTimeout(()=>{
+	// 		scrollToBottom()
+	// 	},300)
+	
+	// },[dates])
 
   const getYYYYMMDD = () => {
     const today = new Date();
@@ -126,6 +144,7 @@ const Talk = () => {
 
   const onSubmit = async () => {
     const batch = db.batch()
+		// scrollToBottom()
     const YYYYMMDD = getYYYYMMDD()
     const HHMM = getHHMM()
     setIsSending(true)
@@ -195,6 +214,7 @@ const Talk = () => {
         // const userDoc = await db.collection("user").doc(user.uid).get()
         // const result = await sendNotification(userDoc.data().pushToken,teamName,input);
         setIsSending(false)
+        // scrollToBottom()
         setInput("")
       }catch(e){
         setIsSending(false)
@@ -215,6 +235,7 @@ if(teamName!=="")
     <div className={styles.main_container}>
     <div className={styles.header_container}><HeaderLeftClose title={teamName}/></div>
       <div className={styles.chat_container}>
+        
         {dates.length===0 && <p className={styles.no_chat}>아직 채팅 내역이 없습니다.</p>}
         {dates.map((date, index1)=>{
           return(
@@ -226,11 +247,11 @@ if(teamName!=="")
                   console.log(chat)
                   if(chat.type!=="center")
                     return(
-                      <div className={`${styles.text_container} ${styles.my_text}`}>
+                      <div key={index} className={`${styles.text_container} ${styles.my_text}`}>
                         {date.chats[index+1]?.createdAt!==chat.createdAt &&
                           <div className={styles.createdAt}>{chat.createdAt}</div>
                         }
-                        <li key={index}>
+                        <li >
                           <h4>{chat.text}</h4>
                         </li>
                       </div>
@@ -248,13 +269,14 @@ if(teamName!=="")
                             }
                           </div>
                         </div>
+                        
                       </div>
                     )
                     else
                       return(
-                        <div className={`${styles.text_container} ${styles.other_text}`}>
+                        <div key={index} className={`${styles.text_container} ${styles.other_text}`}>
                           
-                          <li key={index} style={{marginLeft:"46px"}}>
+                          <li style={{marginLeft:"46px"}}>
                             
                             <h4>{chat.text}</h4>
                           </li>
@@ -270,6 +292,7 @@ if(teamName!=="")
         })}
 
       <div className={styles.input_container}>
+        
         <TextField sx={{minHeight:"20px"}} multiline
           value={input} onChange={e=>{console.log(e.target.value);setInput(e.target.value);}}
           fullWidth size="small" maxRows={2}
