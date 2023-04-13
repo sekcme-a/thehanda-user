@@ -28,5 +28,5 @@ export const firestore = firebase.firestore();
 export const FieldValue = firebase.firestore.FieldValue;
 export const storage = firebase.storage();
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
-export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider();
+export const facebookAuthProvider = new firebase.auth.FacebookAuthProvider(); 
 export const appleAuthProvider = new firebase.auth.OAuthProvider('apple.com');

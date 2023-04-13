@@ -55,3 +55,30 @@
   padding: 2px 25px !important;
 
 }
+
+.item_container{
+  overflow-y: scroll;
+  height: 90vh;
+  padding: 80px 30px 30px 30px;
+}
+
+.title{
+  font-size: 30px;
+  font-weight: lighter;
+}
+.title_border{
+  height: 4px;
+  width: 50px;
+  background-color: #814ad8;
+  margin: 9px 0 20px 0;
+}
+.subtitle{
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: lighter;
+  margin-bottom: 20px;
+}
+.info_text{
+  margin-top: 20px;
+  word-break: keep-all;
+}

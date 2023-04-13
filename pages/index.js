@@ -54,7 +54,7 @@ const Home = () => {
     console.log(user)
     if(user===null)
       router.push("/walkthrough")
-    else if(userData===null || userData.realName==="" || userData.displayName===""||userData.gender===""||userData.phoneNumber===""||userData.phoneVerified===false){
+    else if(!userData || !userData.realName || !userData.displayName||!userData.gender||!userData.phoneNumber||userData.phoneVerified!==true||!localStorage.getItem("selectedTeamId")){
       router.push("/walkthrough")
     }
     if(user!==null){

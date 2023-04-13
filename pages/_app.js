@@ -32,14 +32,16 @@ export default function App({ Component, pageProps }) {
     const fetchSelectedTeamId = async () => {
       let teamId = localStorage.getItem("selectedTeamId")
       if(teamId === null)
-        teamId="suwon"
-
-      const doc = await db.collection("team").doc(teamId).get()
-      if(doc.exists){
-        localStorage.setItem("selectedTeamId",doc.id)
-        localStorage.setItem("selectedTeamName", doc.data().teamName)
+        // teamId="suwon"
+        router.push("/walkthrough")
+      else{
+        const doc = await db.collection("team").doc(teamId).get()
+        if(doc.exists){
+          localStorage.setItem("selectedTeamId",doc.id)
+          localStorage.setItem("selectedTeamName", doc.data().teamName)
+        }
+        setIsLoading(false)
       }
-      setIsLoading(false)
     }
 
     fetchSelectedTeamId()

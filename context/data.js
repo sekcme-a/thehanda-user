@@ -16,6 +16,14 @@ export function DataProvider(props){
     const [sectionData, setSectionData] = useState([])
     const [language, setLanguage] = useState("ko")
     const [unread, setUnread] = useState(0)
+    const [em, setEm] = useState("")
+    const [ps,setPs] = useState("")
+
+
+    //application fetched db data
+
+    //team/[teamId]/{id:string, teamName:string}
+    const [centerList, setCenterList] = useState()
 
     useEffect(() => {
       if(user){
@@ -32,8 +40,6 @@ export function DataProvider(props){
         }
         
       }
-          
-
       },[user])
 
     const value = {
@@ -43,6 +49,8 @@ export function DataProvider(props){
         teamName,
         teamId,
         unread,
+        em, setEm,
+        ps, setPs,
         setUnread,
         setTeamId,
         setTeamName,
@@ -52,7 +60,8 @@ export function DataProvider(props){
         sectionData,
         setSectionData,
         language,
-        setLanguage
+        setLanguage,
+        centerList, setCenterList
     }
 
     return <dataContext.Provider value={value} {...props} />

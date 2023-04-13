@@ -1,19 +1,9 @@
-import react, { useState, useEffect } from "react"
-import Link from "next/link";
-import styles from "../styles/signIn.module.css"
+import { useState, useEffect } from "react";
 import useData from "context/data";
 import { useRouter } from "next/router";
-import logo from "public/logo.png"
-import Image from "next/image"
+import styles from "../styles/SignIn.module.css"
 import { firestore as db, auth } from "firebase/firebase";
-import dynamic from "next/dynamic";
-// const QuillNoSSRWrapper = dynamic(import('react-quill'), {
-//   ssr: false,
-//   loading: () => <p>로딩중 ...</p>,
-// })
-import PhoneVerification from "src/public/components/PhoneVerification"
-
-import ReactHtmlParser from "react-html-parser";
+import Link from "next/link";
 
 import { styled, useTheme } from '@mui/material/styles'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
@@ -28,16 +18,18 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import FormHelperText from '@mui/material/FormHelperText';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography'
+import { Button, Input } from "@mui/material";
 
 import ChevronLeft from 'mdi-material-ui/ChevronLeft'
 
-const SignIn = ({setMode}) => {
-  const { user, setUser} = useData()
+const InputUserData = ({setMode, onNext}) => {
+  const [isLoading, setIsLoading] = useState(true)
+  const {user} = useData()
+  const router = useRouter()
   const [isDataInfo, setIsDataInfo] = useState(false)
   const [text, setText] = useState("")
   const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const [isSigningIn, setIsSigningIn] = useState(false)
   
   const [values, setValues] = useState({
     email: '',
@@ -119,7 +111,8 @@ const SignIn = ({setMode}) => {
     setIsDataInfo(false)
   }
 
-  const onSignInClick = () => {
+  const onSignInClick = async() => {
+    setError("")
     if (values.email===undefined || values.email==="") {
       setError("이메일 주소를 입력해주세요.")
       return;
@@ -132,33 +125,30 @@ const SignIn = ({setMode}) => {
       setError("재확인 비밀번호가 다릅니다.")
       return;
     }
-    //here
-    // if(!values.isPhoneVerificated){
-    //   alert("핸드폰번호를 인증해주세요.")
-    //   return;
-    // }
-    if (!values.checked) {
-      setError("개인정보처리방침 동의는 필수입니다.")
-      return;
+    try{
+      await createUserWithEmailAndPassword(values.email, values.password)
+      // onNext()
+    }catch(e){
+      alert(e.message)
     }
-    //here
-    // setTimeout(()=>{
-    //   sessionStorage.setItem("phoneNumber", values.phoneNumber)
-    //   sessionStorage.setItem("isPhoneVerificated", "true")
-    // },100) 
-    createUserWithEmailAndPassword(values.email, values.password)
+    
   }
 
 	const createUserWithEmailAndPassword = async (email, password) => {
+    setIsSigningIn(true)
 		if (email && password) {
 			try{
+        sessionStorage.setItem("ps", password)
         const userCred = await auth.createUserWithEmailAndPassword(email,password)
+        setIsSigningIn(false)
+
         // setUser(user??null)
-        if(userCred.user){
-          router.push("/")
-        }
+        // if(userCred.user){
+        //   router.push("/")
+        // }
       } catch(e){
         console.log(e.message)
+        setIsSigningIn(false)
         if (e.message==="The email address is badly formatted.") {
           setError("유효하지 않은 이메일 입니다.");
           return;
@@ -183,37 +173,30 @@ const SignIn = ({setMode}) => {
 	};
 
 
-  if(isDataInfo && !isLoading)
-    return (
-    <div className={styles.main_container}>
-      <div className={styles.title_container} onClick={onBackToSignInClick}>
-        <ArrowBackIosNewIcon style={{fontSize: "15px"}} />
-        <p>개인정보 처리방침</p>
-      </div>
-      <div className={styles.content_container}>
-        <div>{ReactHtmlParser(text)}</div>
-      </div>
-    </div>
-  )
+  useEffect(()=>{
 
-  return (
+  },[])
+
+  return(
     <>
-      <TextField
+      <div className={styles.main_container}>
+       <h1>SignIn</h1>
+       <TextField
         fullWidth
-        id="outlined-helperText"
+        variant="standard"
         label="이메일"
         value={values.email}
-        helperText={error ==="이메일 주소를 입력해주세요." || error ==="이미 등록된 이메일 주소입니다." ? error : "비밀번호 찾기 시 해당 이메일로 메세지가 전송됩니다."}
-        error={error ==="이메일 주소를 입력해주세요." || error==="이미 등록된 이메일 주소입니다."}
+        helperText={error ==="이메일 주소를 입력해주세요." || error ==="이미 등록된 이메일 주소입니다." ? error : "비밀번호 찾기 시 해당 이메일로 메세지가 전송됩니다."? error : "유효하지 않은 이메일 입니다."}
+        error={error ==="이메일 주소를 입력해주세요." || error==="이미 등록된 이메일 주소입니다." || error==="유효하지 않은 이메일 입니다."}
         size="small"
         margin="normal"
         onChange={onValuesChange("email")}
-        style={{ width: "70%", marginTop: "18px" }}
+        style={{ width: "100%", marginTop: "18px" }}
       />
-      
-      <FormControl sx={{m:1, width: '70%'}} variant="outlined">
+      <p>*실제 사용중인 이메일을 입력해주세요. 비밀번호 찾기 시 해당 이메일로 비밀번호 변경 메세지가 전송됩니다.</p>
+      <FormControl sx={{mb:1, width: '100%'}} variant="standard">
         <InputLabel htmlFor="outlined-adornment-password" >비밀번호</InputLabel>
-        <OutlinedInput
+        <Input
           id="outlined-adornment-password"
           type={values.showPassword ? 'text' : 'password'}
           value={values.password}
@@ -239,9 +222,9 @@ const SignIn = ({setMode}) => {
           && <FormHelperText id="component-error-text" error={true} >{error}</FormHelperText>}
       </FormControl>
 
-      <FormControl sx={{m:1, width: '70%'}} variant="outlined">
+      <FormControl sx={{mb:5, width: '100%'}} variant="standard">
         <InputLabel htmlFor="outlined-adornment-password" style={{backgroundColor:"white", paddingRight:"2px"}} >비밀번호 재확인</InputLabel>
-        <OutlinedInput
+        <Input
           id="outlined-adornment-password"
           type={values.showConfirmPassword ? 'text' : 'password'}
           value={values.confirmPassword}
@@ -265,34 +248,13 @@ const SignIn = ({setMode}) => {
         {error ==="재확인 비밀번호가 다릅니다." && <FormHelperText id="component-error-text" error={true}>{error}</FormHelperText>}
       </FormControl>
 
-{/* here */}
-      <PhoneVerification phoneNumber={values.phoneNumber} handlePhoneNumber={handlePhoneNumber} handleIsPhoneVerificated={handleIsPhoneVerificated}/>
 
-      <div className={styles.checkbox_container}>
-        <Checkbox
-          checked={values.checked}
-          onChange={onCheckboxChange}
-          inputProps={{ 'aria-label': 'controlled' }}
-        />
-        <p>개인정보처리방침에 동의합니다.</p>
-        {error==="개인정보처리방침 동의는 필수입니다." && <p style={{color: "red", marginBottom: '5px'}}>{error}</p>}
+      <Button onClick={onSignInClick} fullWidth variant="contained" disabled={isSigningIn}>{isSigningIn ? "확인 중":"회원가입"}</Button>
+      
+      <Button onClick={()=>setMode("login")} style={{marginTop:"20px"}} fullWidth>{"< 로그인으로 돌아가기"}</Button>
       </div>
-      <div className={styles.dataInfo_container}>
-        <div>{ReactHtmlParser(text)}</div>
-      </div>
-      <div className={styles.signIn_button} onClick={onSignInClick}>
-        회원가입
-      </div>
-        <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width:"100%", mt: 3 }}>
-        <Link passHref href='/login'>
-            <LinkStyled>
-              <ChevronLeft />
-              <span>Back to login</span>
-            </LinkStyled>
-          </Link>
-        </Typography>
-      <div style={{margin: "50px"}}/>
     </>
   )
 }
-export default SignIn
+
+export default InputUserData

@@ -1,0 +1,9 @@
+.main_container{
+  padding: 0 40px;
+}
+.main_container p{
+  font-size: 14px;
+  line-height: 1.2;
+  color: #666;
+  word-break: keep-all;
+}

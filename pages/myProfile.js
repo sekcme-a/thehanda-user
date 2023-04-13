@@ -60,7 +60,8 @@ const MyProfile = () => {
     if (event.target.value !== undefined) {
       setIsProfileFormLoading(true)
       const doc = await db.collection("team").doc(event.target.value).collection("profileSettings").doc("main").get()
-      setMainData([...doc.data().data])
+      if(doc.exists)
+        setMainData([...doc.data().data])
       const profileDoc = await db.collection("team").doc(event.target.value).collection("users").doc(user.uid).get()
       if(profileDoc.exists && profileDoc.data().additionalData){
         setProfileData([...profileDoc.data().additionalData])

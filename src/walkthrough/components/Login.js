@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import { auth, facebookAuthProvider, firestore, googleAuthProvider, appleAuthProvider, firestore as db } from "firebase/firebase"
-
+import { auth, facebookAuthProvider, firestore, googleAuthProvider, appleAuthProvider, firestore as db, } from "firebase/firebase"
+import firebase from "firebase/firebase";
 import useData from "context/data";
+
+import ForgotPassword from "src/forgotpassword/component/ForgotPassword";
+import SignIn from "./SignIn"
 
 import { Button, Input, TextField } from "@mui/material"
 import InputLabel from '@mui/material/InputLabel';
@@ -10,7 +13,6 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import MarkunreadIcon from '@mui/icons-material/Markunread';
 import PasswordIcon from '@mui/icons-material/Password';
-import ForgotPassword from "src/forgotpassword/component/ForgotPassword";
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Visibility from '@mui/icons-material/Visibility';
@@ -20,12 +22,12 @@ import AppleIcon from '@mui/icons-material/Apple';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 
-const Login = () => {
+const Login = ({onNext}) => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState(false)
-  const [logingIn, setLoginin] = useState(false)
-  const {user, setUser} = useData()
+  const [logingIn, setLogingin] = useState(false)
+  const {user, setUser, setEm, setPs} = useData()
 
   const [values, setValues] = useState({
     password: '',
@@ -71,7 +73,7 @@ const Login = () => {
 
   const onLoginClick = async() => {
   // check if email and password are entered
-  setLoginin(true)
+  setLogingin(true)
     if (email && values.password) {
       let userCred;
       let error;
@@ -79,6 +81,9 @@ const Login = () => {
       // attempt to sign in with the provided email and password
       try {
         userCred = await auth.signInWithEmailAndPassword(email, values.password);
+        setEm(email)
+
+        sessionStorage.setItem("ps",values.password)
       } catch (e) {
         // if there's an error, set the error message and log it to the console
         setError(e.message);
@@ -124,7 +129,7 @@ const Login = () => {
   }
 
   const onSignInClick = () => {
-
+    setMode("signIn")
   }
 
   // const loginWithApple = async() => {
@@ -140,11 +145,26 @@ const Login = () => {
   const loginWithGoogle = async() => {
     const provider = googleAuthProvider
     try{
-      const userCred = await auth.signInWithRedirect(provider)
+      const userCred = await auth.signInWithPopup(provider)
       setUser(userCred.user ?? null)
     } catch(e){
       setError(e.message)
     }
+      // try {
+      //   const provider = new firebase.auth.GoogleAuthProvider();
+      //   const result = await firebase.auth().signInWithRedirect(provider);
+      //   const { credential } = result;
+      //   const { accessToken, idToken } = credential;
+      //   const googleCredential = firebase.auth.GoogleAuthProvider.credential(
+      //     idToken,
+      //     accessToken
+      //   );
+      //   const userCredential = await firebase.auth().signInWithCredential(googleCredential);
+      //   console.log(userCredential.user);
+      // } catch (error) {
+      //   console.log(error);
+      // }
+
   }
 
   const loginWithFacebook = async() => {
@@ -181,9 +201,10 @@ const Login = () => {
                   value={email}
                   onChange={(e)=>setEmail(e.target.value)}
                   sx={{mb:"10px"}}
+                  fullWidth
                 />
 
-                <FormControl sx={{mt:"0"}} variant="standard">
+                <FormControl sx={{mt:"0"}} variant="standard" fullWidth>
                   <InputLabel htmlFor="outlined-adornment-password" >비밀번호</InputLabel>
                   <Input
                     id="outlined-adornment-password"
@@ -218,14 +239,14 @@ const Login = () => {
                 <Button variant="contained" fullWidth onClick={onLoginClick} disabled={logingIn}>{logingIn ? "확인 중" : "로그인"}</Button>
                       
                 <div class="form__social">
-                  <span class="form__social-text">Our login with</span>
+                  {/* <span class="form__social-text">Our login with</span> */}
 
-                  <div class="form__social-icon" onClick={loginWithGoogle}>
+                  {/* <div class="form__social-icon" onClick={loginWithGoogle}>
                     <GoogleIcon sx={{color:"white"}}/>
-                  </div>
-                  <div class="form__social-icon" onClick={loginWithFacebook}>
+                  </div> */}
+                  {/* <div class="form__social-icon" onClick={loginWithFacebook}>
                     <FacebookIcon sx={{color:"white"}}/>
-                  </div>
+                  </div> */}
 
                   {/* <div class="form__social-icon" onClick={loginWithApple}>
                     <AppleIcon sx={{color:"white"}}/>
@@ -234,6 +255,22 @@ const Login = () => {
             </form>
           </div>
 
+          :
+          mode==="signIn" ? 
+          <div class="l-form">
+            <div class="shape1"></div>
+            <div class="shape2"></div>
+            <div style={{
+              width:"100%",
+              display: "flex",
+              justifyContent:"center",
+              alignItems:"center",
+              height:"100vh",
+              flexWrap:"wrap"
+            }}>
+              <SignIn setMode={setMode} onNext={onNext}/>
+            </div>
+          </div>
           :
           <div class="l-form">
             <div class="shape1"></div>

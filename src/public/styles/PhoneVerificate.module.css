@@ -1,0 +1,12 @@
+.main_container{
+
+}
+
+.main_container h1{
+  font-size: 19px;
+}
+.main_container h2{
+  margin-top: 6px;
+  font-size: 15px;
+  color: #555;
+}

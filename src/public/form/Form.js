@@ -65,22 +65,23 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
   },[])
 
   useEffect(()=>{
-    const temp = selectedItems.map((item)=>{
-      const parts = item.split(/[\(\)]|\s\|\s/g);
-      const realName = parts[0];
-      const displayName = parts[1];
-      const phoneNumber = parts[2];
-      for(const member of familyData){
-        console.log(member.phoneNumber)
-        console.log(phoneNumber)
-        if(member.realName===realName && member.displayName === displayName && `|${member.phoneNumber}`===phoneNumber){
-          return (member.uid)
+    if(type==="children" || type==="family"){
+      const temp = selectedItems.map((item)=>{
+        const parts = item.split(/[\(\)]|\s\|\s/g);
+        const realName = parts[0];
+        const displayName = parts[1];
+        const phoneNumber = parts[2];
+        for(const member of familyData){
+          console.log(member.phoneNumber)
+          console.log(phoneNumber)
+          if(member.realName===realName && member.displayName === displayName && `|${member.phoneNumber}`===phoneNumber){
+            return (member.uid)
+          }
         }
-      }
-    }).filter(Boolean)
-    console.log(temp)
-    setSelectedMembers([...temp])
-    // setSelectedMembers()
+      }).filter(Boolean)
+      console.log(temp)
+      setSelectedMembers([...temp])
+    }
   },[selectedItems])
   return (
     <div className={styles.form_container}>

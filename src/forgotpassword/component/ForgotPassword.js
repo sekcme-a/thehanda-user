@@ -65,9 +65,9 @@ const ForgotPassword = ({setMode}) => {
   return (
     <div className={styles.main_container}>
       <Box sx={{ mb: 4 }}>
-        <TypographyStyled variant='h5'>Forgot Password? 🔒</TypographyStyled>
+        <TypographyStyled variant='h5'>비밀번호를 잊어버리셨나요? 🔒</TypographyStyled>
         <Typography variant='body2'>
-          Enter your email and we&prime;ll send you instructions to reset your password
+          계정의 이메일을 입력해주시면 해당 이메일로 비밀번호 변경메일을 보내드리겠습니다.
         </Typography>
       </Box>
       <form noValidate autoComplete='off' onSubmit={onSubmitClick} style={{ width: "100%" }}>
@@ -86,7 +86,7 @@ const ForgotPassword = ({setMode}) => {
         />
         
         <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
-          Send reset link
+          비밀번호 재설정 메일 보내기
         </Button>
         <Typography variant='body2' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Button onClick={()=>setMode("login")}>
