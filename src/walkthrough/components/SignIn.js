@@ -127,7 +127,7 @@ const InputUserData = ({setMode, onNext}) => {
     }
     try{
       await createUserWithEmailAndPassword(values.email, values.password)
-      // onNext()
+      onNext()
     }catch(e){
       alert(e.message)
     }

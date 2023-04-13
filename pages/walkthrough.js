@@ -35,20 +35,22 @@ const Walkthrough = () => {
     //use isSwiperLoaded to prevent errors from swiper.slideTo is null
     //if user but has no information, set information
     // alert(user)
+
+
     console.log(user)
     if(user && isSwiperLoaded===true){
       console.log(userData)
-      if(!sessionStorage.getItem("ps")||!user.email)
+      // if(!sessionStorage.getItem("ps")||!user.email)
         swiper.slideTo(LOGIN_PAGE)
-      if(!userData ||!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined)
-        swiper.slideTo(LOGIN_PAGE)
-      else if( (!userData.phoneNumber||userData.phoneVerified!==true) && phoneNumber===""){
-        swiper.slideTo(LOGIN_PAGE+1)
-      } 
-      else
-        swiper.slideTo(LOGIN_PAGE+3)
+      // if(!userData ||!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined)
+      //   swiper.slideTo(LOGIN_PAGE)
+      // else if( (!userData.phoneNumber||userData.phoneVerified!==true) && phoneNumber===""){
+      //   swiper.slideTo(LOGIN_PAGE+1)
+      // } 
+      // else
+      //   swiper.slideTo(LOGIN_PAGE+3)
     }
-  },[user,userData,isSwiperLoaded])
+  },[user,isSwiperLoaded])
   
   const onNextClick = () => {
     swiper.slideNext();
@@ -146,27 +148,33 @@ const Walkthrough = () => {
         <Login onNext={onNextClick}/>
       </SwiperSlide>
 
-      <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
-        <InputUserData onNext={onNextClick} onPrev={onPrevClick}/>
-      </SwiperSlide>
+      {!userData || (userData && (!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined)) &&
+        <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
+          <InputUserData onNext={onNextClick} onPrev={onPrevClick}/>
+        </SwiperSlide>
+      }
 
-      <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
-        <div className={styles.item_container}>
-          <h1 className={styles.title}>Step 2/3</h1>
-          <div className={styles.title_border}></div>
-          <h2 className={styles.subtitle}>전화번호를 입력해주세요.</h2>
-          <PhoneNumber onNext={onNextClick} onPrev={onPrevClick} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}/>
-        </div>
-      </SwiperSlide>
+      {!userData || (userData && (!userData.phoneNumber || !userData.phoneVerified)) &&
+        <>
+          <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
+            <div className={styles.item_container}>
+              <h1 className={styles.title}>Step 2/3</h1>
+              <div className={styles.title_border}></div>
+              <h2 className={styles.subtitle}>전화번호를 입력해주세요.</h2>
+              <PhoneNumber onNext={onNextClick} onPrev={onPrevClick} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}/>
+            </div>
+          </SwiperSlide>
 
-      <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
-        <div className={styles.item_container}>
-          <h1 className={styles.title}>Step 2/3</h1>
-          <div className={styles.title_border}></div>
-          <h2 className={styles.subtitle}>전화번호 인증번호 확인.</h2>
-          <PhoneVerificate onNext={onNextClick} onPrev={onPrevClick} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}/>
-        </div>
-      </SwiperSlide>
+          <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
+            <div className={styles.item_container}>
+              <h1 className={styles.title}>Step 2/3</h1>
+              <div className={styles.title_border}></div>
+              <h2 className={styles.subtitle}>전화번호 인증번호 확인.</h2>
+              <PhoneVerificate onNext={onNextClick} onPrev={onPrevClick} phoneNumber={phoneNumber} setPhoneNumber={setPhoneNumber}/>
+            </div>
+          </SwiperSlide>
+        </>
+      }
       <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
         <div className={styles.item_container}>
           <h1 className={styles.title}>Step 3/3</h1>

@@ -21,6 +21,7 @@ import BasicSelect from "src/public/mui/BasicSelect";
 import Survey from "src/index/components/Survey"
 import News from "src/index/components/News"
 import Anouncement from "src/index/components/Anouncement"
+import { FIREBASE } from "firebase/hooks";
 const Home = () => {
   const {user, userData} = useData()
   const [isMenuOpen, setIsMenuOpen] = useState(false)

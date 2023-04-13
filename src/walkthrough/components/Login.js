@@ -82,7 +82,6 @@ const Login = ({onNext}) => {
       try {
         userCred = await auth.signInWithEmailAndPassword(email, values.password);
         setEm(email)
-
         sessionStorage.setItem("ps",values.password)
       } catch (e) {
         // if there's an error, set the error message and log it to the console
@@ -114,6 +113,7 @@ const Login = ({onNext}) => {
 
       // if there's no error, set the user based on the user credential object
       setUser(userCred.user ?? null);
+      onNext()
       console.log(userCred.user);
 
       // redirect to the hallway page using the router
