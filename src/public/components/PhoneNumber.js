@@ -6,7 +6,7 @@ import { MuiTelInput,matchIsValidTel } from 'mui-tel-input'
 import { Button } from "@mui/material";
 import CustomAlert from "./CustomAlert";
 
-const PhoneNumber = ({phoneNumber, setPhoneNumber, onNext, onPrev}) => {
+const PhoneNumber = ({phoneNumber, setPhoneNumber, onNext, onPrev, routerBackWhenPrevClick}) => {
   const [isLoading, setIsLoading] = useState(true)
   const {user} = useData()
   const router = useRouter()
@@ -52,11 +52,11 @@ const PhoneNumber = ({phoneNumber, setPhoneNumber, onNext, onPrev}) => {
           focusOnSelectCountry
           defaultCountry="KR"
           preferredCountries={['KR','CN','VN', 'JP', 'TH']} 
+          fullWidth
         />
-        <p>{phoneNumber}</p>
         <Button onClick={onSendVerificationClick} fullWidth variant="contained" sx={{mt:"30px"}}>다음</Button>
 
-        <Button onClick={()=>onPrev()} fullWidth sx={{bgcolor:"rgb(160,160,160)", color:"white", mt:"20px"}}>이전으로</Button>
+        <Button onClick={()=>{routerBackWhenPrevClick===true ? router.back() : onPrev()}} fullWidth sx={{bgcolor:"rgb(160,160,160)", color:"white", mt:"20px"}}>이전으로</Button>
         <CustomAlert alert={customAlert} setAlert={setCustomAlert}/>
       </div>
     </>

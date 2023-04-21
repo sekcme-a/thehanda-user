@@ -18,7 +18,7 @@ function scrollToBottom() {
 const Talk = () => {
   const router = useRouter()
   const {id} = router.query
-  const {user, unread} = useData()
+  const {user, userData, unread} = useData()
   const [dates, setDates] = useState([])
   const messagesRef = useRef(null);
   const [input, setInput] = useState("")
@@ -42,7 +42,7 @@ const Talk = () => {
 
   useEffect(()=>{
     const fetchData = async () => { 
-      const dbRef = db.collection("team").doc(id).collection("message").doc(user.uid).collection("date").orderBy("date", "desc").limit(3)
+      const dbRef = db.collection("team").doc(id).collection("message").doc(user.uid).collection("date").orderBy("date", "desc").limit(30)
       const unsubscribe = dbRef.onSnapshot(async(querySnapshot) => {
         if(!querySnapshot.empty){
           const data = querySnapshot.docs.map((doc)=>{
@@ -177,50 +177,51 @@ const Talk = () => {
         }
       }
 
-    //읽지 않음 count
-    // const messageDoc = await db.collection("user").doc(user.uid).collection("message").doc("status").get()
-    // if(messageDoc.exists){
-    //   if(messageDoc.data().unread)
-    //     batch.update(db.collection("user").doc(user.uid).collection("message").doc("status"), {unread: messageDoc.data().unread+1})
-    //   else
-    //     batch.update(db.collection("user").doc(user.uid).collection("message").doc("status"), {unread: 1})
-    // } else {
-    //   batch.set(db.collection("user").doc(user.uid).collection("message").doc("status"), {unread: 1})
-    // }
 
-    // const doc = await db.collection("user").doc(user.uid).collection("message").doc(id).get()
-    // if(doc.exists){
-    //   batch.set(db.collection("user").doc(user.uid).collection("message").doc(id),{
-    //     repliedAt: new Date(),
-    //     mode:"talk",
-    //     title: teamName,
-    //     content: input,
-    //     unread: doc.data().unread+1,
-    //     teamProfile: teamProfile
-    //   })
-    // } else{
-    //   batch.set(db.collection("user").doc(user.uid).collection("message").doc(id),{
-    //     repliedAt: new Date(),
-    //     mode:"talk",
-    //     title: teamName,
-    //     content: input,
-    //     unread: 1,
-    //     teamProfile: teamProfile
-    //   })
-    // }
+      batch.set(db.collection("user").doc(user.uid).collection("message").doc(id),{
+        repliedAt: new Date(),
+        mode:"talk",
+        title: teamName,
+        content: input,
+        unread: 0,
+        teamProfile: profile
+      })
 
-    batch.commit().then( async()=>{
-      try{
-        // const userDoc = await db.collection("user").doc(user.uid).get()
-        // const result = await sendNotification(userDoc.data().pushToken,teamName,input);
-        setIsSending(false)
-        // scrollToBottom()
-        setInput("")
-      }catch(e){
-        setIsSending(false)
-        console.log(e.message)
+      //admin한테 안읽음 보내기
+      const messageDoc = await db.collection("team").doc(id).collection("message").doc(user.uid).get()
+      if(messageDoc.exists){
+        batch.set(db.collection("team").doc(id).collection("message").doc(user.uid), {
+          repliedAt: new Date(),
+          mode: "talk",
+          title: userData.realName,
+          content: input,
+          unread: messageDoc.data().unread+1,
+        })
+      } else {
+        batch.set(db.collection("team").doc(id).collection("message").doc(user.uid), {
+          repliedAt: new Date(),
+          mode: "talk",
+          title: userData.realName,
+          content: input,
+          unread: 1,
+        })
       }
-    })
+
+
+      batch.commit().then( async()=>{
+        try{
+          // const userDoc = await db.collection("user").doc(user.uid).get()
+          // const result = await sendNotification(userDoc.data().pushToken,teamName,input);
+          setIsSending(false)
+          // scrollToBottom()
+          setInput("")
+        }catch(e){
+          setIsSending(false)
+          console.log(e.message)
+        }
+      })
+
+
 
 
 
@@ -259,7 +260,7 @@ if(teamName!=="")
                   else if(index===0 ||date.chats[index-1]?.type==="user")
                     return(
                       <div className={`${styles.more_text_container} ${styles.other_text}`}  key={index}>
-                        <div className={styles.profile_container}><Image src={profile} height={40} width={40} /></div>
+                        <div className={styles.profile_container}><Image src={profile} height={40} width={40} alt="프로필"/></div>
                         <div className={styles.content_container}>
                           <div className={styles.teamName}>{teamName}</div>
                           <div className={styles.text_container}>

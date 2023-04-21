@@ -40,7 +40,7 @@ const Walkthrough = () => {
     console.log(user)
     if(user && isSwiperLoaded===true){
       console.log(userData)
-      // if(!sessionStorage.getItem("ps")||!user.email)
+      // if(!localStorage.getItem("ps")||!user.email)
         swiper.slideTo(LOGIN_PAGE)
       // if(!userData ||!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined)
       //   swiper.slideTo(LOGIN_PAGE)

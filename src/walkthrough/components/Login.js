@@ -82,7 +82,7 @@ const Login = ({onNext}) => {
       try {
         userCred = await auth.signInWithEmailAndPassword(email, values.password);
         setEm(email)
-        sessionStorage.setItem("ps",values.password)
+        localStorage.setItem("ps",values.password)
       } catch (e) {
         // if there's an error, set the error message and log it to the console
         setError(e.message);

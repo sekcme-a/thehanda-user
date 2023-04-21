@@ -293,7 +293,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
               :
               hasHistory ?
               <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
-                {type==="programs" ? "신청 취소" : "설문 취소"}
+                {type==="programs" ? data.programStartDate.toDate()<new Date() && "신청 취소" : "설문 취소"}
               </Button>
               :
               hasLimitEnd ?

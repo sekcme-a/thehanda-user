@@ -100,7 +100,7 @@ const MyPageProfile = () => {
   const fetchContent = async (id) => {
     setIsLoading(true)
     if(type!=="anouncement"){
-      const query = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection(`${type}s`).where("condition","==","confirm").where("sectionsId","array-contains", id).orderBy("publishStartDate", "desc").limit(15).get()
+      const query = await db.collection("team").doc(localStorage.getItem("selectedTeamId")).collection(`${type}s`).where("condition","==","confirm").where("sectionsId","array-contains", id).orderBy("publishStartDate", "desc").limit(60).get()
       const temp = query.docs.map((doc)=>{
         return({data: doc.data(), id: doc.id})
       })

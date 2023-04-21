@@ -8,6 +8,7 @@ import HeaderRightClose from "src/public/components/HeaderRIghtClose"
 import MyPageProfile from "src/myPage/components/MyPageProfile"
 import HorizontalBanner from "src/myPage/components/HorizontalBanner"
 import ItemContainer from "src/myPage/components/ItemContainer"
+import CustomAlert from "src/public/components/CustomAlert"
 
 import AccountBoxOutlinedIcon from '@mui/icons-material/AccountBoxOutlined';
 import CampaignOutlinedIcon from '@mui/icons-material/CampaignOutlined';
@@ -31,6 +32,13 @@ const MyPage = () => {
   // const { logout, deleteAccount, user } = useAuth()
   const {user, userData} = useData()
   const router = useRouter()
+  const [customAlert, setCustomAlert] = useState({
+    title:"",
+    content:"",
+    open: false,
+    type:"",
+    result: false,  
+  })
   const iconStyle = { color: "#814ad8" }
 
   useEffect(() => {
@@ -124,13 +132,50 @@ const MyPage = () => {
   }
 
   const onSignOutClick = async() => {
-    if(confirm("정말로 회원탈퇴하시겠습니까?\n(해당 회원에 대한 정보가 모두 사라집니다.)")){
-      console.log(user.uid)
-      // await db.collection("user").doc(user.uid).delete()
-      auth.currentUser.delete()
-      router.push("/")
-    }
+    // if(confirm("정말로 회원탈퇴하시겠습니까?\n(해당 회원에 대한 정보가 모두 사라집니다.)")){
+    //   console.log(user.uid)
+    //   // await db.collection("user").doc(user.uid).delete()
+    //   auth.currentUser.delete()
+    //   router.push("/")
+    // }
+    setCustomAlert({
+      title:"회원탈퇴 확인",
+      content:"정말로 회원탈퇴하시겠습니까?\n(해당 계정에 대한 정보가 모두 사라집니다.)",
+      open: true,
+      type:"confirm",
+      result: "",  //confirm()기능 결과
+    })
   }
+  useEffect(()=>{
+
+    const askDelete = async () => {
+      if(customAlert.result===true){
+        try{
+          await db.collection("user").doc(user.uid).update({
+            deleted: true,
+            deletedAt: new Date()
+          })
+          await auth.currentUser.delete()
+          router.push("/")
+        } catch (e) {
+          if(e.code==="auth/requires-recent-login"){
+            await db.collection("user").doc(user.uid).update({
+              deleted: false
+            })
+            setCustomAlert({
+              title:"최신 인증 필요",
+              content:"이 작업은 민감하며 최신 인증이 필요합니다. 다시 로그인하여 이 요청을 다시 시도해주세요.",
+              open: true,
+              result: "false"
+            })
+          }
+        }
+        
+        // router.push("/")
+      }
+    }
+    askDelete()
+  },[customAlert])
 
   return (
     <>
@@ -149,6 +194,7 @@ const MyPage = () => {
         })
       }
       <div style={{width:"100%", height:"60px"}} />
+      <CustomAlert alert={customAlert} setAlert={setCustomAlert} />
     </>
   )
 }

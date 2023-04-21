@@ -2,8 +2,9 @@
 .single_checkbox_container{
   /* width: 100%; */
   height: fit-content;
-  padding: 40px 15px;
-  border-bottom: 5px solid rgb(232, 232, 232);
+  margin-top: 25px;
+  /* padding: 40px 15px; */
+  /* border-bottom: 5px solid rgb(232, 232, 232); 보더체인지*/
 }
 .single_checkbox_container h1{
   font-size: 18px;
@@ -78,4 +79,13 @@
   color: #555;
   word-break: keep-all; 
   line-height: 14px;
+}
+
+
+
+.margin_add{
+  margin-bottom: 35px;
+}
+.margin_normal{
+  margin-bottom: 20px;
 }

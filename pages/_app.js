@@ -1,6 +1,7 @@
 import "src/public/styles/reset.css"
 import "src/public/styles/quill.css"
 import "src/walkthrough/styles/login.css"
+import "src/public/styles/FullScreenLoader.css"
 import { DataProvider } from "context/data";
 import AuthStateChanged from "src/public/hooks/AuthStateChanged";
 import BottomNavigation from "src/public/components/BottomNavigation";
@@ -11,6 +12,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Head from "next/head";
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import 'react-chat-elements/dist/main.css'
+import FullScreenLoader from "src/public/components/FullScreenLoader";
 
 export default function App({ Component, pageProps }) {
   const [isSelectedTeamLoading, setIsSelectedTeamLoading] = useState(true)
@@ -41,6 +43,7 @@ export default function App({ Component, pageProps }) {
           localStorage.setItem("selectedTeamName", doc.data().teamName)
         }
         setIsLoading(false)
+        
       }
     }
 
@@ -111,10 +114,10 @@ export default function App({ Component, pageProps }) {
 
 
 
-  if(isLoading)
-  return(
-    <>loadingapp</>
-  )
+  // if(isLoading)
+  // return(
+  //   <FullScreenLoader />
+  // )
 
   return(
     <>
@@ -131,6 +134,7 @@ export default function App({ Component, pageProps }) {
               {!router.pathname.includes("preview") && <BottomNavigation />}
             </>
             : */}
+            <FullScreenLoader isLoading={isLoading} />
             <div onScroll={handleScroll}>
             <PullToRefresh 
               className="refresh_container"

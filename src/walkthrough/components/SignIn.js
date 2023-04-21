@@ -138,7 +138,7 @@ const InputUserData = ({setMode, onNext}) => {
     setIsSigningIn(true)
 		if (email && password) {
 			try{
-        sessionStorage.setItem("ps", password)
+        localStorage.setItem("ps", password)
         const userCred = await auth.createUserWithEmailAndPassword(email,password)
         setIsSigningIn(false)
 

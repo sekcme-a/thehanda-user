@@ -13,24 +13,25 @@ import DialogTitle from '@mui/material/DialogTitle';
     content:"",
     open: false,
     type:"",
-    result: true,
+    result: true,  //confirm()기능 결과
   })
  */
 export default function CustomAlert({alert, setAlert}) {
 
 
-  const handleClose = () => {
-    setAlert({...alert, "open": false})
+  const handleClose = (result) => {
+    setAlert({...alert, "open": false, result:result})
   };
 
   const onCancelClick = () => {
-    setAlert({...alert,"result": false})
-    handleClose()
+    handleClose(false)
   }
 
   const onConfirmClick = () => {
-    setAlert({...alert, "result": true})
-    handleClose()
+    if(alert.type==="confirm")
+      handleClose(true)
+    else
+      handleClose()
   }
 
   return (

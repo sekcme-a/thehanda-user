@@ -6,7 +6,7 @@ import styles from "../styles/PhoneVerificate.module.css"
 import { Button, TextField } from "@mui/material";
 import { FIREBASE } from "firebase/hooks";
 
-const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber}) => {
+const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber,routeWhenVerificated}) => {
   const [isLoading, setIsLoading] = useState(true)
   const {user, em, ps, setEm, setPs} = useData()
   const router = useRouter()
@@ -62,11 +62,12 @@ const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber}) => {
         phoneNumber: phoneNumber,
         phoneVerified: true,
       })
-      await firebase.auth().signInWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, sessionStorage.getItem("ps")))
-      setEm("")
-      sessionStorage.removeItem("ps")
+      await firebase.auth().signInWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, localStorage.getItem("ps")))
       setIsVerificating(false)
       alert("인증완료되었습니다.")
+      if(routeWhenVerificated)
+        router.push(routeWhenVerificated)
+      
       onNext()
       })
 
@@ -112,7 +113,6 @@ const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber}) => {
         onPrev()
       }
     }
-    alert(phoneNumber)
     if (phoneNumber){
       setIsCodeSend(true)
       sendVerification()
