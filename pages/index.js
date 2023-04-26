@@ -22,6 +22,10 @@ import Survey from "src/index/components/Survey"
 import News from "src/index/components/News"
 import Anouncement from "src/index/components/Anouncement"
 import { FIREBASE } from "firebase/hooks";
+
+import Backdrop from '@mui/material/Backdrop';
+
+import { motion } from "framer-motion"
 const Home = () => {
   const {user, userData} = useData()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -34,6 +38,11 @@ const Home = () => {
   const [scrollYIsZero, setScrollYIsZero] = useState(true)
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
+
+  const [isShow, setIsShow] = useState(false)
+  const [programSurveyDoc, setProgramSurveyDoc] = useState("")
+  const [programSurveyTitle, setProgramSurveyTitle] = useState("")
+  const [programSurveyTeam, setProgramSurveyTeam] = useState("")
 
   const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
 
@@ -74,6 +83,25 @@ const Home = () => {
     
     setSelectedTeam({id:localStorage.getItem("selectedTeamId"), name: localStorage.getItem("selectedTeamName")})
 
+
+    if(user!==null){
+      db.collection("user").doc(user.uid).collection("programSurvey").where("hasSubmit","==", false).get().then((query)=>{
+        if(!query.empty)
+        {
+          query.docs.forEach((doc)=>{
+            if(doc.data().deadline.toDate() < new Date()){
+              db.collection("user").doc(user.uid).collection("programSurvey").doc(doc.id).delete()
+            }
+            else{
+              setIsShow(true)
+              setProgramSurveyDoc(doc.id)
+              setProgramSurveyTitle(doc.data().title)
+              setProgramSurveyTeam(doc.data().team)
+            }
+          })
+        }
+      })
+    }
   },[user])
 
   const onMenuClick = () => {
@@ -162,6 +190,25 @@ const Home = () => {
           }
         </div>
       </Dialog>
+
+      <Backdrop
+      sx={{ color: 'white', zIndex: (theme) => theme.zIndex.drawer + 1, display:"flex", justifyContent:"center" }}
+      open={isShow}
+      onClick={()=>setIsShow(false)}
+    >
+      <div className={styles.backdrop_container}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { duration: 1.0 } }}
+            style={{ width: "100%", textAlign: "center" }}>
+            <div className={styles.alarm_container}>
+              <h1>프로그램 설문조사 참여</h1>
+              <h2>{`전에 참여했던 "${programSurveyTitle}" 프로그램에 대한 설문조사를 작성해주세요!`}
+                <div style={{fontSize:"13px"}}>{`(해당 설문조사를 작성해야 다른 프로그램을 신청하실 수 있습니다.)`}</div>
+              </h2>
+              <h3 onClick={()=>router.push(`/programsurvey/${selectedTeam.id}/${programSurveyDoc}`)}>{`설문조사 하러가기 >`}</h3>
+            </div>
+          </motion.div>
+        </div>
+      </Backdrop>
 
     </>
   )

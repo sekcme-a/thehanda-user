@@ -90,3 +90,49 @@
   color: #6027bb;
   font-weight: bold;
 }
+
+
+.backdrop_container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999999999 !important;
+}
+
+.alarm_container{
+  border-radius: 15px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  margin: 0 20px;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+.alarm_container h1{
+  width: 100%;
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 19px;
+  color: #444;
+}
+.alarm_container h2{
+  margin: 20px 0 0 0 ;
+  color: #555;
+  font-size: 16px;
+  width: 100%;
+  line-height: 1.5;
+}
+.alarm_container p{
+  color: #666;
+  font-size: 14px;
+  margin-top: 50px;
+  margin-bottom: 15px;
+}
+.alarm_container h3{
+  color: white;
+  background-color: #814ad8;
+  width: 100%;
+  padding: 15px 0;
+}

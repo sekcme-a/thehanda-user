@@ -41,6 +41,11 @@ const MyPage = () => {
   })
   const iconStyle = { color: "#814ad8" }
 
+  useEffect(()=>{
+    if(!user)
+      router.push("/walkthrough")
+  },[user])
+
   useEffect(() => {
     let city = localStorage.getItem("city")
     if (city === null) {
@@ -152,10 +157,10 @@ const MyPage = () => {
       if(customAlert.result===true){
         try{
           await db.collection("user").doc(user.uid).update({
-            deleted: true,
-            deletedAt: new Date()
+            deleted: true
           })
           await auth.currentUser.delete()
+          // await db.collection("user").doc(currentUserUid).delete()
           router.push("/")
         } catch (e) {
           if(e.code==="auth/requires-recent-login"){

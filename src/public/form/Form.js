@@ -83,6 +83,11 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
       setSelectedMembers([...temp])
     }
   },[selectedItems])
+  const createMarkup = (data) => {
+    return {__html: data}
+  }
+
+  
   return (
     <div className={styles.form_container}>
       {(type==="children"||type==="family") && 
@@ -95,6 +100,12 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
       }
       {
         formDatas.map((formData, index) => {
+          if(formData.type==="text_area")
+          return(
+            <>
+              <div dangerouslySetInnerHTML={createMarkup(formData.text)} />
+            </>
+          )
           if (formData.type === "single_checkbox")
             return (
               <>

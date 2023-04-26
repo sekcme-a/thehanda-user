@@ -292,8 +292,8 @@ const Contents = ({data, teamName, id, type, mode}) => {
                 </Button>
               :
               hasHistory ?
-              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
-                {type==="programs" ? data.programStartDate.toDate()<new Date() && "신청 취소" : "설문 취소"}
+              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" disabled={data.programStartDate?.toDate()<=new Date()} >
+                {type==="programs" ? (data.programStartDate.toDate()>new Date() ? "신청 취소" : "프로그램이 이미 시작되었습니다.") : "설문 취소"}
               </Button>
               :
               hasLimitEnd ?
@@ -313,7 +313,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
 
       {mode==="test" &&
         <div className={styles.submit_container}>
-          <Button onClick={()=>router.push(`/test/programs/${teamName}/${id}`)} variant="contained" fullWidth
+          <Button onClick={()=>router.push(`/test/${type}/${teamName}/${id}`)} variant="contained" fullWidth
             style={{ backgroundColor: "#5316b5" }}>
             신청하기
           </Button>

@@ -51,7 +51,10 @@ export default function App({ Component, pageProps }) {
 
     if(!(router.pathname.includes("/preview")||router.pathname.includes("/test")))
       fetchSelectedTeamId()
+    else
+      setIsLoading(false)
   },[])
+
 
   // useEffect((
 

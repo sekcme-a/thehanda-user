@@ -106,11 +106,11 @@ const Family = () => {
     setIsSearching(true)
     const query1 = await db.collection("user").where("displayName","==",inputText).get()
     const query2 = await db.collection("user").where("realName","==",inputText).get()
-    const query3 = await db.collection("user").where("phoneNumber","==",inputText).get()
+    // const query3 = await db.collection("user").where("phoneNumber","==",inputText).get()
     const temp1 = query1.docs.map(doc=>doc.data())
     const temp2 = query2.docs.map(doc=>doc.data())
-    const temp3 = query3.docs.map(doc=>doc.data())
-    const temp4  = [...temp1, ...temp2, ...temp3]
+    // const temp3 = query3.docs.map(doc=>doc.data())
+    const temp4  = [...temp1, ...temp2]
     console.log(temp4)
     const result = temp4.reduce((acc, v) => {
       return acc.find(x => x.uid === v.uid) ? acc : [...acc, v];
@@ -157,7 +157,7 @@ const Family = () => {
     if(confirm(`가족 구성원으로 추가하시겠습니까?\n
     닉네임: ${list[selectedIndex].displayName}\n
     실명: ${list[selectedIndex].realName}\n
-    전화번호: ${list[selectedIndex].phoneNumber}\n
+    전화번호: ${list[selectedIndex].phoneNumber?.replace(/\s/g, "").substring(0,6)}****${list[selectedIndex].phoneNumber?.replace(/\s/g, "").substring(10)}\n
     가족관계: ${selectedRelationText}`)){
       let family  = []
       if(familyData.length===0){
@@ -231,12 +231,12 @@ const Family = () => {
       <Dialog open={openDialog} onClose={onDialogClose}>
         <div className={styles.dialog_container}>
           <h1>사용자 검색</h1>
-          <p>가족 구성원으로 등록할 사용자를 닉네임, 실명, 전화번호를 통해 검색하세요.</p>
+          <p>가족 구성원으로 등록할 사용자를 닉네임 또는 실명을 통해 검색하세요.</p>
           <p>모든 글자를 정확히 입력해야 검색됩니다.</p>
           <div className={styles.search_container}>
             <SearchOutlinedIcon />
             <TextField
-              placeholder="닉네임, 실명 혹은 전화번호를 입력해주세요."
+              placeholder="검색할 대상의 닉네임 혹은 실명을 입력해주세요."
               variant="standard" 
               onKeyDown={handleOnKeyPress}
               value={inputText}
@@ -266,7 +266,7 @@ const Family = () => {
                   <li className={styles.item_container} key={index} onClick={()=>onItemClick(index)}>
                     <h2>{item.displayName}</h2>
                     <h3>{item.realName==="" ? "-":item.realName}</h3>
-                    <h4>{item.phoneNumber==="" ? "-": item.phoneNumber}</h4>
+                    <h4>{item.phoneNumber==="" ? "-": `${item.phoneNumber?.replace(/\s/g, "").substring(0,6)}****${item.phoneNumber?.replace(/\s/g, "").substring(10)}`}</h4>
                   </li>
                 )
               })}
