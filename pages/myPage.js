@@ -137,19 +137,14 @@ const MyPage = () => {
   }
 
   const onSignOutClick = async() => {
-    // if(confirm("정말로 회원탈퇴하시겠습니까?\n(해당 회원에 대한 정보가 모두 사라집니다.)")){
-    //   console.log(user.uid)
-    //   // await db.collection("user").doc(user.uid).delete()
-    //   auth.currentUser.delete()
-    //   router.push("/")
-    // }
-    setCustomAlert({
-      title:"회원탈퇴 확인",
-      content:"정말로 회원탈퇴하시겠습니까?\n(해당 계정에 대한 정보가 모두 사라집니다.)",
-      open: true,
-      type:"confirm",
-      result: "",  //confirm()기능 결과
-    })
+    alert("서버 점검중으로 회원탈퇴가 일시적으로 불가능합니다, 잠시 후 다시 시도해주세요.")
+    // setCustomAlert({
+    //   title:"회원탈퇴 확인",
+    //   content:"정말로 회원탈퇴하시겠습니까?\n(해당 계정에 대한 정보가 모두 사라집니다.)",
+    //   open: true,
+    //   type:"confirm",
+    //   result: "",  //confirm()기능 결과
+    // })
   }
   useEffect(()=>{
 
