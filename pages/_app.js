@@ -49,7 +49,8 @@ export default function App({ Component, pageProps }) {
       }
     }
 
-    fetchSelectedTeamId()
+    if(!(router.pathname.includes("/preview")||router.pathname.includes("/test")))
+      fetchSelectedTeamId()
   },[])
 
   // useEffect((

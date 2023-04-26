@@ -17,6 +17,7 @@ const PageHeader = ({text}) => {
   const onBackButtonClick = () => {
     router.back()
   }
+  
   if(isLoading) (<></>)
   return (
       <div className={styles.header_container}>
