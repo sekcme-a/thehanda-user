@@ -109,13 +109,13 @@ const Login = ({onNext}) => {
         }
         setLogingin(false)
         return;
-      }
+      } else{
 
       // if there's no error, set the user based on the user credential object
       setUser(userCred.user ?? null);
       onNext()
       console.log(userCred.user);
-
+      }
       // redirect to the hallway page using the router
       // router.push("/hallway");
 
