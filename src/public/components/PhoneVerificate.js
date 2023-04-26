@@ -55,13 +55,16 @@ const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber,routeWhenV
     try {
       console.log(verificationCode)
       setIsVerificating(true)
-      const credential = firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
-      firebase.auth().signInWithCredential(credential).then(async()=>{
+      const credential = await firebase.auth.PhoneAuthProvider.credential(verificationId, verificationCode);
+      console.log(credential)
+      await firebase.auth().signInWithCredential(credential).then(async()=>{
       // 사용자 인증 완료 시 동작할 코드 추가
       await FIREBASE.UPDATE_USER_INFO(user.uid,{
         phoneNumber: phoneNumber,
         phoneVerified: true,
       })
+
+
       await firebase.auth().signInWithCredential(firebase.auth.EmailAuthProvider.credential(user.email, localStorage.getItem("ps")))
       setIsVerificating(false)
       alert("인증완료되었습니다.")
@@ -72,12 +75,10 @@ const PhoneVerificate = ({onNext, onPrev, phoneNumber, setPhoneNumber,routeWhenV
       })
 
     } catch (err) {
-      // setError(err);
       setIsVerificating(false)
-      alert(err.message)
-      console.log(err)
       if(err.code==="auth/invalid-verification-code")
-        alert("인증번호가 틀렸습니다. 새로고침 후 다시 시도해주세요.")
+        alert("인증번호가 틀렸습니다. 다시 시도해주세요.")
+      router.reload()
     }
   }
 

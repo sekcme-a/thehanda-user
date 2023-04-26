@@ -33,9 +33,11 @@ export default function App({ Component, pageProps }) {
   useEffect(()=>{
     const fetchSelectedTeamId = async () => {
       let teamId = localStorage.getItem("selectedTeamId")
-      if(teamId === null)
+      if(teamId === null){
         // teamId="suwon"
         router.push("/walkthrough")
+        setIsLoading(false)
+      }
       else{
         const doc = await db.collection("team").doc(teamId).get()
         if(doc.exists){
@@ -50,50 +52,7 @@ export default function App({ Component, pageProps }) {
     fetchSelectedTeamId()
   },[])
 
-  // useEffect(()=>{
-  //   const fetchData2 = async () => {
-  //     let teamId = localStorage.getItem("selectedTeamId")
-  //     console.log(teamId)
-  //     if(teamId===null){
-  //       teamId="suwon"
-  //     }
-  //     const doc = await db.collection("team").doc(teamId).get()
-  //     if(doc.exists){
-  //       localStorage.setItem("selectedTeamId",doc.id)
-  //       localStorage.setItem("selectedTeamName", doc.data().teamName)
-  //     }
-  //     setIsSelectedTeamLoading(false)
-  //     setIsLoading(false)
-  //   }
-  //   fetchData2()
-  // },[])
-  
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     // Reset scroll position on page change
-  //     window.scrollTo(0, 0)
-  //   }
-
-  //   router.events.on('routeChangeComplete', handleRouteChange)
-
-  //   return () => {
-  //     router.events.off('routeChangeComplete', handleRouteChange)
-  //   }
-  // }, [router.events])
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setScrollY(window.scrollY);
-  //     console.log(window.scrollY)
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
+  // useEffect((
 
   const handleRefresh = () => {
     // Perform refreshing of content here

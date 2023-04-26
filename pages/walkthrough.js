@@ -148,7 +148,7 @@ const Walkthrough = () => {
         <Login onNext={onNextClick}/>
       </SwiperSlide>
 
-      {!userData || (userData && (!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined)) &&
+      {(!userData || (userData && (!userData.realName || !userData.displayName|| !userData.gender || userData.isMulticulture===undefined))) &&
         <SwiperSlide style={{backgroundColor:'rgb(255,254,255)'}}>
           <InputUserData onNext={onNextClick} onPrev={onPrevClick}/>
         </SwiperSlide>
