@@ -145,7 +145,7 @@ const Home = () => {
             {openCityDialog ? <ArrowDropUpIcon />:<ArrowDropDownIcon />}
           </div>
           <div>
-            <NotificationsNoneIcon />
+            {/* <NotificationsNoneIcon /> */}
             <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} />
           </div>
         </div>
