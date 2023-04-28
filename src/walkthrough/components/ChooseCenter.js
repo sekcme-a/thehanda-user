@@ -26,9 +26,10 @@ const ChooseCenter = () => {
       setIsLoading(false)
   },[])
 
-  const onClick = async(teamId)=> {
+  const onClick = async(teamId, teamName)=> {
     // alert(teamId)
     localStorage.setItem("selectedTeamId",teamId)
+    localStorage.setItem("selectedTeamName", teamName)
     await FIREBASE.ADD_USER_TO_TEAM(teamId, user.uid)
     router.push("/")
   }
@@ -46,7 +47,7 @@ const ChooseCenter = () => {
         {centerList.map((item, index)=>{
           return(
             <>
-            <div className={styles.item_container} key={index} onClick={()=>onClick(item.id)}>
+            <div className={styles.item_container} key={index} onClick={()=>onClick(item.id, item.teamName)}>
               <Image src={item.profile} alt={item.name} width={PROFILE_SIZE} height={PROFILE_SIZE} style={{borderRadius:"5px"}}/>
               <p>{item.teamName}</p>
             </div>

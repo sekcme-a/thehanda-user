@@ -130,6 +130,7 @@ const Home = () => {
     setSelectedTeam({id: id, name: name})
     localStorage.setItem("selectedTeamId", id)
     localStorage.setItem("selectedTeamName", name)
+    router.reload()
     setOpenCityDialog(false)
   }
 
