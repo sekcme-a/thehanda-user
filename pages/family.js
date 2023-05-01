@@ -218,7 +218,7 @@ const Family = () => {
                 {item.relation==="parents" && <h1><SupervisedUserCircleIcon sx={{pr:'5px'}}/>부모</h1>}
                 <h3>{item.realName}<p>{`(${item.displayName})`}</p></h3>
                 <h4>{item.phoneNumber}</h4>
-                <h5><Button size="small" sx={{p:"0 1px 0 1px", color:"rgb(200, 50, 50)"}} onClick={()=>onDeleteClick(item.uid)}>삭제</Button></h5>
+                {item.relation!=="me" && <h5><Button size="small" sx={{p:"0 1px 0 1px", color:"rgb(200, 50, 50)"}} onClick={()=>onDeleteClick(item.uid)}>삭제</Button></h5>}
               </div>
             )
           })}
