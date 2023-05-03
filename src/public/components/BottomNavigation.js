@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import useData from 'context/data';
 import { firestore as db } from 'firebase/firebase';
 import { Badge } from '@mui/material';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
 const BottomNavigationComponent = () => {
   const { user, unread } = useData()
@@ -28,9 +29,9 @@ const BottomNavigationComponent = () => {
   }
   const onAlarmClick = () => {router.push("/message")}
 
-  const onMyPageClick = () => {
+  const onScheduleClick = () => {
     if (user)
-      router.push("/myPage")
+      router.push("/schedule")
     else
       router.push("/login")
   }
@@ -68,7 +69,9 @@ const BottomNavigationComponent = () => {
         
         }
         
-        <BottomNavigationAction onClick={onMyPageClick} label="마이페이지" sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px !important"} }} icon={<AccountCircleOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
+        <BottomNavigationAction onClick={onScheduleClick} label="스케쥴" sx={{ "& .MuiBottomNavigationAction-label" : {fontSize:"11px !important"} }} icon={<CalendarMonthOutlinedIcon sx={{fontSize:"27px !important"}}  className={styles.icon}/>} />
+
+
         <BottomNavigationAction label=" "  />
         <div className={styles.home_container} onClick={onHomeClick}>
           <BottomNavigationAction icon={<HomeOutlinedIcon className={styles.home_icon}/>} className={styles.home} />

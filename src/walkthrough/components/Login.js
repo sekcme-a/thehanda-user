@@ -235,8 +235,9 @@ const Login = ({onNext}) => {
                 
                 <div class="form__forgot"><Button onClick={onForgotPasswordClick} sx={{mt:"12px"}}>비밀번호를 잊으셨나요?</Button></div>
 
-                <Button variant="contained" fullWidth onClick={onSignInClick} sx={{mb:"20px", backgroundColor:"#b699e8"}}>회원가입</Button>
+                
                 <Button variant="contained" fullWidth onClick={onLoginClick} disabled={logingIn}>{logingIn ? "확인 중" : "로그인"}</Button>
+                <Button variant="contained" fullWidth onClick={onSignInClick} sx={{mt:"20px", backgroundColor:"#b699e8"}}>회원가입</Button>
                       
                 <div class="form__social">
                   {/* <span class="form__social-text">Our login with</span> */}

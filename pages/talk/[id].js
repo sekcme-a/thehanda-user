@@ -42,7 +42,7 @@ const Talk = () => {
 
   useEffect(()=>{
     const fetchData = async () => { 
-      const dbRef = db.collection("team").doc(id).collection("message").doc(user.uid).collection("date").orderBy("date", "desc").limit(30)
+      const dbRef = db.collection("team").doc(id).collection("message").doc(user.uid).collection("date").orderBy("date", "desc").limit(50)
       const unsubscribe = dbRef.onSnapshot(async(querySnapshot) => {
         if(!querySnapshot.empty){
           const data = querySnapshot.docs.map((doc)=>{

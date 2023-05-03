@@ -1,0 +1,37 @@
+.header_container{
+  display: flex;
+  
+}
+.header_container h1:first-child{
+  border-right: 1px solid #999;
+}
+.header_container h1{
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #999;
+  transition: .4s ;
+  /* font-weight: ; */
+}
+.selected{
+  background-color: #ebebeb;
+}
+
+.content_container{
+  padding: 20px 10px;
+  margin-bottom: 80px;
+}
+.content_container .info{
+  word-break: keep-all;
+  margin-bottom: 15px;
+  line-height: 1.2;
+  font-size: 15px;
+  white-space:pre-line;
+}
+
+.loader_container{
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}

@@ -2,6 +2,7 @@ import "src/public/styles/reset.css"
 import "src/public/styles/quill.css"
 import "src/walkthrough/styles/login.css"
 import "src/public/styles/FullScreenLoader.css"
+import "src/public/styles/calendar.css"
 import { DataProvider } from "context/data";
 import AuthStateChanged from "src/public/hooks/AuthStateChanged";
 import BottomNavigation from "src/public/components/BottomNavigation";

@@ -19,6 +19,9 @@ export function DataProvider(props){
     const [em, setEm] = useState("")
     const [ps,setPs] = useState("")
 
+    const [mySchedule, setMySchedule] = useState()
+    const [teamSchedule, setTeamSchedule] = useState()
+
 
     //application fetched db data
 
@@ -27,6 +30,8 @@ export function DataProvider(props){
 
     useEffect(() => {
       if(user){
+        setMySchedule()
+        setTeamSchedule()
         const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
 
         const unsubscribe = dbRef.onSnapshot((doc) => {
@@ -61,7 +66,9 @@ export function DataProvider(props){
         setSectionData,
         language,
         setLanguage,
-        centerList, setCenterList
+        centerList, setCenterList,
+        mySchedule, setMySchedule,
+        teamSchedule, setTeamSchedule
     }
 
     return <dataContext.Provider value={value} {...props} />
