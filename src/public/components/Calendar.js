@@ -250,11 +250,7 @@ const Calendar = ({events, setEvents, editable, hasAddScheduleButton, autoUrl}) 
     router.push(changedSelectedEvent.extendedProps.url)
   
   }
-  const onGoToEditProgramClick = () => {
-    // router.push(changedSelectedEvent.extendedProps.url)
-    window.open(changedSelectedEvent.extendedProps.editProgramUrl, "_blank", "noopener, noreferrer");
-  }
-
+  
   const onAddScheduleClick = () => {
     setNewEvent({
       title: '',
@@ -430,11 +426,6 @@ const Calendar = ({events, setEvents, editable, hasAddScheduleButton, autoUrl}) 
           {changedSelectedEvent?.extendedProps?.url && 
             <div className={styles.button_container}>
               <Button onClick={onGoToProgramClick} variant="contained" size="small" fullWidth>프로그램 확인</Button>
-            </div>
-          }
-          {changedSelectedEvent?.extendedProps?.editProgramUrl && 
-            <div className={styles.button_container}>
-              <Button onClick={onGoToEditProgramClick} variant="contained" size="small" fullWidth>해당 프로그램 편집으로 이동</Button>
             </div>
           }
         </div>

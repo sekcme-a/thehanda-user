@@ -80,10 +80,9 @@ const Contents = ({data, teamName, id, type, mode}) => {
     }
 
     if(data.hasLimit){
-      db.collection("team_admin").doc(teamName).collection("result").doc(id).collection("users").get().then((query) => {
-        if(parseInt(data.limit)<=query.docs.length)
-          setHasLimitEnd(true)
-      })
+      if(data.limit<=data.submitCount){
+        setHasLimitEnd(true)
+      }
     }
 
     if(data.deadline?.toDate()<=new Date()){
@@ -98,8 +97,9 @@ const Contents = ({data, teamName, id, type, mode}) => {
       router.push("/login")
     else if(type==="programs"){
       db.collection("user").doc(user.uid).collection("programSurvey").where("hasSubmit","==", false).get().then((query)=>{
-        if(query.empty)
+        if(query.empty){
           router.push(`/programs/${teamName}/${id}`)
+        }
         else{
           query.docs.forEach((doc)=>{
             if(doc.data().deadline.toDate() < new Date()){
@@ -141,6 +141,12 @@ const Contents = ({data, teamName, id, type, mode}) => {
       const batch = db.batch()
       batch.update(db.collection("user").doc(user.uid).collection("history").doc(type),{data: deleteHistoryResult})
       batch.delete(db.collection("team_admin").doc(teamName).collection("result").doc(id).collection("users").doc(user.uid))
+      let count = 0
+      if(data.submitCount)
+        count = data.submitCount
+      batch.update(db.collection("team").doc(teamName).collection("programs").doc(id), {submitCount: count-1})
+
+
       await batch.commit()
       alert("신청취소되었습니다.")
       setHasHistory(false)
@@ -292,8 +298,8 @@ const Contents = ({data, teamName, id, type, mode}) => {
                 </Button>
               :
               hasHistory ?
-              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" disabled={data.programStartDate?.toDate()<=new Date()} >
-                {type==="programs" ? (data.programStartDate.toDate()>new Date() ? "신청 취소" : "프로그램이 이미 시작되었습니다.") : "설문 취소"}
+              <Button onClick={onCancelClick} variant="contained" fullWidth color="secondary" >
+                {type==="programs"? "신청 취소" : "설문 취소"}
               </Button>
               :
               hasLimitEnd ?

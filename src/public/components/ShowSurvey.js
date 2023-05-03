@@ -100,6 +100,13 @@ const ShowSurvey = ({data, team_id, id, type}) => {
         selectedMembers: selectedMembers,
         createdAt: new Date()
       })
+      
+      //신청 인원수 저장
+      let count = 0
+      if(data.submitCount)
+        count = data.submitCount
+      batch.update(db.collection("team").doc(team_id).collection("programs").doc(id), {submitCount: count+1})
+
     } else if (type==="programSurvey"){
         //데이터 저장 및 유저안에서 프로그램 설문조사 제거
         batch.set(db.collection("team_admin").doc(team_id).collection("programSurveyResult").doc(id).collection("users").doc(user.uid),{

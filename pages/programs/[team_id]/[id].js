@@ -21,6 +21,9 @@ const Survey = () => {
       const result = await db.collection("team").doc(team_id).collection("programs").doc(id).get()
       if(result.exists){
         setData(result.data())
+        if(result.data().limit){
+
+        }
 
         if(user){
           db.collection("user").doc(user.uid).collection("history").doc("programs").get().then((doc)=>{
@@ -38,11 +41,15 @@ const Survey = () => {
         }
     
         if(result.data().hasLimit){
-          db.collection("team_admin").doc(team_id).collection("result").doc(id).collection("users").get().then((query) => {
-            if(parseInt(result.data().limit)<=query.docs.length)
-              alert("선착순 마감되었습니다.")
-              router.push("/")
-          })
+          if(result.data().limit<=result.data().submitCount){
+            alert("선착순 마감되었습니다.")
+            router.push("/")
+          }
+          // db.collection("team_admin").doc(team_id).collection("result").doc(id).collection("users").get().then((query) => {
+          //   if(parseInt(result.data().limit)<=query.docs.length)
+          //     alert("선착순 마감되었습니다.")
+          //     router.push("/")
+          // })
         }
     
         if(result.data().deadline?.toDate()<=new Date()){
