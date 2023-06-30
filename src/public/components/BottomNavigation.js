@@ -44,8 +44,10 @@ const BottomNavigationComponent = () => {
     if(router.pathname==="/message"){
       setValue(0)
     }
-    else if (router.pathname==="/myPage")
+    else if (router.pathname==="/schedule")
       setValue(1)
+    else if (router.pathname==="/schedule")
+      setValue(2)
     else if (router.pathname==="/menu")
       setValue(4)
     else
@@ -61,11 +63,12 @@ const BottomNavigationComponent = () => {
           setValue(newValue);
         }}
         style={{height: "65px"}}
+        
       >
         {unread>0 ?
         <BottomNavigationAction onClick={onAlarmClick} label="메세지" icon={<Badge badgeContent={unread} color="primary" ><EmailOutlinedIcon className={styles.icon} /></Badge>}  />
         :
-        <BottomNavigationAction onClick={onAlarmClick} label="메세지" icon={<EmailOutlinedIcon className={styles.icon} />}  />
+        <BottomNavigationAction onClick={onAlarmClick} sx={{ "& .css-1rkl7wo-MuiButtonBase-root-MuiBottomNavigationAction-root" : {padding: "0px !important", minWidth:"50px !important" } }} label="메세지" icon={<EmailOutlinedIcon className={styles.icon}/>}  />
         
         }
         

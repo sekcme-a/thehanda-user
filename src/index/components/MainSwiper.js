@@ -111,7 +111,7 @@ const MainSwiper = () => {
     </div>
     )
 
-  if (!isLoading && list.length===0)
+  if (!isLoading && list.length!==0)
     return (
       
       <div className={styles.main_container}>

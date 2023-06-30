@@ -57,3 +57,11 @@
   color: #EEEEEE;
   font-size: 14px;
 }
+
+
+.banner_container{
+  /* padding: 10px 0; */
+  background-color: #fff;
+  padding-bottom: 0px;
+  border-bottom: 5px solid #ececec;
+}

@@ -6,6 +6,7 @@ import "src/public/styles/calendar.css"
 import { DataProvider } from "context/data";
 import AuthStateChanged from "src/public/hooks/AuthStateChanged";
 import BottomNavigation from "src/public/components/BottomNavigation";
+import BottomNavigation2 from "src/public/components/BottomNavigation2";
 import { useEffect, useState, useRef } from "react";
 import { firestore as db } from "firebase/firebase";
 import { useRouter } from "next/router";
@@ -102,7 +103,7 @@ export default function App({ Component, pageProps }) {
             <div onScroll={handleScroll}>
             <PullToRefresh 
               className="refresh_container"
-              isPullable={!router.pathname.includes("talk") || isScrollTop}
+              isPullable={!router.pathname.includes("talk")  || isScrollTop}
               onRefresh={handleRefresh} 
               refreshing={isRefreshing} 
               pullDownThreshold={90}
@@ -114,7 +115,7 @@ export default function App({ Component, pageProps }) {
               
               
             </PullToRefresh>
-            {!router.pathname.includes("preview") && !router.pathname.includes("walkthrough") && <BottomNavigation />}
+            {!router.pathname.includes("preview") && !router.pathname.includes("walkthrough") && <BottomNavigation2 />}
             </div>
           {/* } */}
         </ThemeProvider>

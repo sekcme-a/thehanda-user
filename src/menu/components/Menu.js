@@ -26,6 +26,7 @@ import SupportAgentOutlinedIcon from '@mui/icons-material/SupportAgentOutlined';
 import ContactPageOutlinedIcon from '@mui/icons-material/ContactPageOutlined';
 import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
 import PollIcon from '@mui/icons-material/Poll';
+import Image from "next/image";
 // import { firebaseHooks } from "firebase/hooks";
 
 
@@ -148,7 +149,7 @@ const Menu = (props) => {
           animate={{ opacity: 1, transition: { duration: .5, }, x: 0 }}
           exit={{ opacity: 0, x: 40, transition: { duration: .5, } }}
         >
-
+          
           <div className={styles.header_container}>
             <div className={styles.button_container}>
               <div>
@@ -159,6 +160,7 @@ const Menu = (props) => {
                 <SettingsOutlinedIcon style={{ fontSize: "27px" , color: "#EEEEEE"}}/> */}
               </div>
             </div>
+            
               {user ?
                 <div className={styles.profile_container} onClick={onProfileClick}>
                   <div className={styles.profile}>
@@ -175,6 +177,13 @@ const Menu = (props) => {
                 </div>
               }
           </div>
+
+
+          <div className={styles.banner_container}>
+            <Image src="/banner/event_for_everyone.png" layout="responsive" width={232} height={365} alt="basic card"/>
+          </div>
+
+
           <MenuItemsContainer items={menuItems}  />
           
         </motion.div>

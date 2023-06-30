@@ -26,6 +26,7 @@ import { FIREBASE } from "firebase/hooks";
 import Backdrop from '@mui/material/Backdrop';
 
 import { motion } from "framer-motion"
+import Card from "src/card/components/Card";
 const Home = () => {
   const {user, userData} = useData()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -155,10 +156,12 @@ const Home = () => {
       <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
       {!isHide &&
         <>
+       
           <MainSwiper />
           <Program />
           <div className={styles.border} />
           <Anouncement />
+          <Card />
           <div className={styles.border} />
           <News />
           <div className={styles.border} />
