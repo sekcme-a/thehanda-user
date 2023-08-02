@@ -1,4 +1,4 @@
-import styles from "./editBenefit.module.css"
+import styles from "src/card/editBenefit.module.css"
 import { useEffect, useState } from "react"
 import useUserData from "context/userData"
 import { useRouter } from "next/router"

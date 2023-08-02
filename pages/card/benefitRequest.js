@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import styles from "src/card/benefitRequest.module.css"
 import PageHeader from "src/public/components/PageHeader"
 
-import {DB} from "./benefitRequestDB"
+import {DB} from "src/card/benefitRequestDB"
 import useUserData from "context/userData"
 
 import { TextField, Button } from "@mui/material"
