@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
 
 import useData from "context/data"
+import useUserData from "context/userData";
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { firestore as db } from "firebase/firebase";
@@ -16,7 +17,7 @@ import MainNews from "src/news/components/MainNews"
 import PostList from "src/news/components/PostList"
 import NewsHeader from "src/news/components/NewsHeader"
 import styles from "src/home/styles/index.module.css"
-import Menu from "src/menu/components/Menu"
+import Menu from "src/public/components/header/Menu"
 
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
@@ -25,11 +26,14 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Dialog } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import MapsHomeWorkOutlinedIcon from '@mui/icons-material/MapsHomeWorkOutlined';
+import PageHeader from "src/public/components/PageHeader";
+
+import TopNavbar from "src/index/TopNavbar";
 
 const Home = () => {
   const router = useRouter()
   const { id } = router.query
-  const { user } = useData()
+  const { user, userData } = useUserData()
   const [selectedItem, setSelectedItem] = useState(0)
   const [selectedGroup, setSelectedGroup] = useState(0)
   const [selectedNews, setSelectedNews] = useState(0)
@@ -70,11 +74,6 @@ const Home = () => {
 
   useEffect(() => {
     setSelectedItem(3)
-    if(localStorage.getItem("selectedTeamId")===null){
-      localStorage.setItem("selectedTeamId", "suwon")
-      localStorage.setItem("selectedTeamName", "수원시")
-    }
-    setSelectedTeam({id:localStorage.getItem("selectedTeamId"), name: localStorage.getItem("selectedTeamName")})
   },[])
 
   // useEffect(() => {
@@ -241,13 +240,6 @@ const Home = () => {
       setIsHide(true)
     }, 400)
   }
-
-  const onTeamClick= (id,name) => {
-    setSelectedTeam({id: id, name: name})
-    localStorage.setItem("selectedTeamId", id)
-    localStorage.setItem("selectedTeamName", name)
-    setOpenCityDialog(false)
-  }
   // if(isLoading || text===undefined)
   //   return (<>
   //   </>)
@@ -255,53 +247,23 @@ const Home = () => {
 
   return (
     <>
-      <div style={{width:"100%", position: "fixed", top:0, left: 0, zIndex:"99999999", backgroundColor:"white"}}>
-        <div className={`${styles.header_container} ${styles.add_background}`}>
-          <div className={styles.logo_container} onClick={onCityClick}>
-            <h1>더한다+</h1>
-            <h2>{localStorage.getItem("selectedTeamName")}</h2>
-            {openCityDialog ? <ArrowDropUpIcon />:<ArrowDropDownIcon />}
-          </div>
-          <div>
-            <NotificationsNoneIcon />
-            <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick}  />
-          </div>
-        </div>
+      {!isMenuOpen && <TopNavbar scrollY={1} onMenuClick={onMenuClick} teamName={userData.selectedTeamName}/>}
+
+      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
+
+      <div style={{width:"100%", position: "fixed", top:"45px", left: 0, zIndex:"10", backgroundColor:"white"}}>
         <HomeHeader selectedItem={3} handleChange={handleChange} />
         <GroupsHeader selectedItem={selectedGroup} handleChange={handleGroupChange} groups={menu} />
         {newsMenu.length !== 0 && <NewsHeader selectedItem={selectedNews} handleChange={handleNewsChange} groups={newsMenu} />}
       </div>
-      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
+      {/* <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} />  */}
       {/* <NewsHeader /> */}
-      {newsMenu.length === 0 && <MainNews />}
-      {newsMenu.length === 0 && <h2 style={{ fontWeight: "bold", margin: "40px 0 -13px 25px", fontSize: "20px" }}>실시간 뉴스</h2>}
-      {newsMenu.length !== 0 && <div style={{ height: "180px", width: "100%" }} />}
-      {address && <PostList id={address} addMargin={false} />}
-
-
-      <Dialog open={openCityDialog} onClose={()=>setOpenCityDialog(false)}>
-        <div className={styles.city_dialog_container}>
-          {isTeamsLoading ? 
-            <div className={styles.center}>
-              <CircularProgress />
-            </div>
-            :
-            <>
-              <h1><MapsHomeWorkOutlinedIcon style={{marginRight:"7px"}}/>센터를 선택해주세요.</h1>
-              <div className={styles.item_container}>
-                {console.log(teams)}
-                {teams.map((team, index) => {
-                  return(
-                    <div key={index} className={selectedTeam.id===team.id ? `${styles.item} ${styles.selected}` : styles.item} onClick={()=>onTeamClick(team.id, team.name)}>
-                      {team.name}
-                    </div>
-                  )
-                })}
-              </div>
-            </>
-          }
-        </div>
-      </Dialog>
+      <div style={{padding:"0 10px"}}>
+        {newsMenu.length === 0 && <MainNews />}
+        {newsMenu.length === 0 && <h2 style={{ fontWeight: "bold", margin: "40px 0 -13px 25px", fontSize: "20px" }}>실시간 뉴스</h2>}
+        {newsMenu.length !== 0 && <div style={{ height: "180px", width: "100%" }} />}
+        {address && <PostList id={address} addMargin={false} />}
+      </div>
     </>
   )
 }

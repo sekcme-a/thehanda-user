@@ -1,5 +1,5 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import styles from "../styles/headerRightClose.module.css"
+import styles from "./headerRightClose.module.css"
 
 import { useRouter } from 'next/router';
 

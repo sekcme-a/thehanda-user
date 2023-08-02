@@ -1,5 +1,9 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import { firestore as db } from "firebase/firebase";
+import { DB } from "./dataDB";
+import FullScreenLoader from "src/public/components/FullScreenLoader";
+import useUserData from "./userData";
+import { useRouter } from "next/router";
 const dataContext = createContext()
 
 export default function useData(){
@@ -7,69 +11,128 @@ export default function useData(){
 }
 
 export function DataProvider(props){
-    const [user, setUser] = useState(null) //I'm
-    const [userData, setUserData] = useState(null) //user data from db, uid 를 제외한 모든 user data는 이걸 활용
-    const [error, setError] = useState("")
-    const [teamName, setTeamName] = useState("") //어드민 팀명
-    const [teamId, setTeamId] = useState("") //어드민 팀 id
+  const {user, userData} = useUserData()
+  const [isLoading, setIsLoading] = useState(true)
+  // const [user, setUser] = useState(null) 
+  // const [userData, setUserData] = useState(null) 
 
-    const [sectionData, setSectionData] = useState([])
-    const [language, setLanguage] = useState("ko")
-    const [unread, setUnread] = useState(0)
-    const [em, setEm] = useState("")
-    const [ps,setPs] = useState("")
+  const [centerList, setCenterList] = useState()
+  const [centerProfileSettingsList, setCenterProfileSettingsList] = useState({})
 
-    const [mySchedule, setMySchedule] = useState()
-    const [teamSchedule, setTeamSchedule] = useState()
+  const [programList, setProgramList] = useState([])
+  const [surveyList, setSurveyList] = useState([])
+  const [anouncementList, setAnouncementList]= useState([])
+
+  const [section, setSection] = useState()
+
+  const [unread, setUnread] = useState(0)
+
+  const [mySchedule, setMySchedule] = useState()
+  const [teamSchedule, setTeamSchedule] = useState()
+
+  //** 아래부터 card 데이터 */
+  const [locationList, setLocationList] = useState()
+  const [benefitList, setBenefitList] = useState()
 
 
-    //application fetched db data
+  //** card 데이터 끝 */
 
-    //team/[teamId]/{id:string, teamName:string}
-    const [centerList, setCenterList] = useState()
 
-    useEffect(() => {
-      if(user){
-        setMySchedule()
-        setTeamSchedule()
-        const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
 
-        const unsubscribe = dbRef.onSnapshot((doc) => {
-          if (doc.exists) {
-            setUnread(doc.data().unread);
-          }
-        });
+  //아직 미설정 기능
+  const [language, setLanguage] = useState("ko")
 
-        return() => {
-          unsubscribe()
-        }
+
+
+  const router = useRouter()
+
+
+  //프로그램 데이터 받기
+  useEffect(()=>{
+    const fetchData = async () => {
+      if(router.pathname.includes('/start') || router.pathname.includes("/preview") || router.pathname.includes("/test/article") || router.pathname.includes("/test/programs") || router.pathname.includes("/test/surveys"))
+        setIsLoading(false)
+      else if(userData && userData.selectedTeamId){
+        const programList_temp = await DB.FETCH_DOCS_DATA("programs", userData.selectedTeamId)
+        setProgramList(programList_temp)
+        const surveyList_temp = await DB.FETCH_DOCS_DATA("surveys", userData.selectedTeamId)
+        setSurveyList(surveyList_temp)
+        const anouncementprogramList_temp = await DB.FETCH_DOCS_DATA("anouncements", userData.selectedTeamId)
+        setAnouncementList(anouncementprogramList_temp)
         
+
+        const programSectionList = await DB.FETCH_SECTION_DATA(userData.selectedTeamId, "program")
+        const surveySectionList = await DB.FETCH_SECTION_DATA(userData.selectedTeamId, "survey")
+        const anouncementSectionList = await DB.FETCH_SECTION_DATA(userData.selectedTeamId, "anouncement")
+        setSection({program: programSectionList, survey: surveySectionList, anouncement: anouncementSectionList})
+       
+        setTimeout(()=>{
+          setIsLoading(false)
+
+        },100)
       }
-      },[user])
-
-    const value = {
-        user,
-        userData,
-        error,
-        teamName,
-        teamId,
-        unread,
-        em, setEm,
-        ps, setPs,
-        setUnread,
-        setTeamId,
-        setTeamName,
-        setError,
-        setUser,
-        setUserData,
-        sectionData,
-        setSectionData,
-        language,
-        setLanguage,
-        centerList, setCenterList,
-        mySchedule, setMySchedule,
-        teamSchedule, setTeamSchedule
     }
+    fetchData()
+  },[userData, router])
 
-    return <dataContext.Provider value={value} {...props} />
+
+  //메세지 컨트롤
+  useEffect(() => {
+    if(user){
+      const dbRef = db.collection("user").doc(user.uid).collection("message").doc("status");
+
+      const unsubscribe = dbRef.onSnapshot((doc) => {
+        if (doc.exists) {
+          setUnread(doc.data().unread);
+        }
+      });
+
+      return() => {
+        unsubscribe()
+      }
+      
+    }
+    },[user])
+
+  const SET_CENTER_LIST = async () => {
+    const list_temp = await DB.FETCH_CENTER_LIST()
+    if(list_temp)
+      setCenterList(list_temp)
+    return list_temp
+  }
+
+
+  //**card 데이터 컨트롤 */
+  const SET_LOCATION_LIST = async () => {
+    const list_temp = await DB.FETCH_LOCATION_LIST()
+    if(list_temp)
+      setLocationList(list_temp)
+  }
+
+  const SET_BENEFIT_LIST = async (location) => {
+    console.log(location)
+    const query = await db.collection("benefit").where("location","==",location).where("isPublished","==",true).orderBy("savedAt", "desc").get()
+    const list_temp = query.docs.map(doc => ({...doc.data(), id: doc.id}))
+    setBenefitList({...benefitList, [location]: list_temp})
+    return({...benefitList, [location]: list_temp})
+  }
+
+  const value = {
+    unread, setUnread,
+    centerList, setCenterList, SET_CENTER_LIST,
+    programList, setProgramList,
+    surveyList, setSurveyList,
+    anouncementList, setAnouncementList,
+    section, setSection,
+    language, setLanguage,
+    centerProfileSettingsList, setCenterProfileSettingsList,
+    mySchedule, setMySchedule,
+    teamSchedule, setTeamSchedule,
+    locationList, setLocationList, SET_LOCATION_LIST,
+    benefitList, setBenefitList, SET_BENEFIT_LIST,
+  }
+  
+  if(isLoading) return <FullScreenLoader isLoading={isLoading}/>
+
+  return <dataContext.Provider value={value} {...props} />
 }

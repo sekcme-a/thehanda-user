@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import styles from "../styles/showArticle.module.css"
+import styles from "./showArticle.module.css"
 import { useRouter } from "next/router"
 
 import HeaderRightClose from "src/public/components/HeaderRIghtClose"
@@ -24,7 +24,8 @@ const ShowArticle = ({createMarkup, data, teamName, id, type}) => {
         <div className="quill_custom_editor" style={{marginTop:"3px"}}>
           <div dangerouslySetInnerHTML={createMarkup()} />
         </div>
-        <div style={{ height: "30px" }}></div>
+        <div className={styles.border} style={{marginTop:"80px"}} />
+        <div style={{ height: "30px"}}></div>
         <Button onClick={()=>router.push("/")} variant="contained" fullWidth style={{ backgroundColor: "#5316b5" }}>홈으로</Button>
       </div>
     </div>

@@ -1,0 +1,21 @@
+
+.backdrop_container{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.backdrop_container p{
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+.backdrop_container h1{
+  margin-top: 18px;
+  font-size: 18px;
+}
+.backdrop_container h2{
+  margin-top: 8px;
+  font-size: 18px;
+}

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import useData from "context/data"
+import useUserData from "context/userData"
 import { useRouter } from "next/router"
 import Image from "next/image"
-import styles from "src/family/styles/family.module.css"
+import styles from "src/family/family.module.css"
 import PageHeader from "src/public/components/PageHeader"
 import { Button } from "@mui/material"
 import { Dialog } from "@mui/material"
@@ -20,7 +21,7 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 
 const Family = () => {
-  const {user} = useData()
+  const {user} = useUserData()
   const router = useRouter()
   const [openDialog, setOpenDialog] = useState(false)
   const [openDialog2, setOpenDialog2] = useState(false)

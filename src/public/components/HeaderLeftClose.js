@@ -1,5 +1,5 @@
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
-import styles from "../styles/headerLeftClose.module.css"
+import styles from "./headerLeftClose.module.css"
 
 import { useRouter } from 'next/router';
 

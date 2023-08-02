@@ -1,4 +1,4 @@
-import styles from "../styles/thumbnail.module.css"
+import styles from "./Thumbnail.module.css"
 import { useEffect, useState } from "react"
 import Image from "next/image";
 import { useRouter } from "next/router";

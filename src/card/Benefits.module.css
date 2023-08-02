@@ -1,0 +1,75 @@
+.main_container{
+
+}
+
+.header_container{
+  position: fixed;
+  z-index: 1 !important;  
+  background-color: white;
+}
+
+.no_benefit{
+  padding-top: 150px;
+  text-align: center;
+}
+.location_select_container{
+  padding: 58px 0 7px 20px;
+  display: flex;
+  align-items: center;
+  /* background-color: rgb(233,233,233); */
+  /* padding: 5px 0; */
+}
+.location_select_container h1{
+  font-size: 15px;
+}
+.location_select_container strong{
+  font-weight: bold;
+}
+.location_select_container p{
+  font-size: 13px;
+  margin-left: 10px;
+  color: #814ad8;
+}
+
+
+.list_container{
+  padding-top: 125px;
+  margin-bottom: 100px;
+  /* z-index: 1 !important */
+}
+.item_container{
+  padding: 15px 10px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(233,233,233);
+}
+.item_container h1{
+  font-weight: bold;
+  font-size: 17px;
+  letter-spacing: -1px;
+}
+.item_container h2{
+  color: #814ad8;
+  font-size: 15px;
+  margin-top: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+}
+.item_container h3{
+  font-size: 14px;
+  display: -webkit-box; /* 웹킷 브라우저에 대한 지원 */
+  -webkit-line-clamp: 2; /* 표시할 줄 수 */
+  -webkit-box-orient: vertical; /* 수직 방향으로 요소를 나열 */
+  overflow: hidden; /* 넘치는 텍스트 감춤 */
+  line-height: 1.2;
+  margin-top: 3px;
+}
+
+.dialog_container{
+  padding: 15px 15px;
+  width: 60vw;
+}
+.dialog_container h1{
+  margin-bottom: 20px;
+}

@@ -1,4 +1,4 @@
-import styles from "../styles/miniThumbnail.module.css"
+import styles from "./miniThumbnail.module.css"
 import { useEffect, useState } from "react"
 import CampaignIcon from '@mui/icons-material/Campaign';
 import { useRouter } from "next/router";

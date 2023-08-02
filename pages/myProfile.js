@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
-import styles from "src/myprofile/styles/index.module.css"
+import styles from "src/myprofile/MyProfile.module.css"
 import { useRouter } from "next/router"
 import Image from "next/image"
 
 import useData from "context/data"
-import { handleProfileImage } from "src/public/hooks/handleProfileImage"
+import useUserData from "context/userData"
+// import { handleProfileImage } from "src/public/hooks/handleProfileImage"
 import { firestore as db } from "firebase/firebase"
 import DaumPostcode from "react-daum-postcode";
-import { FIREBASE } from "firebase/hooks"
 
 import PageHeader from "src/public/components/PageHeader"
 import Form from "src/public/form/Form.js"
@@ -27,25 +27,26 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import CustomAlert from "src/public/components/CustomAlert";
 import { Button, Checkbox, FormHelperText, TextField } from "@mui/material";
+import { MyProfileDB } from "src/myProfile/MyProfileDB"
 
 const MyProfile = () => {
   const router = useRouter()
-  const { user, userData, setUserData} = useData()
+  const { user, userData, setUserData,} = useUserData()
+  const {centerList, setCenterList, centerProfileSettingsList, setCenterProfileSettingsList} = useData()
 
-  const [city, setCity] = useState("")
+  const [team, setTeam] = useState(userData.selectedTeamId)
 
   // const [image, setImage] = useState(user.photoURL)
   const [isImageURLLoading, setIsImageURLLoading] = useState(false)
   const [mainData, setMainData] = useState()
   const [subData, setSubData] = useState()
   const [profileData, setProfileData] = useState([])
-  const [teamList, setTeamList] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isProfileFormLoading, setIsProfileFormLoading] = useState(false)
   const [values, setValues] = useState({
     displayName: "",
-    displayName: "",
+    phoneNumber: "",
     birth: new Date().getDate(),
     gender: "",
     postNumber:"",
@@ -72,13 +73,13 @@ const MyProfile = () => {
     setValues({ ...values, [prop]: event.target.value });
   };
 
-  useEffect(()=>{
-    console.log(userData)
-  },[])
+  const onBirthChange = (e) => {setValues({...values, ["birth"]: e})}
 
-  const onBirthChange = (e) => {
-    setValues({...values, ["birth"]: e})
-    console.log(e)
+  const onPhoneNumberChange = (event) => {
+    // Remove non-numeric characters from the input value
+    const numericValue = event.target.value.replace(/[^0-9]/g, '');
+    // You can handle the numeric value as needed
+    setValues({...values, phoneNumber: numericValue})
   }
 
   const handleAddress = (data) => {
@@ -92,8 +93,6 @@ const MyProfile = () => {
   };
 
   const validateValues = () => {
-    // if(value.displayName.trim()==="")
-    //   setError("displayName")
     setError({
       type: "",
       text:""
@@ -175,61 +174,47 @@ const MyProfile = () => {
     } else
       return true;
   }
+
+
   
-
-  // const fetchFormData = async(value) => {
-  //     try {
-  //       setIsProfileFormLoading(true)
-  //       const result_main = await firebaseHooks.fetch_profile_settings_object(value, "main")
-  //       const result_sub = await firebaseHooks.fetch_profile_settings_object(value, "sub")
-  //       setMainData(result_main)
-  //       setSubData(result_sub)
-  //       setIsProfileFormLoading(false)
-  //     } catch (e) {
-  //       setMainData("")
-  //       setSubData("")
-  //       setIsProfileFormLoading(false)
-  //       console.log(e)
-  //     }
-  // }
-
-
   const handleChange = async (event) => {
-    setCity(event.target.value);
-    if (event.target.value !== undefined) {
-      setIsProfileFormLoading(true)
-      const doc = await db.collection("team").doc(event.target.value).collection("profileSettings").doc("main").get()
-      if(doc.exists)
-        setMainData([...doc.data().data])
-      const profileDoc = await db.collection("team").doc(event.target.value).collection("users").doc(user.uid).get()
-      if(profileDoc.exists && profileDoc.data().additionalData){
-        setProfileData([...profileDoc.data().additionalData])
-        console.log(profileDoc.data().additionalData)
-      }
-      setIsProfileFormLoading(false)
-    }
+    setTeam(event.target.value);
+    fetch_center_profile_settings(event.target.value)
   };
   
   // const handleProfileDataChange = (data) => {
   //   setProfileData([...data])
   // }
 
+  const fetch_center_profile_settings = async (teamId) => {
+    setIsProfileFormLoading(true)
+    if(!centerProfileSettingsList[teamId]){
+      const profileSettings = await MyProfileDB.FETCH_PROFILE_SETTINGS(teamId)
+      setCenterProfileSettingsList({...centerProfileSettingsList, [teamId]: profileSettings})
+      const profileDoc = await db.collection("team").doc(teamId).collection("users").doc(user.uid).get()
+      if(profileDoc.exists && profileDoc.data().additionalData){
+        setProfileData([...profileDoc.data().additionalData])
+      }
+    }
+    setIsProfileFormLoading(false)
+  }
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const userDoc = await db.collection("user").doc(user.uid).get()
-        setValues({...userDoc.data(), birth: userDoc.data().birth.toDate()})
-        const teamQuery = await db.collection("team").get()
-        const temp = teamQuery.docs.map((doc) =>{
-          return {...doc.data()}
-        })
-        setTeamList(temp)
+        // const userDoc = await db.collection("user").doc(user.uid).get()
+        if(!centerList){
+          const team_temp = await MyProfileDB.FETCH_CENTER_LIST()
+          setCenterList(team_temp)
+        }
+        fetch_center_profile_settings(team)
         setIsLoading(false)
       } catch (e) {
         console.log(e)
       }
     }
+    setValues({...userData, birth: userData.birth.toDate()})
     fetchData()
   }, [])
 
@@ -255,22 +240,14 @@ const MyProfile = () => {
         //send info to db
         try{
           setIsSubmitting(true)
-          await FIREBASE.UPDATE_USER_INFO(user.uid, values)
+          await MyProfileDB.UPDATE_USER_INFO(user.uid, values, profileData, team)
           setIsSubmitting(false)
           setUserData({...values})
           onNext()
         }catch(e){
           setIsSubmitting(false)
-          console.log(e.message)
         }
       } else return;
-      if(city!==""){
-        await db.collection("team").doc(city).collection("users").doc(user.uid).set({
-          additionalData: profileData
-        })
-        await db.collection("team_admin").doc(city).collection("users").doc(user.uid).set({})
-      }
-      setIsSubmitting(false)
 
       setCustomAlert({
         title:"적용 성공",
@@ -341,10 +318,13 @@ const MyProfile = () => {
         />
         <div style={{display:"flex", alignItems:"center"}}>
           <TextField
-            fullWidth value={values.phoneNumber} onChange={onValuesChange("phoneNumber")} variant="standard" label="핸드폰 번호"sx={{mt:"10px"}}
-            error={error.type==="phoneNumber"} helperText={error.type==="phoneNumber" && error.text} disabled={true}
+            fullWidth value={values.phoneNumber} onChange={onPhoneNumberChange} variant="standard" label="핸드폰 번호"sx={{mt:"10px"}}
+            error={error.type==="phoneNumber"} helperText={error.type==="phoneNumber" && error.text} disabled={false}
+            inputProps={{
+              inputMode: 'numeric',
+            }}
           />
-          <Button variant="text" style={{width:"140px"}} onClick={()=>router.push("/phoneVerification")}>번호 변경</Button>
+          {/* <Button variant="text" style={{width:"140px"}} onClick={()=>router.push("/phoneVerification")}>번호 변경</Button> */}
         </div>
 
         <Box sx={{ display: 'flex', flexWrap: 'wrap', mt: "20px" }} className='demo-space-x'>
@@ -422,13 +402,13 @@ const MyProfile = () => {
             id="standard-select-currency"
             select
             label="센터 선택"
-            value={city}
+            value={team}
             onChange={handleChange}
             helperText="관심있는 센터를 선택해 그에 맞는 프로필을 작성하세요!"
             variant="standard"
             style={{width: "100%"}}
           >
-            {teamList.map((option) => (
+            {centerList.map((option) => (
               <MenuItem key={option.id} value={option.id}>
                 {option.teamName}
               </MenuItem>
@@ -437,7 +417,7 @@ const MyProfile = () => {
         </div>
         <div style={{height:"10px"}} />
         {isProfileFormLoading ? <CircularProgress sx={{ mt: 3 }} /> :
-          mainData && <Form formDatas={mainData} data={profileData} handleData={handleProfileDataChange} noBorder={true}/>
+          centerProfileSettingsList[team] && <Form formDatas={centerProfileSettingsList[team]} data={profileData} handleData={handleProfileDataChange} noBorder={true}/>
         }
       </div>
       {/* <Form formDatas={mainData} data={profileData} setData={setProfileData} /> */}

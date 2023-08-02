@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react"
 import { firestore as db } from "firebase/firebase"
 import PageHeader from "src/public/components/PageHeader"
-import styles from "src/message/styles/setting.module.css"
+import styles from "src/message/setting.module.css"
 import Image from "next/image"
 import { Switch } from "@mui/material"
 import useData from "context/data"
+import useUserData from "context/userData"
 import { CircularProgress } from "@mui/material"
 import { Button } from "@mui/material"
 import { useRouter } from "next/router"
-import BackdropLoader from "src/message/components/BackdropLoader"
+import BackdropLoader from "src/message/BackdropLoader"
 
 const Setting = () => {
   const [sections, setSections] = useState([])
@@ -19,7 +20,7 @@ const Setting = () => {
 
   const [submitted, setSubmitted] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
-  const {user} = useData()
+  const {user} = useUserData()
   const router = useRouter()
   useEffect(()=>{
     // const fetchData = async () => {

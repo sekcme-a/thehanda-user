@@ -1,6 +1,8 @@
 import React from 'react';
 import imageCompression from 'browser-image-compression';
-import { firebaseHooks } from 'firebase/hooks';
+// import { firebaseHooks } from 'firebase/hooks';
+import { storage } from 'firebase/firebase';
+import { STORAGE } from 'firebase/storageHooks';
 
 /**이미지가 maxMB보다 크다면 압축 진행 후 storage에 저장
 
@@ -45,10 +47,10 @@ export const handleProfileImage = async (img, path,maxMB) => {
             console.log(img.name)
             if (!checkIsImageSize(img.size)) 
               image = await imageCompression(img, options)
-            const url = await firebaseHooks.upload_image_to_storage(image, path)
+            const url = await STORAGE.UPLOAD_IMAGE_TO_STORAGE(image, path)
             resolve(url)
           } else {
-            const url = await firebaseHooks.upload_image_to_storage(image, path)
+            const url = await STORAGE.UPLOAD_IMAGE_TO_STORAGE(image, path)
             resolve(url)
           }
         }

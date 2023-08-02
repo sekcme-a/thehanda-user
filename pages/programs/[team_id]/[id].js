@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 
 import { firestore as db } from "firebase/firebase"
 
-import useData from "context/data"
+import useUserData from "context/userData"
 import { CircularProgress } from "@mui/material"
 
 
@@ -14,17 +14,13 @@ const Survey = () => {
   const { team_id, id } = router.query;
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const {user} = useData()
+  const {user, userData} = useUserData()
 
   useEffect(() => {
     const fetchData = async () => {
       const result = await db.collection("team").doc(team_id).collection("programs").doc(id).get()
       if(result.exists){
         setData(result.data())
-        if(result.data().limit){
-
-        }
-
         if(user){
           db.collection("user").doc(user.uid).collection("history").doc("programs").get().then((doc)=>{
             if(doc.exists && doc.data().data){
@@ -67,12 +63,6 @@ const Survey = () => {
       }
 
       
-    }
-    if(localStorage.getItem("selectedTeamId")===null){
-      localStorage.setItem("selectedTeamId", team_id)
-      db.collection("team").doc(team_id).get().then((doc) => {
-        localStorage.setItem("selectedTeamName", doc.data().teamName)
-      })
     }
     fetchData()
   }, [])

@@ -1,4 +1,4 @@
-// import styles from "../styles/FullScreenLoader.module.css"
+import styles from "./FullScreenLoader.module.css"
 
 
 const FullScreenLoader = ({isLoading}) => {

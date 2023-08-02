@@ -1,19 +1,31 @@
 import { useEffect, useState } from "react"
-import styles from "src/message/styles/index.module.css"
+import styles from "src/message/index.module.css"
 import { useRouter } from "next/router"
 import Image from "next/image"
 import useData from "context/data"
+import useUserData from "context/userData"
 import { firestore as db } from "firebase/firebase"
-import AlarmContainer from "src/message/components/AlarmContainer"
+import AlarmContainer from "src/message/AlarmContainer"
+
+import Menu from "src/public/components/header/Menu"
 
 import EditNotificationsOutlinedIcon from '@mui/icons-material/EditNotificationsOutlined';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import TextField from '@mui/material/TextField';
 
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 const Message = () => {
   const router = useRouter()
-  const { user } = useData()
+  const { user } = useUserData()
   const [messageList, setMessageList] = useState([])
+
+  const [isHide, setIsHide] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
+  const onMenuClick = () => {
+    setIsMenuOpen(true)
+    setTimeout(() => {
+      setIsHide(true)
+    }, 400)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +65,7 @@ const Message = () => {
   }
   return (
     <div className={styles.main_container}>
-
+      <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
       <div className={styles.header_container}>
         <div className={styles.header_right}>
           <div className={styles.logo_container}>
@@ -63,6 +75,7 @@ const Message = () => {
         </div>
         <div>
           <EditNotificationsOutlinedIcon onClick={() => {router.push("/message/setting")}} color="primary"  />
+          <MenuRoundedIcon className={styles.menu_icon} onClick={onMenuClick} style={{marginLeft:"10px"}}color="primary" />
           {/* <CloseRoundedIcon style={{ marginLeft: "14px" }} color="primary" /> */}
         </div>
       </div>
@@ -76,7 +89,7 @@ const Message = () => {
             <div key={index}>
               <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
                 text={`문의하신 "${item.title}" 에 대한 답장이 도착했습니다.`}
-                button={["답장 확인하기"]} onClick={[()=>onClick(`/reply/${item.id}`)]}
+                button={["답장 확인하기"]} onClick={[()=>onClick(`/message/reply/${item.id}`)]}
                 read={item.read}
               />  
             </div>
@@ -86,7 +99,26 @@ const Message = () => {
             <div key={index}>
               <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
                 text={`문의하신 [${item.title}] 프로그램에 대한 답장이 도착했습니다.`}
-                button={["답장 확인하기"]} onClick={[()=>onClick(`/reply/${item.id}`)]}
+                button={["답장 확인하기"]} onClick={[()=>onClick(`/message/reply/${item.id}`)]}
+                read={item.read}
+              />  
+            </div>
+          )
+        if(item.mode==="benefitRequestAccept")
+          return(
+            <div key={index}>
+              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
+                text={item.title}
+                button={["제휴 등록하러 가기"]} onClick={[()=>onClick(`/card/editBenefit`)]}
+                read={item.read}
+              />  
+            </div>
+          )
+        if(item.mode==="benefitRequestDecline")
+          return(
+            <div key={index}>
+              <AlarmContainer image="/logo_simple.png" name="더한다 도우미" 
+                text={item.title}
                 read={item.read}
               />  
             </div>

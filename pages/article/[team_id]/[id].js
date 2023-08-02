@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react"
-import styles from "src/article/styles/index.module.css"
+import styles from "src/article/Article.module.css"
 import { useRouter } from "next/router"
 import { firestore as db } from "firebase/firebase"
 
-import Article from "src/article/components/Article"
+import Article from "src/article/Article"
 import { CircularProgress } from "@mui/material"
+
+import useUserData from "context/userData"
 
 const Contents = () => {
   const router = useRouter()
   const { team_id, id } = router.query;
+  const {userData} = useUserData()
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [type, setType] = useState()
   const [selectedItem, setSelectedItem] = useState(0)
+
   const handleChange = (event, newValue) => {
     setSelectedItem(newValue);
     console.log(newValue)
@@ -48,18 +52,12 @@ const Contents = () => {
         setType('surveys')
       }
       if(doc.exists){
-        setData({...doc.data(), groupName: localStorage.getItem("selectedTeamName")})
+        setData({...doc.data(), groupName: userData.selectedTeamName})
         setIsLoading(false)
       } else{
         alert("존재하지 않거나 삭제된 게시물입니다.")
         router.push("/")
       }
-    }
-    if(localStorage.getItem("selectedTeamId")===null){
-      localStorage.setItem("selectedTeamId", team_id)
-      db.collection("team").doc(team_id).get().then((doc) => {
-        localStorage.setItem("selectedTeamName", doc.data().teamName)
-      })
     }
     fetchData()
   }, [])

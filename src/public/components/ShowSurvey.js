@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
-import styles from "../styles/showSurvey.module.css"
+import styles from "./showSurvey.module.css"
 import { useRouter } from "next/router"
 import { motion } from "framer-motion"
 
 import useData from "context/data"
+import useUserData from "context/userData"
 
 import HeaderLeftClose from "src/public/components/HeaderLeftClose"
 import BackdropLoader from "src/programs/components/BackdropLoader"
@@ -13,14 +14,13 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import Backdrop from '@mui/material/Backdrop';
 import Button from '@mui/material/Button';
 import Form from "../form/Form"
-import { firebaseHooks } from "firebase/hooks"
 import { firestore as db } from "firebase/firebase"
 
 
 
 const ShowSurvey = ({data, team_id, id, type}) => {
   const router = useRouter()
-  const { user } = useData()
+  const { user } = useUserData()
   const [isLoading, setIsLoading] = useState(true)
   const [text, setText] = useState()
   const [formData, setFormData] = useState()
@@ -105,7 +105,8 @@ const ShowSurvey = ({data, team_id, id, type}) => {
       let count = 0
       if(data.submitCount)
         count = data.submitCount
-      batch.update(db.collection("team").doc(team_id).collection("programs").doc(id), {submitCount: count+1})
+      if(type==="programs")
+        batch.update(db.collection("team").doc(team_id).collection("programs").doc(id), {submitCount: count+1})
 
     } else if (type==="programSurvey"){
         //데이터 저장 및 유저안에서 프로그램 설문조사 제거

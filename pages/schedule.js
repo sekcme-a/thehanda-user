@@ -1,27 +1,30 @@
 import { useState, useEffect } from "react";
 import useData from "context/data";
+import useUserData from "context/userData";
 import { useRouter } from "next/router";
 import styles from "src/schedule/schedule.module.css";
-import Calendar from "src/public/components/Calendar";
+import Calendar from "src/schedule/Calendar";
 import { firestore as db } from "firebase/firebase";
 import { CircularProgress } from "@mui/material";
 
 const Schedule = () => {
   const [isLoading, setIsLoading] = useState(true)
-  const {user, mySchedule, setMySchedule, teamSchedule, setTeamSchedule} = useData()
+  const {user, userData} = useUserData()
+  // const {user, mySchedule, setMySchedule, teamSchedule, setTeamSchedule} = useData()
+  const {mySchedule, setMySchedule, teamSchedule, setTeamSchedule} = useData()
   const router = useRouter()
   const [mode, setMode] = useState("my")
   const [events, setEvents] = useState({colorValue:{}, data:[]})
   const [teamName, setTeamName] = useState("")
 
   useEffect(()=>{
-    const teamId = localStorage.getItem("selectedTeamId")
+    const teamId = userData.selectedTeamId
     let colorValues={}
     const fetchMyScheduleData = async () => {
       if(!mySchedule){
-        setTeamName(localStorage.getItem("selectedTeamName"))
+        setTeamName(userData.selectedTeamName)
         if(!teamId)
-          router.push("/walkthrough")
+          router.push("/start/walkthrough")
         const fetchedData = []
 
         //선택된 센터의 colorValues가져오기

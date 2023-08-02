@@ -99,7 +99,7 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
       </>
       }
       {
-        formDatas.map((formData, index) => {
+        formDatas?.map((formData, index) => {
           if(formData.type==="text_area")
           return(
             <>

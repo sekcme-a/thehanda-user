@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react"
-import styles from "src/article/styles/index.module.css"
+import styles from "src/article/Article.module.css"
 import { useRouter } from "next/router"
 import { firestore as db } from "firebase/firebase"
 
-import Article from "src/article/components/Article"
+import Article from "src/article/Article"
 import { CircularProgress } from "@mui/material"
 
 const Contents = () => {

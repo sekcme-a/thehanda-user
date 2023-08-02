@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../styles/pageHeader.module.css"
+import styles from "./pageHeader.module.css"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { useRouter } from "next/router";
 

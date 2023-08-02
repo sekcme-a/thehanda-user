@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 import { firestore as db } from "firebase/firebase"
 import { motion } from "framer-motion"
 
-import useData from "context/data"
+import useUserData from "context/userData"
 
 import PageHeader from "src/public/components/PageHeader"
 
@@ -22,7 +22,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 const Center = () => {
   const router = useRouter()
   const {id, team_id} = router.query
-  const { user } = useData()
+  const { user } = useUserData()
   const [selectedType, setSelectedType] = useState("")
   const [input, setInput] = useState("")
   const [error, setError] = useState(false)

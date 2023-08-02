@@ -1,20 +1,21 @@
 import { auth } from "firebase/firebase";
 import { useEffect, useState } from "react";
+import useUserData from "context/userData";
 import useData from "context/data";
 import { firestore as db } from "firebase/firebase";
 import { useRouter } from "next/router";
 
+import FullScreenLoader from "../components/FullScreenLoader";
 
-export default function AuthStateChanged({ children }) {
-    const {setUser, setUserData, setUnread} = useData()
-    const [isLoading, setIsLoading] = useState(true)
+
+export default function AuthStateChanged({ children, setIsLoading }) {
+    const {setUser, setUserData} = useUserData()
+    // const [isLoading, setIsLoading] = useState(true)
     const router = useRouter()
   
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
-        // console.log(user)
         //로그인시
-        console.log(user)
         if (user !== null ) {
           if(user.providerData[0].providerId!=="phone"){
             setUser(user)
@@ -33,7 +34,8 @@ export default function AuthStateChanged({ children }) {
                   emailVerified: user.emailVerified,
                   providerId: user.providerData[0].providerId,
                   isAlarmOn: true,
-                  uid: user.uid
+                  uid: user.uid,
+                  createdAt: new Date()
                 }
                 setUserData(newUserData)
                 db.collection("user").doc(user.uid).set(newUserData)
@@ -47,18 +49,17 @@ export default function AuthStateChanged({ children }) {
           //로그아웃시
           setUser(null)
           setUserData(null)
-          setUnread(0)
           setIsLoading(false)
-          sessionStorage.setItem("phoneNumber", "")
-          sessionStorage.setItem("isPhoneVerificated","false")
-          // setPhoneNumber("")
-          // setIsPhoneVerificated(false)
-          // router.replace("/")
+          if(!router.pathname.includes("/preview") && !router.pathname.includes("/test/article") && !router.pathname.includes("/test/programs") && !router.pathname.includes("/test/surveys"))
+          {
+            router.push("/start/walkthrough")
+          }
+            
         }
     })
-    //eslint-disable-next-line
   }, []);
-  if(isLoading)return <></>
+
+  // if(isLoading)return <FullScreenLoader isLoading={isLoading} />
 
   return children;
 }

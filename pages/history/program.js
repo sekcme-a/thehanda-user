@@ -9,11 +9,12 @@ import Thumbnail from "src/public/components/Thumbnail"
 
 import CircularProgress from '@mui/material/CircularProgress';
 import useData from "context/data"
+import useUserData from "context/userData"
 
 
 const MyPageProfile = () => {
   const router = useRouter()
-  const {user} = useData()
+  const {user} = useUserData()
   const [isLoading, setIsLoading] = useState(true)
   const [list, setList] = useState([])
   const [page, setPage] = useState(0)
@@ -46,35 +47,6 @@ const MyPageProfile = () => {
 
   const onMoreClick = async () => {
     setPage(page+1)
-    // setIsLoading(true)
-    // setPage(page + 1)
-    
-    // const history = localStorage.getItem("history_program")
-    // if (history !== null) {
-    //   const tempList = history.split("_SEP_")
-    //   let resultList = list
-    //   setItemCount(tempList.length)
-    //   for (let i = 10 * (page + 1 - 1); i < (page + 1) * 10 - 1; i++) {
-    //     if (tempList[i] === undefined)
-    //       break;
-    //     const items = tempList[i].split("/:/")
-    //     const doc = await db.collection("contents").doc(items[0]).collection("programs").doc(items[1]).get()
-    //     const groupData = await db.collection("admin_group").doc(items[0]).get()
-    //     resultList.push({
-    //       id: items[1],
-    //       teamName: items[0],
-    //       title: doc.data().title,
-    //       subtitle: doc.data().subtitle,
-    //       thumbnailBackground: doc.data().thumbnailBackground,
-    //       groupName: groupData.data().name,
-    //       date: doc.data().date,
-    //       deadline: doc.data().deadline,
-    //       surveyId: doc.data().surveyId,
-    //     })
-    //   }
-    //   setList([...resultList])
-    // }
-    // setIsLoading(false)
   }
 
 
