@@ -70,7 +70,7 @@ export function DataProvider(props){
           setIsLoading(false)
 
         },100)
-      }
+      } else setIsLoading(false)
     }
     fetchData()
   },[userData, router])
