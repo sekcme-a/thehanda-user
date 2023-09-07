@@ -2,7 +2,7 @@ import { auth } from "firebase/firebase"
 import { useRouter } from "next/router"
 import useData from "context/data"
 import useUserData from "context/userData"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 
 import TopNavbar from "src/index/TopNavbar"
 import Header from "src/index/header/Header"
@@ -12,6 +12,7 @@ import Survey from "src/index/contents/Survey"
 import News from "src/index/news/News"
 import Menu from "src/public/components/header/Menu"
 
+
 const Index = () => {
   const router = useRouter()
   const {userData, centerList} = useUserData()
@@ -19,7 +20,9 @@ const Index = () => {
 
   const [isHide, setIsHide] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const handleIsMenuOpen = (bool) => setIsMenuOpen(bool)
+  const handleIsMenuOpen = (bool) => {
+    setIsMenuOpen(bool)
+  }
 
   //**스크롤 위치 확인 */
   const [scrollY, setScrollY] = useState(0)

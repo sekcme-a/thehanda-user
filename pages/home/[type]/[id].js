@@ -76,6 +76,7 @@ const MyPageProfile = () => {
       setSelectedType(3)
 
     const fetchData = async() => {
+      setDocList([])
       setSections(section[type])
       let selectedIndex = 0
       section[type]?.map((item, index)=>{
@@ -89,8 +90,10 @@ const MyPageProfile = () => {
     console.log(section[type])
     if(section[type])
       fetchData()
-    else
+    else{
       setSections([])
+      setDocList([])
+    }
   },[type])
 
   const sort_content = (type, id) => {
@@ -102,7 +105,7 @@ const MyPageProfile = () => {
       setDocList(anouncementList.filter(doc => doc.sectionsId.includes(id)))
   }
 
-
+  
 
   return (
     <>
@@ -126,7 +129,7 @@ const MyPageProfile = () => {
 
           docList.map((item, index) => {
             return(
-              <div key={index} style={{width:"100%"}}>
+              <div key={`${item.id}_${index}`} style={{width:"100%"}}>
                 {type === "anouncement" ?
                   <MiniThumbnail data={item} path={`/anouncement/${userData.selectedTeamId}/${item.id}`}/>
                   :

@@ -7,7 +7,7 @@ import { DataProvider } from "context/data";
 import { UserDataProvider } from "context/userData"
 import AuthStateChanged from "src/public/hooks/AuthStateChanged";
 import BottomNavigation2 from "src/public/components/BottomNavigation2";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, createContext } from "react";
 import { firestore as db } from "firebase/firebase";
 import { useRouter } from "next/router";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -15,6 +15,9 @@ import Head from "next/head";
 import PullToRefresh from 'react-simple-pull-to-refresh';
 import 'react-chat-elements/dist/main.css'
 import FullScreenLoader from "src/public/components/FullScreenLoader";
+
+
+
 
 export default function App({ Component, pageProps }) {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,6 +52,7 @@ export default function App({ Component, pageProps }) {
       setIsScrollTop(false)
   }
 
+
   if(isLoading)
     return <>로딩중</>
 
@@ -61,25 +65,25 @@ export default function App({ Component, pageProps }) {
       </Head>
     <UserDataProvider>
       <AuthStateChanged setIsLoading={setIsLoading}>
-        <DataProvider setIsLoading={setIsLoading}>
+        <DataProvider setIsLoading={setIsLoading} >
           <ThemeProvider theme={theme}>
               <div onScroll={handleScroll}>
-              <PullToRefresh 
-                className="refresh_container"
-                isPullable={!router.pathname.includes("talk")  || isScrollTop}
-                onRefresh={handleRefresh} 
-                refreshing={isRefreshing} 
-                pullDownThreshold={90}
-                resistance={2}
-                maxPullDownDistance={150}
-                pullingContent={<div style={{width:"100%", textAlign:"center", marginTop:"10px", fontSize:"13px"}}>끌어당겨서 새로고침</div>}
-              >
+                <PullToRefresh 
+                  className="refresh_container"
+                  isPullable={!router.pathname.includes("talk") || isScrollTop}
+                  onRefresh={handleRefresh} 
+                  refreshing={isRefreshing} 
+                  pullDownThreshold={90}
+                  resistance={2}
+                  maxPullDownDistance={150}
+                  pullingContent={<div style={{width:"100%", textAlign:"center", marginTop:"10px", fontSize:"13px"}}>끌어당겨서 새로고침</div>}
+                >
 
 
-                  <Component {...pageProps} />
-                
-                
-              </PullToRefresh>
+                    <Component {...pageProps}  />
+                  
+                  
+                </PullToRefresh>
               {!router.pathname.includes("preview") && !router.pathname.includes("start") && <BottomNavigation2 />}
               </div>
             {/* } */}

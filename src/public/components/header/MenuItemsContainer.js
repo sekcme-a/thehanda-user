@@ -10,7 +10,6 @@ const MenuItemsContainer = ({ items }) => {
     logout()
   }
   const onClick = (path) => {
-    console.log(path)
     if(path)
       router.push(path)
   }
@@ -21,7 +20,6 @@ const MenuItemsContainer = ({ items }) => {
           <div className={styles.item_container} key={index}>
             <h1>{item.title}</h1>
             {item?.data?.map((content, index) => {
-              console.log(content)
               return(
                 <div key={index} className={styles.content_container} onClick={() => onClick(content.path)}>
                   {content.icon}

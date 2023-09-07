@@ -30,13 +30,13 @@ import PollIcon from '@mui/icons-material/Poll';
 import Image from "next/image";
 // import { firebaseHooks } from "firebase/hooks";
 
-
 const Menu = (props) => {
   const [text, setText] = useState("")
   const [menuItems, setMenuItems] = useState([])
   const { user, userData } = useUserData()
   const {section} = useData()
   const router = useRouter()
+
   const onCloseMenuClick = () => {
     props.setIsHide(false)
     props.handleIsMenuOpen(false)
