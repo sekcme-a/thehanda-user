@@ -51,7 +51,7 @@ const ChooseCenter = () => {
           return(
             <>
             <div className={styles.item_container} key={index} onClick={()=>onClick(item.id, item.teamName)}>
-              <Image src={item.profile} alt={item.name} width={PROFILE_SIZE} height={PROFILE_SIZE} style={{borderRadius:"5px"}}/>
+              <Image priority src={item.profile} alt={item.name} width={PROFILE_SIZE} height={PROFILE_SIZE} style={{borderRadius:"5px"}}/>
               <p>{item.teamName}</p>
             </div>
             </>

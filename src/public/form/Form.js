@@ -159,7 +159,7 @@ const Form = ({ formDatas, data, handleData, addMargin, type, setSelectedMembers
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>
           else if (formData.type === "image")
-            return <div style={addMargin && {marginBottom:"10px"}} key={index}><Image index={index}
+            return <div style={addMargin && {marginBottom:"10px"}} key={index}><Image priority index={index}
               id={formData.id} title={formData.title} items={formData.items} alt={formData.title}
               data={data} handleData={handleData} text={formData.text} isRequired={formData.isRequired}
             /></div>

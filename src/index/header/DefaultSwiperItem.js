@@ -23,7 +23,8 @@ const DefaultSwiperItem = () => {
     <div className={styles.main_container}>
     <div className={styles.swiper_container}>
       <div className={styles.image_container}>
-        <Image src="/image/background/black.jpg" alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
+        <Image priority src="/image/background/black.jpg" alt="배경" layout="fill" objectFit="cover" objectPosition="center" prio/>
+        {/* <img src="/image/background/black.jpg"/> */}
         <div className={styles.blur} />
       </div>
       <div className={styles.overlay}>
@@ -36,7 +37,7 @@ const DefaultSwiperItem = () => {
         </div>
         <div className={styles.thumbnail_container}>
           <div className={styles.thumbnail_image_container}>
-            <Image src="/thumbnail/001.png"alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
+            <Image priority src="/thumbnail/001.png"alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
             {/* { data.thumbnailBg!=="/custom" && */}
               <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
               <h2>한국다문화뉴스</h2>   

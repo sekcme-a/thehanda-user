@@ -201,7 +201,7 @@ const Family = () => {
         simpleFamilyData.length===0 ? 
         <div>
           <div className={styles.image_container}>
-            <Image src="/family.png"  alt="다한다 로고"  layout="fill" objectFit="cover" objectPosition="center" />
+            <Image priority src="/family.png"  alt="다한다 로고"  layout="fill" objectFit="cover" objectPosition="center" />
           </div>
           <div className={styles.no_family_container}>
             <p>아직 가족 구성원이 없습니다. 구성원을 추가해주세요. </p>

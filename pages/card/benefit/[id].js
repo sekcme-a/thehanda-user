@@ -84,7 +84,7 @@ const Benefit = () => {
       </div>
 
       <div className={styles.image_container}>
-        <Image fill style={{objectFit:"cover"}} src={data.logoURL} alt="로고" />
+        <Image priority fill style={{objectFit:"cover"}} src={data.logoURL} alt="로고" />
       </div>
       <div className={styles.main_content}>
         <h1>{data.companyName}</h1>

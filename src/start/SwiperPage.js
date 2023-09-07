@@ -7,7 +7,7 @@ const SwiperPage = ({page, onNextClick, onPrevClick}) => {
   if(page===1)
     return(
       <div className={styles.main_container}>
-        <Image src="/image/walkthrough/001.png" alt="walkthrough" width={280} height={280} />
+        <Image priority src="/image/walkthrough/001.png" alt="walkthrough" width={280} height={280} />
         <h1>
           센터의 프로그램들을 확인하고 <p>쉽고 간편하게 신청</p>하세요.
         </h1>
@@ -24,7 +24,7 @@ const SwiperPage = ({page, onNextClick, onPrevClick}) => {
   else if (page===2)
     return(
       <div className={styles.main_container}>
-        <Image src="/image/walkthrough/002.png" alt="walkthrough" width={280} height={280} />
+        <Image priority src="/image/walkthrough/002.png" alt="walkthrough" width={280} height={280} />
         <h1>
           신청한 프로그램들의 알림을 받고, <p>센터의 여러 정보</p>들을 확인하세요.
         </h1>
@@ -44,7 +44,7 @@ const SwiperPage = ({page, onNextClick, onPrevClick}) => {
   else if (page===3)
     return(
       <div className={styles.main_container}>
-        <Image src="/image/walkthrough/003.png" alt="walkthrough" width={280} height={280} />
+        <Image priority src="/image/walkthrough/003.png" alt="walkthrough" width={280} height={280} />
         <h1>
           궁금하신 내용에 대해 <p>센터와 쉽게 소통</p>하세요.
         </h1>

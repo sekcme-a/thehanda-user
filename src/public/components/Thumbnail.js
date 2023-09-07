@@ -75,7 +75,7 @@ const Thumbnail = ({data, smallMargin,  path}) => {
               </div>
               :
               <div className={styles.thumbnail_image_container}>
-                <Image src={data.thumbnailBg==="/custom" ? data.customBgURL : data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
+                <Image priority src={data.thumbnailBg==="/custom" ? data.customBgURL : data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
                 {data.thumbnailBg!=="/custom" &&
                   <div className={color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
                     <h2>{data.title}</h2>

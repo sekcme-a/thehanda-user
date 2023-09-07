@@ -45,7 +45,7 @@ const DefaultSwiperItem = ({data}) => {
     <div className={styles.main_container}>
     <div className={styles.swiper_container}>
       <div className={styles.image_container}>
-        <Image src={data.mainBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
+        <Image priority src={data.mainBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
         <div className={styles.blur} />
       </div>
       <div className={styles.overlay}>
@@ -58,7 +58,7 @@ const DefaultSwiperItem = ({data}) => {
         </div>
         <div className={styles.thumbnail_container}>
           <div className={styles.thumbnail_image_container}>
-            <Image src={data.thumbnailBg==="/custom" ? data.customBgURL:data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
+            <Image priority src={data.thumbnailBg==="/custom" ? data.customBgURL:data.thumbnailBg} alt="배경" layout="fill" objectFit="cover" objectPosition="center" />
             { data.thumbnailBg!=="/custom" &&
               <div className={data.color === "white" ? `${styles.thumbnail_overlay} ${styles.white}` : `${styles.thumbnail_overlay} ${styles.black}`} >
                 <h2>{data.title}</h2>

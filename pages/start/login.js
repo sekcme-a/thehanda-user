@@ -60,7 +60,7 @@ const Login = () => {
     else{
       try {
         await auth.signInWithEmailAndPassword(email, values.password);
-        router.push("/")
+        router.push("/start/selectTeam")
       } catch (e) {
         switch (e.message) {
           case "The email address is badly formatted.":

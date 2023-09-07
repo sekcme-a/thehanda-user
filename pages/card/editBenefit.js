@@ -176,7 +176,7 @@ const EditBenefit = () => {
         <h2>업체 로고</h2>
         <p>*정사각형 사이즈의 로고 이미지</p>
         <div className={styles.logo_container}>
-          {values.logoURL && <Image width={100} height={100} src={values.logoURL} alt="로고"/>}
+          {values.logoURL && <Image priority width={100} height={100} src={values.logoURL} alt="로고"/>}
           {isImageURLLoading && <CircularProgress />}
           <label htmlFor="input_file" className={styles.img_button} >사진 선택</label>
           <input onChange={onImgChange} type="file" id="input_file"  className={styles.hide_input} />

@@ -46,6 +46,7 @@ const Index = () => {
     }, 400)
   }
 
+  if(!userData) return(<>fetchinguserData</>)
   if(userData)
   return(
     <>

@@ -311,7 +311,7 @@ const InputUserData = ({onNext, onPrev}) => {
         </div>
 
         <Button onClick={onSubmitClick} variant="contained" fullWidth sx={{mt:"30px", mb:"40px"}} disabled={isLoading}>{isLoading ? "제출 중":"다음"}</Button>
-        <Button onClick={onPrevClick}>이전으로</Button>
+        {/* <Button onClick={onPrevClick}>이전으로</Button> */}
         {/* <Button onClick={()=>{auth.signOut(); router.push("/")}}>로그아웃</Button> */}
         <CustomAlert alert={customAlert} setAlert={setCustomAlert}/>
       </div>

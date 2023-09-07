@@ -145,7 +145,7 @@ const Menu = (props) => {
 
 
           <div className={styles.banner_container} onClick={()=>router.push("/card/benefits")}>
-            <Image src="/banner/event_for_everyone.png" layout="responsive" width={232} height={365} alt="basic card"/>
+            <Image priority src="/banner/event_for_everyone.png" layout="responsive" width={232} height={365} alt="basic card"/>
           </div>
 
 

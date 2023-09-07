@@ -92,7 +92,7 @@ export default function App() {
                     <h3>{doc.subtitle}</h3>
                     {/* <h4>{`${doc.createdAt} | ${doc.author}`}</h4> */}
                   </div>
-                  <Image src={doc.thumbnailImg.includes("https:") ? doc.thumbnailImg : `https:${doc.thumbnailImg}`} alt="메인 배경 이미지" layout="fill" objectFit="cover" objectPosition="center"/>
+                  <Image priority src={doc.thumbnailImg.includes("https:") ? doc.thumbnailImg : `https:${doc.thumbnailImg}`} alt="메인 배경 이미지" layout="fill" objectFit="cover" objectPosition="center"/>
                 </div>
               </Link>
             </SwiperSlide>

@@ -23,19 +23,24 @@ const Header = () => {
 
 
   useEffect(()=>{
-    const list = FUNCTION.get_main_data_list(programList)
-    setDataList(list)
-    console.log(list)
+      setIsLoading(true)
+      const list = FUNCTION.get_main_data_list(programList)
+      setDataList(list)
+      setIsLoading(false)
   },[programList])
 
-  if(!dataList) return <></>
-
-  if(dataList.length===0)
+  if(isLoading){
     return(
-      <div className={styles.main_container}>
-        <DefaultSwiperItem />
-      </div>
+      <>loading</>
     )
+  }
+
+  // if(dataList.length===0)
+  //   return(
+  //     <div className={styles.main_container}>
+  //       <DefaultSwiperItem />
+  //     </div>
+  //   )
 
   return(
     <>
@@ -50,13 +55,19 @@ const Header = () => {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           loop={true}
         >
-          {dataList?.map((item, index) => {
+          {dataList.length!==0 ? 
+            dataList?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
                 <SwiperItem data={item} />
               </SwiperSlide>
             )
-          })}
+          })
+          :
+          <div className={styles.main_container}>
+            <DefaultSwiperItem />
+          </div>
+        }
 
         </Swiper>
       </div>

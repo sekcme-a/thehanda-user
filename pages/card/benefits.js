@@ -102,7 +102,7 @@ const Benefits = () => {
           return(
             <Grid container className={styles.item_container} key={`${item.id}_${index}`} onClick={()=>router.push(`/card/benefit/${item.id}`)}>
               <Grid item xs={2.8}>
-                <Image width={75} height={75} src={item.logoURL} alt="로고" style={{borderRadius:"10px", overflow:'hidden'}}/>
+                <Image priority width={75} height={75} src={item.logoURL} alt="로고" style={{borderRadius:"10px", overflow:'hidden'}}/>
               </Grid>
               <Grid item xs={9.2} className={styles.content}>
                 <h1>{item.companyName}</h1>

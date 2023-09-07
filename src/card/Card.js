@@ -31,7 +31,7 @@ const Card = () => {
       >
         <div className={styles.img_container}>
           <h1>{`${new Date().getFullYear()}.${String(new Date().getMonth() + 1).padStart(2, '0')}.${String(new Date().getDate()).padStart(2, '0')}`}</h1>
-          <Image src="/card/basic_front.png" layout="responsive" width={232} height={365} alt="basic card"/>
+          <Image priority src="/card/basic_front.png" layout="responsive" width={232} height={365} alt="basic card"/>
         </div>
       </FrontSide>
       <BackSide         
@@ -42,7 +42,7 @@ const Card = () => {
         margin:"0",
       }}>
         <div className={styles.img_container}>
-          <Image src="/card/basic_back.png" layout="responsive" width={232} height={365} alt="basic card"/>
+          <Image priority src="/card/basic_back.png" layout="responsive" width={232} height={365} alt="basic card"/>
         </div>
       </BackSide>
     </Flippy>

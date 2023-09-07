@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useData from "context/data";
+import useUserData from "context/userData";
 import { useRouter } from "next/router";
 import styles from "./SignIn.module.css"
 import { firestore as db, auth } from "firebase/firebase";
@@ -25,8 +26,7 @@ import { Button, Input } from "@mui/material";
 import ChevronLeft from 'mdi-material-ui/ChevronLeft'
 
 const InputUserData = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const {user} = useData()
+  const {user, userData, setUser} = useUserData()
   const router = useRouter()
   const [isDataInfo, setIsDataInfo] = useState(false)
   const [text, setText] = useState("")
@@ -62,16 +62,8 @@ const InputUserData = () => {
 
   useEffect(() => {
     setError("")
-    const fetchData = async () => {
-      const data = await db.collection("setting").doc("private").get()
-      if (data.exists) {
-        setText(data.data().text)
-        console.log(data.data().text)
-      }
-      setIsLoading(false)
-    }
-    fetchData()
-  }, [])
+    if(user) setStep(2)
+  }, [user])
 
 
   
@@ -140,9 +132,13 @@ const InputUserData = () => {
 		if (email && password) {
 			try{
         const userCred = await auth.createUserWithEmailAndPassword(email,password)
+        console.log(userCred)
+        console.log(userCred.user)
+        setUser(userCred.user??null)
         setIsSigningIn(false)
+        
         return true
-        // setUser(user??null)
+        
         // if(userCred.user){
         //   router.push("/")
         // }

@@ -297,7 +297,7 @@ const MyProfile = () => {
 
       {/* <div className={styles.img_container}>
         {!isImageURLLoading ?
-          <Image src={values.photoUrl==="default_avatar.png"? `/${values.photoUrl}` : values.photoUrl} quality={75} alt={"유저 프로필 사진"} 
+          <Image priority src={values.photoUrl==="default_avatar.png"? `/${values.photoUrl}` : values.photoUrl} quality={75} alt={"유저 프로필 사진"} 
             layout="fill" objectFit="cover" objectPosition="center" priority={true} />
           :
           <CircularProgress />

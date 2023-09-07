@@ -50,9 +50,12 @@ export function DataProvider(props){
   //프로그램 데이터 받기
   useEffect(()=>{
     const fetchData = async () => {
-      if(router.pathname.includes('/start') || router.pathname.includes("/preview") || router.pathname.includes("/test/article") || router.pathname.includes("/test/programs") || router.pathname.includes("/test/surveys"))
+      console.log(userData && !(!userData.selectedTeamId))
+      if(router.pathname.includes("/start/") || router.pathname.includes("/preview") || router.pathname.includes("/test/article") || router.pathname.includes("/test/programs") || router.pathname.includes("/test/surveys"))
         setIsLoading(false)
-      else if(userData && userData.selectedTeamId){
+      else if(userData && !(!userData.selectedTeamId)){
+        console.log("fetch")
+        setIsLoading(true)
         const programList_temp = await DB.FETCH_DOCS_DATA("programs", userData.selectedTeamId)
         setProgramList(programList_temp)
         const surveyList_temp = await DB.FETCH_DOCS_DATA("surveys", userData.selectedTeamId)
@@ -70,10 +73,13 @@ export function DataProvider(props){
           setIsLoading(false)
 
         },100)
-      } else setIsLoading(false)
+      } 
+      // else setIsLoading(false)
+
+
     }
     fetchData()
-  },[userData, router])
+  },[userData])
 
 
   //메세지 컨트롤

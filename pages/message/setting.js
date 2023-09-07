@@ -65,15 +65,15 @@ const Setting = () => {
         }
         setIsLoading(false)
       } catch (error) {
-        console.error(error);
-        alert("오류가 발생했습니다.")
-        router.push("/")
+        console.log(error);
+        // alert("오류가 발생했습니다.")
+        // router.push("/")
       }
     };
     
-
-    fetchData()
-  },[])
+    if(user)
+      fetchData()
+  },[user])
 
   const onIsAlarmChange = (e) => {
     setIsAlarmOn(e.target.checked)
@@ -124,7 +124,7 @@ const Setting = () => {
 
       <div className={styles.profile_container}>
         <div className={styles.logo_container}>
-          <Image src="/logo_simple.png" width={50} height={50} alt="다한다 로고" />
+          <Image priority src="/logo_simple.png" width={50} height={50} alt="다한다 로고" />
         </div>
         <div className={styles.text_container}>
           <h1>더한다 도우미</h1>

@@ -21,7 +21,7 @@ const AlarmContainer = ({image, name, date, text, button, onClick, read, unread}
       {/* {unread && <div className={styles.badge}>{unread}</div>} */}
       <div className={styles.header}>
         <div className={styles.logo_container}>
-          <Image src={image} width={38} height={38} alt="로고" style={{borderRadius:"24%"}} />
+          <Image priority src={image} width={38} height={38} alt="로고" style={{borderRadius:"24%"}} />
         </div>
         <div className={styles.text_container}>
           <h1>{name}<p>{date && date.toDate().toLocaleString()}</p></h1>

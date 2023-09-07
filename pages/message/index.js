@@ -69,7 +69,7 @@ const Message = () => {
       <div className={styles.header_container}>
         <div className={styles.header_right}>
           <div className={styles.logo_container}>
-            <Image src="/logo_simple.png" width={38} height={38} alt="다한다 로고" />
+            <Image priority src="/logo_simple.png" width={38} height={38} alt="다한다 로고" />
           </div>
           <h1>더한다</h1>
         </div>
