@@ -49,8 +49,8 @@ const Index = () => {
     }, 400)
   }
 
-  if(!userData) return(<>fetchinguserData</>)
-  if(userData)
+  // if(!userData) return(<>fetchinguserData</>)
+  // if(userData)
   return(
     <>
       {!isMenuOpen && <TopNavbar scrollY={scrollY} onMenuClick={onMenuClick} teamName={userData.selectedTeamName}/>}

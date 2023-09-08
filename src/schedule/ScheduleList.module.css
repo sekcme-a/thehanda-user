@@ -1,0 +1,37 @@
+.main_container{
+  margin-top: 20px;
+}
+
+.item_container{
+  padding: 15px 0;
+  border-bottom: 1px solid rgb(222,222,222);
+  display: flex;
+  align-items: center;
+}
+.item_container:first-child{
+  border-top: 1px solid rgb(222,222,222);
+}
+.item_container h3{
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.item_container h1{
+  font-weight: bold;
+  font-size: 17px;
+  color: #333;
+  margin-bottom: 5px;
+
+}
+.item_container h2{
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.item_container p{
+  font-size: 15px;
+}
+p.start{
+  color:rgb(14, 14, 188)
+}
+p.end{
+  color: rgb(211, 8, 8);
+}

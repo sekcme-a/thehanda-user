@@ -52,6 +52,10 @@ const Contents = () => {
         setType('surveys')
       }
       if(doc.exists){
+        if(doc.data().condition!=="confirm"){
+          alert("존재하지 않거나 삭제된 게시물입니다.")
+          router.push("/")
+        }
         setData({...doc.data(), groupName: userData.selectedTeamName})
         setIsLoading(false)
       } else{

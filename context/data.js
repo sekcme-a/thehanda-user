@@ -51,7 +51,7 @@ export function DataProvider(props){
   useEffect(()=>{
     const fetchData = async () => {
       console.log(userData && !(!userData.selectedTeamId))
-      if(router.pathname.includes("/start/") || router.pathname.includes("/preview") || router.pathname.includes("/test/article") || router.pathname.includes("/test/programs") || router.pathname.includes("/test/surveys"))
+      if((router.pathname.includes("/start/")&& !router.pathname.includes("/selectTeam")) || router.pathname.includes("/preview") || router.pathname.includes("/test/article") || router.pathname.includes("/test/programs") || router.pathname.includes("/test/surveys"))
         setIsLoading(false)
       else if(userData && !(!userData.selectedTeamId)){
         console.log("fetch")

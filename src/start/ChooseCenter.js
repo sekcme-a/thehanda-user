@@ -14,6 +14,7 @@ const ChooseCenter = () => {
   // const {user, centerList, setCenterList, setUserData, userData} = useData()
   const {centerList, setCenterList} = useData()
   const {user, setUserData, userData} = useUserData()
+  const [selectedType, setSelectedType] = useState("center")
   const router = useRouter()
   // const [list, setList] = useState([])
 
@@ -46,8 +47,14 @@ const ChooseCenter = () => {
 
   return(
     <>
+      <div className={styles.type_container}>
+        <h1 className={selectedType==="center" ? styles.selected : styles.unselected} onClick={()=>setSelectedType("center")}>센터</h1>
+        <div className={styles.border} />
+        <h1 className={selectedType==="college" ? styles.selected : styles.unselected} onClick={()=>setSelectedType("college")}>대학교</h1>
+      </div>
       <div className={styles.main_container}>
         {centerList.map((item, index)=>{
+          if(item.type===selectedType)
           return(
             <>
             <div className={styles.item_container} key={index} onClick={()=>onClick(item.id, item.teamName)}>

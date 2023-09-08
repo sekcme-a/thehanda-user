@@ -1,5 +1,25 @@
+.type_container{
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+.type_container h1{
+  padding: 10px 25px;
+  font-size: 17px;
+}
+.type_container .border{
+  height: 20px;
+  width: 1px;
+  background-color: #888;
+}
+.type_container h1.selected{
+  font-weight: bold;
+}
+
+
+
 .main_container{
-  margin-top: 20px;
+  /* margin-top: 20px; */
   border-top: 2px solid black;
   border-bottom: 2px solid black;
   height: 400px;

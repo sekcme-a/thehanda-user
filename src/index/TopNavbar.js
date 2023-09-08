@@ -11,7 +11,7 @@ const TopNavbar = ({scrollY, onMenuClick, teamName, hideArrow}) => {
 
   return(
     <div className={scrollY === 0 ? styles.header_container : `${styles.header_container} ${styles.add_background}`}>
-      <div className={styles.logo_container} onClick={()=>router.push("/start/selectTeam")}>
+      <div className={styles.logo_container} onClick={()=>router.push("/selectTeam")}>
         <h1>더한다+</h1>
         <h2>{teamName}</h2>
         {!hideArrow && <ArrowDropDownIcon />}

@@ -14,26 +14,20 @@ import Image from "next/image";
 import SwiperItem from "./SwiperItem"
 import DefaultSwiperItem from "./DefaultSwiperItem"
 import { auth } from "firebase/firebase";
+import useUserData from "context/userData";
 
 const Header = () => {
   SwiperCore.use([Autoplay])
   const {programList} = useData()
+  const {userData} = useUserData()
   const [dataList, setDataList] = useState()
-  const [isLoading, setIsLoading] = useState(true)
 
 
   useEffect(()=>{
-      setIsLoading(true)
       const list = FUNCTION.get_main_data_list(programList)
       setDataList(list)
-      setIsLoading(false)
-  },[programList])
+  },[programList, userData])
 
-  if(isLoading){
-    return(
-      <>loading</>
-    )
-  }
 
   // if(dataList.length===0)
   //   return(
@@ -55,7 +49,7 @@ const Header = () => {
           autoplay={{ delay: 4000, disableOnInteraction: false }}
           loop={true}
         >
-          {dataList.length!==0 ? 
+          {dataList?.length!==0 ? 
             dataList?.map((item, index) => {
             return (
               <SwiperSlide key={index}>
