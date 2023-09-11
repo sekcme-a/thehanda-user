@@ -53,7 +53,7 @@ const Index = () => {
   // if(userData)
   return(
     <>
-      {!isMenuOpen && <TopNavbar scrollY={scrollY} onMenuClick={onMenuClick} teamName={userData.selectedTeamName}/>}
+      {!isMenuOpen && <TopNavbar scrollY={scrollY} onMenuClick={onMenuClick} teamName={userData?.selectedTeamName}/>}
 
       <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
       

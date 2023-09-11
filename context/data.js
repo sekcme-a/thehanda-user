@@ -74,7 +74,7 @@ export function DataProvider(props){
 
         },100)
       } 
-      // else setIsLoading(false)
+      else setIsLoading(false)
 
 
     }
