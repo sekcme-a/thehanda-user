@@ -30,15 +30,6 @@ const Center = () => {
   const [openBackdrop, setOpenBackdrop] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(true)
   
-  useEffect(() => {
-    const fetchData = async () => {
-    }
-    if (user === null) {
-      alert("로그인 후 이용해주세요.")
-      router.push("/login")
-    }
-    fetchData()
-  }, [])
 
 
   const onInputChange = (e) => {

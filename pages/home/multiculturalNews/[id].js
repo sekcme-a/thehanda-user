@@ -247,7 +247,7 @@ const Home = () => {
 
   return (
     <>
-      {!isMenuOpen && <TopNavbar scrollY={1} onMenuClick={onMenuClick} teamName={userData.selectedTeamName}/>}
+      {!isMenuOpen && <TopNavbar scrollY={1} onMenuClick={onMenuClick} teamName={userData?.selectedTeamName}/>}
 
       <Menu isMenuOpen={isMenuOpen} handleIsMenuOpen={handleIsMenuOpen}  setIsHide={setIsHide} /> 
 

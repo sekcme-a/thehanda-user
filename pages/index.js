@@ -12,10 +12,12 @@ import Survey from "src/index/contents/Survey"
 import News from "src/index/news/News"
 import Menu from "src/public/components/header/Menu"
 
+import { firestore as db } from "firebase/firebase"
+
 
 const Index = () => {
   const router = useRouter()
-  const {userData, centerList} = useUserData()
+  const {user, userData, centerList} = useUserData()
 
 
   const [isHide, setIsHide] = useState(false)
@@ -40,6 +42,21 @@ const Index = () => {
     };
   }, []);
   //**스크롤 위치 확인 끝 */
+
+  useEffect(()=>{
+    if(user){
+      db.collection("user").doc(user.uid).get().then((doc)=>{
+        if(doc.exists){
+            console.log(window.ReactNativeWebView)
+            if(window.ReactNativeWebView){
+              console.log("asdf")
+              window.ReactNativeWebView.postMessage(`UID_DATA: ${user.uid}|||${doc.data().pushToken}`)
+            }
+          // }
+        }
+      })
+    }
+  },[user])
 
 
   const onMenuClick = () => {

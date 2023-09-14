@@ -68,8 +68,8 @@ const Family = () => {
               setIsLoading(false);
             }
           } else {
-            alert("로그인 후 이용하실 수 있습니다.");
-            router.push("/login");
+            // alert("로그인 후 이용하실 수 있습니다.");
+            // router.push("/login");
             return Promise.reject();
           }
         })
@@ -82,12 +82,9 @@ const Family = () => {
     
     if(user){
       fetchData()
-    }else{
-      alert("로그인 후 이용하실 수 있습니다.")
-      router.push("/login")
     }
 
-  },[simpleFamilyData])
+  },[simpleFamilyData, user])
 
   const onAddClick = () => {
     setOpenDialog(true)

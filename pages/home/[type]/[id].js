@@ -87,14 +87,13 @@ const MyPageProfile = () => {
       console.log(selectedIndex)
       sort_content(type, section[type][selectedIndex].id)
     }
-    console.log(section[type])
-    if(section[type])
+    if(section && section[type] && userData)
       fetchData()
     else{
       setSections([])
       setDocList([])
     }
-  },[type])
+  },[type, userData])
 
   const sort_content = (type, id) => {
     if(type==="program")
@@ -106,7 +105,7 @@ const MyPageProfile = () => {
   }
 
   
-
+  if(userData)
   return (
     <>
       {!isMenuOpen && <TopNavbar scrollY={1} onMenuClick={onMenuClick} teamName={userData.selectedTeamName}/>}

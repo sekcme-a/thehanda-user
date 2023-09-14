@@ -11,7 +11,8 @@ import useUserData from "context/userData"
 const Contents = () => {
   const router = useRouter()
   const { team_id, id } = router.query;
-  const {userData} = useUserData()
+  
+  const {user, userData} = useUserData()
   const [data, setData] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [type, setType] = useState()
@@ -63,8 +64,8 @@ const Contents = () => {
         router.push("/")
       }
     }
-    fetchData()
-  }, [])
+    if(user && userData) fetchData()
+  }, [user, userData])
 
 
   if (isLoading)

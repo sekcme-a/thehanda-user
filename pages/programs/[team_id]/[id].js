@@ -64,8 +64,8 @@ const Survey = () => {
 
       
     }
-    fetchData()
-  }, [])
+    if(user) fetchData()
+  }, [user])
 
 
   if (isLoading)

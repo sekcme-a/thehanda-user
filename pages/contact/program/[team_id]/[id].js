@@ -39,12 +39,13 @@ const Center = () => {
         setTitle(doc.data().title)
       })
     }
-    if (user === null) {
-      alert("로그인 후 이용해주세요.")
-      router.push("/login")
-    }
+    // if (user === null) {
+    //   alert("로그인 후 이용해주세요.")
+    //   router.push("/login")
+    // }
+    if(user)
     fetchData()
-  }, [])
+  }, [user])
 
 
   const onInputChange = (e) => {

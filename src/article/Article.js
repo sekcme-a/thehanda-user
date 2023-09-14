@@ -144,7 +144,7 @@ const Contents = ({data, teamName, id, type, mode}) => {
       let count = 0
       if(data.submitCount)
         count = data.submitCount
-      batch.update(db.collection("team").doc(teamName).collection("programs").doc(id), {submitCount: count-1})
+      batch.update(db.collection("team").doc(teamName).collection("surveys").doc(id), {submitCount: count-1})
 
 
       await batch.commit()

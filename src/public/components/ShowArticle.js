@@ -13,13 +13,13 @@ const ShowArticle = ({createMarkup, data, teamName, id, type}) => {
 
   return (
     <div className={styles.main_container}>
-      <HeaderRightClose title={type==="anouncement" ? "공지사항" : data.title} />
+      <HeaderRightClose title={type==="anouncement" ? "공지사항" : data?.title} />
       <div className={styles.content_container}>
-        <h1>{data.title}</h1>
-        <h2>{data.subtitle}</h2>
-        <h3>게시일:  {data.publishStartDate?.toDate().toLocaleString('ko-KR').replace(/\s/g, '')}</h3>
-        {/* {data.content && <div className="quill_custom_editor"><Editor textData={data.content} custom={true} /></div>} */}
-        {/* {data.content && <QuillNoSSRWrapper value={data.content || ""} readOnly={true} theme="snow" />} */}
+        <h1>{data?.title}</h1>
+        <h2>{data?.subtitle}</h2>
+        <h3>게시일:  {data?.publishStartDate?.toDate().toLocaleString('ko-KR').replace(/\s/g, '')}</h3>
+        {/* {data?.content && <div className="quill_custom_editor"><Editor textData={data?.content} custom={true} /></div>} */}
+        {/* {data?.content && <QuillNoSSRWrapper value={data?.content || ""} readOnly={true} theme="snow" />} */}
         <div className={styles.border} />
         <div className="quill_custom_editor" style={{marginTop:"3px"}}>
           <div dangerouslySetInnerHTML={createMarkup()} />

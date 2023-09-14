@@ -141,10 +141,10 @@ const MyPage = () => {
   },
   ]
 
-  useEffect(()=>{
-    if(!user)
-      router.push("/start/walkthrough")
-  },[user])
+  // useEffect(()=>{
+  //   if(!user)
+  //     router.push("/start/walkthrough")
+  // },[user])
   
 
   //회원탈퇴를 눌렀다면

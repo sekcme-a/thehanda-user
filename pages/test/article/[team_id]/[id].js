@@ -40,6 +40,7 @@ const Contents = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      console.log(team_id, id)
       let doc = await db.collection("team").doc(team_id).collection("programs").doc(id).get()
       if(doc.exists)
         setType("programs")
@@ -61,8 +62,8 @@ const Contents = () => {
         localStorage.setItem("selectedTeamName", doc.data().teamName)
       })
     }
-    fetchData()
-  }, [])
+    if(team_id && id ) fetchData()
+  }, [team_id, id])
 
 
   if (isLoading)

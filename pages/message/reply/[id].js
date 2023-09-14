@@ -39,8 +39,8 @@ const Reply = () => {
       })
       
     }
-    fetchData()
-  },[])
+    if(user) fetchData()
+  },[user])
 
   if(isLoading)
     return(

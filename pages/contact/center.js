@@ -49,11 +49,11 @@ const Center = () => {
     }
     if(user)
       fetchData()
-    else{
-      alert("로그인 후 이용해주세요.")
-      router.push("/login")
-    }
-  }, [])
+    // else{
+    //   alert("로그인 후 이용해주세요.")
+    //   router.push("/login")
+    // }
+  }, [user])
 
   const onInputChange = (e) => {
     setInput(e.target.value)

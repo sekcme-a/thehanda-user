@@ -34,7 +34,7 @@ const Anouncement = () => {
     )
   
   const createMarkup = () => {
-    return {__html: data.textData}
+    return {__html: data?.textData}
   }
   return (
     <div>
