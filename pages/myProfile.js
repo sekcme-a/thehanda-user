@@ -34,7 +34,7 @@ const MyProfile = () => {
   const { user, userData, setUserData,} = useUserData()
   const {centerList, setCenterList, centerProfileSettingsList, setCenterProfileSettingsList} = useData()
 
-  const [team, setTeam] = useState(userData.selectedTeamId)
+  const [team, setTeam] = useState(userData?.selectedTeamId)
 
   // const [image, setImage] = useState(user.photoURL)
   const [isImageURLLoading, setIsImageURLLoading] = useState(false)
@@ -208,13 +208,15 @@ const MyProfile = () => {
           const team_temp = await MyProfileDB.FETCH_CENTER_LIST()
           setCenterList(team_temp)
         }
-        fetch_center_profile_settings(team)
+        if(user)
+          fetch_center_profile_settings(team)
         setIsLoading(false)
       } catch (e) {
         console.log(e)
       }
     }
-    setValues({...userData, birth: userData.birth.toDate()})
+    setValues({...userData, birth: userData?.birth?.toDate()})
+    console.log(userData)
     fetchData()
   }, [])
 

@@ -51,7 +51,7 @@ const InputUserData = ({onNext, onPrev}) => {
     result: true,
   })
   const [isPostcodeVisible, setIsPostcodeVisible] = useState(false);
-  const {user, userData} = useUserData()
+  const {user, userData, setUserData} = useUserData()
   const router = useRouter()
 
   const onValuesChange = (prop) => (event) => {
@@ -82,6 +82,7 @@ const InputUserData = ({onNext, onPrev}) => {
       try{
         setIsLoading(true)
         await DB.UPDATE_USER_INFO(user.uid, values)
+        setUserData({...userData, ...values})
         setIsLoading(false)
         router.push("/start/selectTeam")
       }catch(e){
