@@ -24,7 +24,7 @@ const Schedule = () => {
   const [pastSchedule, setPastSchedule] = useState([])
 
   useEffect(()=>{
-    const teamId = userData.selectedTeamId
+    const teamId = userData?.selectedTeamId
     let colorValues={}
     const fetchMyScheduleData = async () => {
       if(!mySchedule){
@@ -74,8 +74,10 @@ const Schedule = () => {
       setIsLoading(false)
     }
     setIsLoading(true)
-    fetchMyScheduleData()
-  },[mode])
+    if(userData)
+      fetchMyScheduleData()
+    else setIsLoading(false)
+  },[mode, userData])
 
   useEffect(()=>{
     if(mySchedule){
